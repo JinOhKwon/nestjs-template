@@ -1,8 +1,8 @@
 import { ExecutionContext, Injectable } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { AuthError } from "modules/auth/infrastructure/constants/AuthErrorEnum";
 import { TokenExpiredError } from "jsonwebtoken";
-import { AuthException } from "modules/auth/infrastructure/exception/AuthException";
+import { AuthError } from "src/modules/auth/infrastructure/constants/auth-error";
+import { AuthException } from "src/modules/auth/infrastructure/exception/auth-exception";
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard("jwt") {

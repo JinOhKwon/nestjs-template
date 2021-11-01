@@ -1,5 +1,5 @@
-import * as bcrypt from "bcrypt";
-import * as _ from "lodash";
+import { compare, hashSync } from "bcrypt";
+import { isArray } from "lodash";
 
 export class UtilsProvider {
     /**
@@ -24,7 +24,7 @@ export class UtilsProvider {
         entity: E | E[],
         options?: any,
     ): T | T[] {
-        if (_.isArray(entity)) {
+        if (isArray(entity)) {
             return entity.map(u => new model(u, options));
         }
 
@@ -37,7 +37,7 @@ export class UtilsProvider {
      * @returns {string}
      */
     static generateHash(password: string): string {
-        return bcrypt.hashSync(password, 4);
+        return hashSync(password, 4);
     }
 
     /**
@@ -57,6 +57,6 @@ export class UtilsProvider {
      * @returns {Promise<boolean>}
      */
     static validateHash(password: string, hash: string): Promise<boolean> {
-        return bcrypt.compare(password, hash || "");
+        return compare(password, hash || "");
     }
 }

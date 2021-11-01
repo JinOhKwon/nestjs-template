@@ -1,7 +1,7 @@
-import { RoleResponse } from "modules/role/api/dto/RoleResponse";
-import { User } from "modules/user/entity/User";
-import { AbstractDto } from "../../../../common/dto/AbstractDto";
-import { YesOrNoEnum } from "common/constants/YesOrNoEnum";
+import { YesOrNoEnum } from "src/core/base/constants/yes-or-no";
+import { AbstractDto } from "src/core/base/dto/abstract-dto";
+import { RoleResponse } from "src/modules/role/api/dto/response/role.response";
+import { User } from "src/modules/user/entity/User";
 
 /**
  * 사용자 응답 데이터

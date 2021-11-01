@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthError } from "modules/auth/infrastructure/constants/AuthErrorEnum";
-import * as _ from "lodash";
-import { User } from "modules/user/entity/User";
-import { ContextProvider } from "../../providers/ContextProvider";
-import { UtilsProvider } from "../../providers/UtilsProvider";
 import { ConfigService } from "../../shared/services/config.service";
 import { UserService } from "../user/service/user.service";
 import { AuthRequest } from "./dto/request/auth.request";
 import { AuthResponse } from "./dto/response/auth.response";
 import { AuthTokenResponse } from "./dto/response/auth-token.response";
 import { AuthException } from "./infrastructure/exception/auth-exception";
+import { ContextProvider } from "src/core/providers/context.provider";
+import { User } from "../user/entity/User";
+import { AuthError } from "./infrastructure/constants/auth-error";
+import { UtilsProvider } from "src/core/providers/utils.provider";
+import { isUndefined } from "lodash";
 
 /**
  * 인증 서비스
@@ -44,7 +44,7 @@ export class AuthService {
         const authUser = await this.userService.get({ userId: req.userId });
 
         // 사용자가 존재하지 않으면..
-        if (_.isUndefined(authUser)) {
+        if (isUndefined(authUser)) {
             throw new AuthException(AuthError.AUTH001);
         }
 

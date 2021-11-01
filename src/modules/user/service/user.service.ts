@@ -1,5 +1,5 @@
-import { Injectable, Module } from "@nestjs/common";
-import * as _ from "lodash";
+import { Injectable } from "@nestjs/common";
+import { isUndefined } from "lodash";
 import { Equal, FindConditions } from "typeorm";
 import { User } from "../entity/user";
 import { UserRepository } from "../repository/user.repository";
@@ -71,7 +71,7 @@ export class UserService {
      */
     async isDup(userId: string): Promise<boolean> {
         const user: User = await this.userRepository.findOne({ userId: Equal(userId) });
-        return !(_.isUndefined(user));
+        return !(isUndefined(user));
     }
 
     /**

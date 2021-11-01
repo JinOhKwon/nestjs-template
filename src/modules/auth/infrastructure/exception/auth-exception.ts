@@ -1,5 +1,5 @@
 import { UnauthorizedException } from "@nestjs/common";
-import { IError } from "interfaces/IError";
+import { IError } from "src/core/interfaces/IError";
 
 /**
  * 인증 실패(`UNAUTHORIZED: 401`) 예외이다.

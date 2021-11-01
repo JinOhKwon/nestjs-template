@@ -1,4 +1,4 @@
-import { IError } from "interfaces/IError";
+import { IError } from "src/core/interfaces/IError";
 
 /**
  * 인증 관련 오류 열거형 상수이다.

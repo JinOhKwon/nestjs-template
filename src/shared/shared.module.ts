@@ -1,4 +1,4 @@
-import { Global, HttpModule, Module } from "@nestjs/common";
+import { Global, Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigService } from "./services/config.service";
 import { ValidatorService } from "./services/validator.service";
@@ -9,7 +9,6 @@ const providers = [ConfigService, ValidatorService];
 @Module({
     providers,
     imports: [
-        HttpModule,
         JwtModule.registerAsync({
             imports: [SharedModule],
             useFactory: (configService: ConfigService) => ({
@@ -18,6 +17,6 @@ const providers = [ConfigService, ValidatorService];
             inject: [ConfigService],
         }),
     ],
-    exports: [...providers, HttpModule, JwtModule],
+    exports: [...providers, JwtModule],
 })
 export class SharedModule { }

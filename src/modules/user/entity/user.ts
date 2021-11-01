@@ -1,9 +1,9 @@
-import { AbstractEntity } from "common/AbstractEntity";
-import { Role } from "modules/role/entity/Role";
-import { PasswordTransformer } from "modules/user/passwordTransformer";
+import { AbstractEntity } from "src/core/base/abstract-entity";
+import { YesOrNoEnum } from "src/core/base/constants/yes-or-no";
+import { Role } from "src/modules/role/entity/role";
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { UserResponse } from "../api/dto/response/user.response";
-import { YesOrNoEnum } from "common/constants/YesOrNoEnum";
+import { PasswordTransformer } from "../password-transformer";
 
 /**
  * 사용자 엔티티
