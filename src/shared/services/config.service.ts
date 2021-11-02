@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import * as dotenv from "dotenv";
+import { join } from "path";
 
 export class ConfigService {
     constructor() {
@@ -29,14 +30,14 @@ export class ConfigService {
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {
-        let entities = [__dirname + "/../../modules/*/entity/*{ts,js}"];
+		let entities = [join(__dirname, '/../../modules/*/entity/*.{ts,js}')];
 
         if ((module as any).hot) {
             const entityContext = (require as any).context(
                 "./../../modules",
                 true,
                 /\\.ts$/,
-            );
+			);
             entities = entityContext.keys().map(id => {
                 const entityModule = entityContext(id);
                 const [entity] = Object.values(entityModule);
