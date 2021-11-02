@@ -21,7 +21,7 @@ export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
 	/**
 	 * 등록일시
 	 */
-    @CreateDateColumn({ name: "reg_dt", type: "datetime" })
+    @CreateDateColumn({ name: "reg_dt", type: "timestamp" })
     regDt: Date;
 	/**
 	 * 변경자
@@ -37,7 +37,7 @@ export abstract class AbstractEntity<T extends AbstractDto = AbstractDto> {
     /**
 	 * 변경일시
 	 */
-    @UpdateDateColumn({ name: "chg_dt", type: "datetime" })
+    @UpdateDateColumn({ name: "chg_dt", type: "timestamp" })
     chgDt: Date;
 
 	/**

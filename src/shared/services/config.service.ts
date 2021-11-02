@@ -13,7 +13,7 @@ export class ConfigService {
             process.env[envName] = process.env[envName].replace(/\\n/g, "\n");
         }
 
-        console.info(process.env);
+        // console.info(process.env);
     }
 
     public get(key: string): string {
@@ -29,7 +29,7 @@ export class ConfigService {
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {
-        let entities = [__dirname + "/../../modules/*/entity/*{.ts,.js}"];
+        let entities = [__dirname + "/../../modules/*/entity/*{ts,js}"];
 
         if ((module as any).hot) {
             const entityContext = (require as any).context(
@@ -42,11 +42,12 @@ export class ConfigService {
                 const [entity] = Object.values(entityModule);
                 return entity;
             });
-        }
+		}
+
         return {
             entities,
             keepConnectionAlive: true,
-            type: "mysql",
+            type: "postgres",
             host: this.get("DB_HOST"),
             port: this.getNumber("DB_PORT"),
             username: this.get("DB_USERNAME"),
