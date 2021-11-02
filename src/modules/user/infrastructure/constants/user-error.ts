@@ -1,4 +1,4 @@
-import { IError } from "interfaces/IError";
+import { IError } from "src/interfaces/IError";
 
 /**
  * 사용자 관련 오류 열거형 상수이다.

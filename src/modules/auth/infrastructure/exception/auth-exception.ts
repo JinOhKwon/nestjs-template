@@ -1,11 +1,11 @@
 import { UnauthorizedException } from "@nestjs/common";
-import { IError } from "src/core/interfaces/IError";
+import { IError } from "src/interfaces/IError";
 
 /**
  * 인증 실패(`UNAUTHORIZED: 401`) 예외이다.
  */
 export class AuthException extends UnauthorizedException {
-    constructor(errData?: IError | string, ...msgArgs: string[] | number[]) {
+    constructor(errData?: IError | string, ...msgArgs: Array<string> | Array<number>) {
         if (errData) {
             if (typeof errData === "string") {
                 super(errData);

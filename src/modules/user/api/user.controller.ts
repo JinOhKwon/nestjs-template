@@ -1,12 +1,11 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, Res, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
-
-import { AuthRole } from "common/constants/AuthRole";
-import { Roles } from "decorators/RolesDecorator";
 import { Response } from "express";
-import { JwtAuthGuard } from "guards/JwtAuthGuard";
-import { RolesGuard } from "guards/RolesGuard";
-import { AuthUserInterceptor } from "interceptors/AuthUserInterceptor";
+import { AuthRole } from "src/base/constants/auth-role";
+import { Roles } from "src/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
+import { RolesGuard } from "src/guards/roles.guard";
+import { AuthUserInterceptor } from "src/interceptors/auth-user.interceptor";
 import { UserChangeService } from "../service/user-change.service";
 import { UserRetireveService } from "../service/user.retireve.service";
 import { UserRequest } from "./dto/request/user.request";
@@ -16,11 +15,17 @@ import { UserResponse } from "./dto/response/user.response";
  * 사용자 컨트롤러이다.
  */
 @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiTags("users")
 @Controller("users")
 export class UserController {
+	/**
+	 * 생성자
+	 *
+	 * @param userRetireveService 유저 조회 서비스
+	 * @param userChangeService 유저 변경 서비스
+	 */
     constructor(
         private userRetireveService: UserRetireveService,
         private userChangeService: UserChangeService
@@ -39,7 +44,7 @@ export class UserController {
     @ApiQuery({ name: "userNm", required: false, type: String })
     @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
     public async getList(@Query("userId") userId: string, @Query("userNm") userNm: string, @Res() res: Response) {
-        const userResponses: UserResponse[] = await this.userRetireveService.getList(userId, userNm);
+        const userResponses: Array<UserResponse> = await this.userRetireveService.getList(userId, userNm);
 
         res.status(HttpStatus.OK).send({ data: { userResponses } });
     }
@@ -70,8 +75,6 @@ export class UserController {
     @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
     public async create(@Body() userRequest: UserRequest, @Res() res: Response) {
         await this.userChangeService.createUser(userRequest);
-
-
 
         res.status(HttpStatus.CREATED).send();
     }

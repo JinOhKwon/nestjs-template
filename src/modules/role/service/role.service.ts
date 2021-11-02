@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import * as _ from "lodash";
+import { isUndefined } from "lodash";
 import { Equal, FindConditions } from "typeorm";
 import { Role } from "../entity/role";
 import { RoleRepository } from "../repository/role.repository";
@@ -20,7 +20,7 @@ export class RoleService {
     /**
      * 전체 역할 목록을 조회한다.
      */
-    async getList(conditions?: FindConditions<Role>): Promise<Role[]> {
+    async getList(conditions?: FindConditions<Role>): Promise<Array<Role>> {
         return await this.roleRepository.find(conditions);
     }
 
@@ -68,7 +68,7 @@ export class RoleService {
      */
     async isDup(roleId: string): Promise<boolean> {
         const role: Role = await this.roleRepository.findOne({ roleId: Equal(roleId) });
-        return !(_.isUndefined(role));
+        return !(isUndefined(role));
     }
 
     /**

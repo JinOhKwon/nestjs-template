@@ -1,5 +1,5 @@
+import { UtilsProvider } from "src/providers/utils.provider";
 import { ValueTransformer } from "typeorm";
-import { UtilsProvider } from "../../providers/UtilsProvider";
 
 /**
  * 비밀번호 변환기

@@ -1,16 +1,26 @@
-import { YesOrNoEnum } from "src/core/base/constants/yes-or-no";
-import { AbstractDto } from "src/core/base/dto/abstract-dto";
+import { ApiProperty } from "@nestjs/swagger";
+import { YesOrNoEnum } from "src/base/constants/yes-or-no";
+import { AbstractDto } from "src/base/dto/abstract-dto";
 import { Role } from "src/modules/role/entity/role";
 
 /**
  * 역할 응답데이터
  */
 export class RoleResponse extends AbstractDto {
-    // 역할 아이디
+	/**
+	 * 역할 아이디
+	 */
+	@ApiProperty()
     roleId: string;
-    // 역할명
+	/**
+	 * 역할명
+	 */
+	@ApiProperty()
     roleNm: string;
-    // 사용여부
+	/**
+	 * 사용여부
+	 */
+	@ApiProperty()
     roleUseYn: YesOrNoEnum;
 
     /**

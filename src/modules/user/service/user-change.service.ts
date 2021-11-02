@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import * as _ from "lodash";
-import { Role } from "modules/role/entity/Role";
-import { RoleService } from "modules/role/service/RoleService";
+import { isEmpty, isUndefined } from "lodash";
+import { Role } from "src/modules/role/entity/role";
+import { RoleService } from "src/modules/role/service/role.service";
 import { Equal, In } from "typeorm";
 import { UserRequest } from "../api/dto/request/user.request";
 import { User } from "../entity/user";
@@ -14,6 +14,12 @@ import { UserService } from "./user.service";
  */
 @Injectable()
 export class UserChangeService {
+	/**
+	 * 생성자
+	 *
+	 * @param userService 유저 서비스
+	 * @param roleService 역할 서비스
+	 */
     constructor(
         public userService: UserService,
         public roleService: RoleService,
@@ -31,7 +37,7 @@ export class UserChangeService {
         }
 
         // 신규 사용자와 역할을 생성한다.
-        const userRoles: Role[] = (_.isUndefined(req.roleIds) || _.isEmpty(req.roleIds)) ? [] : await this.roleService.getList({ roleId: In(req.roleIds) });
+        const userRoles: Array<Role> = (isUndefined(req.roleIds) || isEmpty(req.roleIds)) ? [] : await this.roleService.getList({ roleId: In(req.roleIds) });
         const user: User = new User(req.userId, req.userNm, req.userPwd, req.userPhone, req.userUseYn, userRoles);
 
         await this.userService.create(user);
@@ -52,7 +58,7 @@ export class UserChangeService {
         const user = await this.userService.get({ userId: Equal(userId) });
 
         // 사용자와 역할을 변경한다.
-        const userRoles: Role[] = (_.isUndefined(req.roleIds) || _.isEmpty(req.roleIds)) ? [] : await this.roleService.getList({ roleId: In(req.roleIds) });
+        const userRoles: Array<Role> = (isUndefined(req.roleIds) || isEmpty(req.roleIds)) ? [] : await this.roleService.getList({ roleId: In(req.roleIds) });
         user.modifyUser(req.userId, req.userNm, req.userPwd, req.userPhone, req.userUseYn, userRoles);
 
         await this.userService.save(user);

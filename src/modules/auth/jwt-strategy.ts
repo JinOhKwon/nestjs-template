@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import { AuthError } from "modules/auth/infrastructure/constants/AuthErrorEnum";
-import * as _ from "lodash";
+import { isUndefined } from "lodash";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { ConfigService } from "src/shared/services/config.service";
 import { Equal } from "typeorm";
 import { UserService } from "../user/service/user.service";
-import { ConfigService } from "shared/services/ConfigService";
+import { AuthError } from "./infrastructure/constants/auth-error";
 import { AuthException } from "./infrastructure/exception/auth-exception";
 
 /**
@@ -13,6 +13,12 @@ import { AuthException } from "./infrastructure/exception/auth-exception";
  */
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+	/**
+	 * 생성자
+	 *
+	 * @param configService 환경 서비스
+	 * @param userService 유저 서비스
+	 */
     constructor(
         public readonly configService: ConfigService,
         public readonly userService: UserService,
@@ -34,7 +40,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
         const authUser = await this.userService.get({ userId: Equal(userId) });
 
-        if (_.isUndefined(authUser)) {
+        if (isUndefined(authUser)) {
             throw new AuthException(AuthError.AUTH001);
         }
 

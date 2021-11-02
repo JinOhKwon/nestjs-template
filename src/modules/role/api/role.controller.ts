@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { AuthRole } from "common/constants/AuthRole";
-import { Roles } from "decorators/RolesDecorator";
 import { Response } from "express";
-import { JwtAuthGuard } from "guards/JwtAuthGuard";
-import { RolesGuard } from "guards/RolesGuard";
-import { AuthUserInterceptor } from "interceptors/AuthUserInterceptor";
+import { AuthRole } from "src/base/constants/auth-role";
+import { Roles } from "src/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/guards/jwt-auth.guard";
+import { RolesGuard } from "src/guards/roles.guard";
+import { AuthUserInterceptor } from "src/interceptors/auth-user.interceptor";
 import { RoleChangeService } from "../service/role-change.service";
 import { RoleRetireveService } from "../service/role-retireve.service";
 import { RoleRequest } from "./dto/request/role.request";
@@ -15,11 +15,17 @@ import { RoleResponse } from "./dto/response/role.response";
  * 역할 컨트롤러이다.
  */
 @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @UseInterceptors(AuthUserInterceptor)
 @ApiTags("roles")
 @Controller("roles")
 export class RoleController {
+	/**
+	 * 생성자
+	 *
+	 * @param roleRetireveService 역할 조회 서비스
+	 * @param roleChangeService 역할 변경 서비스
+	 */
     constructor(
         private roleRetireveService: RoleRetireveService,
         private roleChangeService: RoleChangeService
@@ -36,7 +42,7 @@ export class RoleController {
     @ApiResponse({ status: HttpStatus.OK, type: RoleResponse })
     @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
     public async getList(@Res() res: Response) {
-        const roleResponses: RoleResponse[] = await this.roleRetireveService.getList();
+        const roleResponses: Array<RoleResponse> = await this.roleRetireveService.getList();
 
         res.status(HttpStatus.OK).send({ data: { roleResponses } });
     }

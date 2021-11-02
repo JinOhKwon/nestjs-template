@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { RoleError } from "modules/role/infrastructure/constants/RoleErrorEnum";
 import { Equal } from "typeorm";
 import { RoleRequest } from "../api/dto/request/role.request";
 import { Role } from "../entity/role";
+import { RoleError } from "../infrastructure/constants/role-error";
 import { RoleDuplicateException } from "../infrastructure/exception/role-duplicate.exception";
 import { RoleService } from "./role.service";
 
@@ -11,6 +11,11 @@ import { RoleService } from "./role.service";
  */
 @Injectable()
 export class RoleChangeService {
+	/**
+	 * 생성자
+	 *
+	 * @param roleService 역할 서비스
+	 */
     constructor(
         public roleService: RoleService,
     ) { }

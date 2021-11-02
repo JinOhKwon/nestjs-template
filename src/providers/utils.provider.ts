@@ -5,9 +5,9 @@ export class UtilsProvider {
     /**
      * convert entity to dto class instance
      * @param {{new(entity: E, options: any): T}} model
-     * @param {E[] | E} entity
+     * @param {Array<E> | E} entity
      * @param options
-     * @returns {T[] | T}
+     * @returns {Array<T> | T}
      */
     public static toDto<T, E>(
         model: new (entity: E, options?: any) => T,
@@ -16,14 +16,14 @@ export class UtilsProvider {
     ): T;
     public static toDto<T, E>(
         model: new (entity: E, options?: any) => T,
-        entity: E[],
+        entity: Array<E>,
         options?: any,
-    ): T[];
+    ): Array<T>;
     public static toDto<T, E>(
         model: new (entity: E, options?: any) => T,
-        entity: E | E[],
+        entity: E | Array<E>,
         options?: any,
-    ): T | T[] {
+    ): T | Array<T> {
         if (isArray(entity)) {
             return entity.map(u => new model(u, options));
         }
@@ -33,6 +33,7 @@ export class UtilsProvider {
 
     /**
      * generate hash from password or string
+	 *
      * @param {string} password
      * @returns {string}
      */
@@ -42,6 +43,7 @@ export class UtilsProvider {
 
     /**
      * generate random string
+	 *
      * @param length
      */
     static generateRandomString(length: number) {
@@ -52,6 +54,7 @@ export class UtilsProvider {
     }
     /**
      * validate text with hash
+	 *
      * @param {string} password
      * @param {string} hash
      * @returns {Promise<boolean>}

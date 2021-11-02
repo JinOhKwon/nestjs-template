@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { RoleError } from "modules/role/infrastructure/constants/RoleErrorEnum";
-import * as _ from "lodash";
+import { isEmpty, isUndefined } from "lodash";
 import { Equal, In } from "typeorm";
 import { RoleResponse } from "../api/dto/response/role.response";
 import { Role } from "../entity/role";
+import { RoleError } from "../infrastructure/constants/role-error";
 import { RoleNotFoundException } from "../infrastructure/exception/role-not-found.exception";
 import { RoleService } from "./role.service";
 
@@ -12,6 +12,11 @@ import { RoleService } from "./role.service";
  */
 @Injectable()
 export class RoleRetireveService {
+	/**
+	 * 생성자
+	 *
+	 * @param roleService 역할 서비스
+	 */
     constructor(private readonly roleService: RoleService) { }
     /**
      * 전체 역할 목록을 조회한다.
@@ -19,8 +24,8 @@ export class RoleRetireveService {
      * @param roleId 역할식별자
      * @param roleNm 역할명
      */
-    public async getList(roleIds?: string[]): Promise<RoleResponse[]> {
-        return (_.isUndefined(roleIds) || _.isEmpty(roleIds)) ? [] : await this.roleService.getList({ roleId: In(roleIds) });
+    public async getList(roleIds?: Array<string>): Promise<Array<RoleResponse>> {
+        return (isUndefined(roleIds) || isEmpty(roleIds)) ? [] : await this.roleService.getList({ roleId: In(roleIds) });
     }
 
     /**
@@ -31,7 +36,7 @@ export class RoleRetireveService {
     public async get(roleId: string): Promise<RoleResponse> {
         const role: Role = (await this.roleService.get({ roleId: Equal(roleId) }));
 
-        if (_.isUndefined(role)) {
+        if (isUndefined(role)) {
             throw new RoleNotFoundException(RoleError.ROLE001, roleId);
         }
 

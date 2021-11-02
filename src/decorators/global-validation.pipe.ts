@@ -17,7 +17,7 @@ export class GlobalValidationPipe implements PipeTransform<any> {
     }
 
     private toValidate(metatype: Function): boolean {
-        const types: Function[] = [String, Boolean, Number, Array, Object];
+        const types: Array<Function> = [String, Boolean, Number, Array, Object];
         return !types.includes(metatype);
     }
 }

@@ -6,10 +6,10 @@ import { AuthRequest } from "./dto/request/auth.request";
 import { AuthResponse } from "./dto/response/auth.response";
 import { AuthTokenResponse } from "./dto/response/auth-token.response";
 import { AuthException } from "./infrastructure/exception/auth-exception";
-import { ContextProvider } from "src/core/providers/context.provider";
+import { ContextProvider } from "src/providers/context.provider";
 import { User } from "../user/entity/User";
 import { AuthError } from "./infrastructure/constants/auth-error";
-import { UtilsProvider } from "src/core/providers/utils.provider";
+import { UtilsProvider } from "src/providers/utils.provider";
 import { isUndefined } from "lodash";
 
 /**
@@ -17,6 +17,13 @@ import { isUndefined } from "lodash";
  */
 @Injectable()
 export class AuthService {
+	/**
+	 * 생성자
+	 *
+	 * @param jwtService jwt 서비스
+	 * @param configService 환경 서비스
+	 * @param userService 유저 서비스
+	 */
     constructor(
         public readonly jwtService: JwtService,
         public readonly configService: ConfigService,
@@ -32,8 +39,6 @@ export class AuthService {
     static setAuthUser(user: User) {
         ContextProvider.set("auth", user);
     }
-
-    //////////////////////////////////////////////////////////////////////
 
     /**
      * 인증을 처리한다.

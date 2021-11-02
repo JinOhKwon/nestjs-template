@@ -23,7 +23,7 @@ export class UserService {
      *
      * @param conditions 조건
      */
-    async getList(conditions: FindConditions<User>): Promise<User[]> {
+    async getList(conditions: FindConditions<User>): Promise<Array<User>> {
         return await this.userRepository.find(conditions);
     }
 

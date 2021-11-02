@@ -1,7 +1,8 @@
-import { AbstractEntity } from "common/AbstractEntity";
+import { AbstractEntity } from "src/base/abstract-entity";
+import { YesOrNoEnum } from "src/base/constants/yes-or-no";
+import { UtilsProvider } from "src/providers/utils.provider";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { RoleResponse } from "../api/dto/response/role.response";
-import { YesOrNoEnum } from "common/constants/YesOrNoEnum";
 
 /**
  * 역할 엔티티
@@ -9,21 +10,29 @@ import { YesOrNoEnum } from "common/constants/YesOrNoEnum";
 @Entity({ name: "tb_role" })
 export class Role extends AbstractEntity<RoleResponse> {
     dtoClass = RoleResponse;
-    // 역할 일련번호
+	/**
+	 * 역할 일련번호
+	 */
     @PrimaryGeneratedColumn({ name: "role_seq", type: "bigint" })
     roleSeq: number;
 
-    // 역할 아이디
+	/**
+	 * 역할 아이디
+	 */
     @Column({ name: "role_id", length: 100, unique: true })
     roleId: string;
 
-    // 역할명
+	/**
+	 * 역할명
+	 */
     @Column({ name: "role_nm", length: 50 })
     roleNm: string;
 
-    // 사용여부
+	/**
+	 * 사용여부
+	 */
     @Column({ name: "role_use_yn", type: "enum", enum: YesOrNoEnum })
-    roleUseYn: YesOrNoEnum;
+	roleUseYn: YesOrNoEnum;
 
     /**
      * 생성자

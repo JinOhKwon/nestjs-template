@@ -5,7 +5,7 @@ export enum AuthRole {
 	/**
 	 * 슈퍼관리자
 	 */
-    ROLE_SUPER = "ROLE_SPR",
+    ROLE_SUPER = "ROLE_SUPER",
 	/**
 	 * 관리자
 	 */
@@ -13,5 +13,5 @@ export enum AuthRole {
 	/**
 	 * 사용자
 	 */
-    ROLE_USER = "ROLE_USR"
+    ROLE_USER = "ROLE_USER"
 }
