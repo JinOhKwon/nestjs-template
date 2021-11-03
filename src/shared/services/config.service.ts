@@ -1,6 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 import * as dotenv from "dotenv";
-import { join } from "path";
 
 export class ConfigService {
     constructor() {
@@ -30,23 +29,9 @@ export class ConfigService {
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {
-		let entities = [join(__dirname, '/../../modules/*/entity/*.{ts,js}')];
-
-        if ((module as any).hot) {
-            const entityContext = (require as any).context(
-                "./../../modules",
-                true,
-                /\\.ts$/,
-			);
-            entities = entityContext.keys().map(id => {
-                const entityModule = entityContext(id);
-                const [entity] = Object.values(entityModule);
-                return entity;
-            });
-		}
-
         return {
-            entities,
+			// 엔티티를 자동 로드 한다.
+			autoLoadEntities: true,
             keepConnectionAlive: true,
             type: "postgres",
             host: this.get("DB_HOST"),
