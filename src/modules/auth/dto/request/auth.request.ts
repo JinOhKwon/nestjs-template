@@ -13,5 +13,5 @@ export class AuthRequest {
      * 사용자비밀번호
      */
     @ApiProperty()
-    readonly userPwd: string;
+    readonly userPw: string;
 }

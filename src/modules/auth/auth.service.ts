@@ -54,7 +54,7 @@ export class AuthService {
         }
 
         // 비밀번호가 일치하지 않으면..
-        const isMatchPwd = await UtilsProvider.validateHash(req.userPwd, authUser && authUser.userPwd);
+        const isMatchPwd = await UtilsProvider.validateHash(req.userPw, authUser && authUser.userPwd);
         if (!isMatchPwd) {
             throw new AuthException(AuthError.AUTH002);
         }

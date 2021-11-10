@@ -8,6 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "build:staging": "env-cmd -f ./.env.staging nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -33,6 +34,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0",
     "helmet": "^4.6.0",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",

@@ -5,8 +5,8 @@ export class ConfigService {
     constructor() {
         const nodeEnv = this.nodeEnv;
         dotenv.config({
-            path: `.${nodeEnv}.env`,
-        });
+            path: `.env.${nodeEnv}`,
+		});
 
         // Replace \\n with \n to support multiline strings in AWS
         for (const envName of Object.keys(process.env)) {
@@ -25,7 +25,7 @@ export class ConfigService {
     }
 
     get nodeEnv(): string {
-        return this.get("NODE_ENV") || "development";
+        return this.get("NODE_ENV") ?? "development";
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {

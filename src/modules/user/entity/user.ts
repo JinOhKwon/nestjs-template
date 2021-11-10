@@ -8,7 +8,7 @@ import { PasswordTransformer } from "../password-transformer";
 /**
  * 사용자 엔티티
  */
-@Entity({ name: "tb_user" })
+@Entity({ name: "admin_users" })
 export class User extends AbstractEntity<UserResponse> {
     dtoClass = UserResponse;
 	/**

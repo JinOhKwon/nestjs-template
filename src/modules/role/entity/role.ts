@@ -1,13 +1,12 @@
 import { AbstractEntity } from "src/base/abstract-entity";
 import { YesOrNoEnum } from "src/base/constants/yes-or-no";
-import { UtilsProvider } from "src/providers/utils.provider";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { RoleResponse } from "../api/dto/response/role.response";
 
 /**
  * 역할 엔티티
  */
-@Entity({ name: "tb_role" })
+@Entity({ name: "admin_role" })
 export class Role extends AbstractEntity<RoleResponse> {
     dtoClass = RoleResponse;
 	/**
