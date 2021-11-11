@@ -8,11 +8,6 @@ export class ConfigService {
             path: `.env.${nodeEnv}`,
 		});
 
-        // Replace \\n with \n to support multiline strings in AWS
-        for (const envName of Object.keys(process.env)) {
-            process.env[envName] = process.env[envName].replace(/\\n/g, "\n");
-        }
-
         // console.info(process.env);
     }
 
@@ -25,7 +20,7 @@ export class ConfigService {
     }
 
     get nodeEnv(): string {
-        return this.get("NODE_ENV") ?? "development";
+        return this.get("env") ?? "development";
     }
 
     get typeOrmConfig(): TypeOrmModuleOptions {

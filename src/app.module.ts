@@ -10,7 +10,7 @@ import { SharedModule } from "./shared/shared.module";
 
 @Module({
     imports: [
-        AuthModule,
+		AuthModule,
         UserModule,
         RoleModule,
         TypeOrmModule.forRootAsync({
