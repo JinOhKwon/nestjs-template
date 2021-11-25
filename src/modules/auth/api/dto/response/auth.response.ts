@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { UserResponse } from "../../../user/api/dto/response/user.response";
+import { UserResponse } from "../../../../user/api/dto/response/user.response";
 import { AuthTokenResponse } from "./auth-token.response";
 
 /**

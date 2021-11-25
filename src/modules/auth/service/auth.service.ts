@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ConfigService } from "../../shared/services/config.service";
-import { UserService } from "../user/service/user.service";
-import { AuthRequest } from "./dto/request/auth.request";
-import { AuthResponse } from "./dto/response/auth.response";
-import { AuthTokenResponse } from "./dto/response/auth-token.response";
-import { AuthException } from "./infrastructure/exception/auth-exception";
+import { ConfigService } from "../../../shared/services/config.service";
+import { UserService } from "../../user/service/user.service";
+import { AuthRequest } from "../api/dto/request/auth.request";
+import { AuthResponse } from "../api/dto/response/auth.response";
+import { AuthTokenResponse } from "../api/dto/response/auth-token.response";
+import { AuthException } from "../infrastructure/exception/auth-exception";
 import { ContextProvider } from "src/providers/context.provider";
-import { User } from "../user/entity/User";
-import { AuthError } from "./infrastructure/constants/auth-error";
+import { User } from "../../user/entity/User";
+import { AuthError } from "../infrastructure/constants/auth-error";
 import { UtilsProvider } from "src/providers/utils.provider";
 import { isUndefined } from "lodash";
 
