@@ -5,9 +5,9 @@ export enum YesOrNoEnum {
 	/**
 	 * 여
 	 */
-    YES = "Y",
+	YES = 'Y',
 	/**
 	 * 부
 	 */
-    NO = "N",
+	NO = 'N'
 }

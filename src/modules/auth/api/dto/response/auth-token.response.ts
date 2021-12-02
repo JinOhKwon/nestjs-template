@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 /**
  * 인증 토큰 응답데이터
@@ -13,15 +13,15 @@ export class AuthTokenResponse {
 	 * 토큰
 	 */
 	@ApiProperty()
-    accessToken: string;
+	accessToken: string;
 
 	/**
 	 * 생성자
 	 *
 	 * @param data 데이터
 	 */
-    constructor(data: { expiresIn: number; accessToken: string }) {
-        this.expiresIn = data.expiresIn;
-        this.accessToken = data.accessToken;
-    }
+	constructor(data: { expiresIn: number; accessToken: string }) {
+		this.expiresIn = data.expiresIn;
+		this.accessToken = data.accessToken;
+	}
 }

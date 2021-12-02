@@ -23,7 +23,7 @@ module.exports = {
 		"@typescript-eslint/camelcase": 0,
 		// @link https://standardjs.com/rules-kokr.html 참고
 		// 템플릿 문자열에는 간격이 없습니다.
-		"quotes": [2, "error"],
+		"quotes": [2, "single"],
 		"template-curly-spacing": 2,
 		// 주석 안에는 공백을 사용해야 합니다.
 		"spaced-comment": ["error", "always", {

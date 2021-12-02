@@ -13,5 +13,5 @@ export interface IError {
 	/**
 	 * 메시지 인자
 	 */
-    msgArgs?: Array<string> | Array<number>;
+	msgArgs?: Array<string> | Array<number>;
 }
