@@ -6,7 +6,7 @@ import {
 	HttpStatus
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Response } from 'express';
+import { FastifyReply } from 'fastify';
 import { each } from 'lodash';
 import { IError } from '../interfaces/IError';
 
@@ -18,7 +18,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 	constructor(public reflector: Reflector) {}
 
 	catch(exception: unknown, host: ArgumentsHost) {
-		const response = host.switchToHttp().getResponse<Response>();
+		const response = host.switchToHttp().getResponse<FastifyReply<any>>();
 		let message =
 			'요청을 처리하던 중 예상하지 못한 오류가 발생했습니다.\n관리자에게 문의해주세요.';
 		let code = 'Unknown Code';
@@ -48,7 +48,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 			}
 		}
 
-		response.status(statusCode).json({
+		response.status(statusCode).send({
 			statusCode,
 			statusMessage,
 			message,

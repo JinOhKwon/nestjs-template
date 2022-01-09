@@ -35,7 +35,7 @@ module.exports = {
 		// 세미콜론은 뒤쪽에 공백을 두고 앞쪽에는 공백을 두지 않아야 합니다.
 		"semi-spacing": ["error", { "before": false, "after": true }],
 		// 객체 속성 간의 일관성을 유지합니다.
-		"object-property-newline": 2,
+		"object-property-newline": 0,
 		// import, export 및 소멸된 할당의 이름을 동일한 이름으로 바꾸는 것은 허용되지 않습니다.
 		"no-useless-rename": 2,
 		// 생성자를 생성하면 super를 먼저 호출 하고 this 하기
@@ -67,9 +67,9 @@ module.exports = {
 		// 인수가 없는 생성자는 괄호로 호출해야합니다. new Temp x, new Temp() o
 		"new-parens": 2,
 		// 함수 호출시 공백이 없어야함
-		"func-call-spacing": ["error", "never"],
+		"func-call-spacing": [2, "never"],
 		// 콤마 사용시 현재 행 끝에 있어야함
-		"comma-style": ["error", "last", {
+		"comma-style": [2, "last", {
 			"exceptions": {
 				"ArrayExpression": true,
 				"ArrowFunctionExpression": true,
@@ -84,7 +84,7 @@ module.exports = {
 		// 한줄에 쓸때 괄호에 공백 두기
 		"block-spacing": 2,
 		// 여러줄에 공백을 허용 하지 않음
-		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
+		"no-multiple-empty-lines": [2, { "max": 1, "maxEOF": 0 }],
 		// 예약어 뒤에는 공백을 추가합니다.
 		"keyword-spacing": 2,
 		// 공백에 연산자를 넣으세요
@@ -94,9 +94,9 @@ module.exports = {
 		// 함수나 변수 이름은 카멜케이스로 강제함
 		"camelcase": 2,
 		// if문 쓸때 중괄호 생략 불가능
-		"curly": ["error", "multi-line"],
+		"curly": [2, "multi-line"],
 		// === 으로 강제
-		"eqeqeq": "error",
+		"eqeqeq": 2,
 		// Yoda 조건을 피하십시오 if (42 === age) { } 불가능, if (age === 42) { } 가능
 		"yoda": [
 			"error",
