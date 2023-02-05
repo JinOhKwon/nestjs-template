@@ -46,10 +46,10 @@ async function bootstrap() {
     } else {
       // TODO: 익숙해지면 지우자localhost:3333/api
       SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, new DocumentBuilder()
-        .setTitle('Momentor Server')
-        .setDescription('The Momentor API description')
+        .setTitle('nestjs-template Server')
+        .setDescription('The nestjs-template API description')
         .setVersion('1.0')
-        .addTag('Momentor')
+        .addTag('nestjs-template')
         .build()));
     }
 

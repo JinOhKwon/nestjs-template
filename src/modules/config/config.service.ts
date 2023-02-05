@@ -71,7 +71,7 @@ export class ConfigService {
     //   user: this.get(CONFIG_KEY.DATABASE.DB_USERNAME),
     //   password: this.get(CONFIG_KEY.DATABASE.DB_PASSWORD),
     //   forceUndefined: true,
-    //   dbName: 'gcnyy',
+    //   dbName: 'template',
     //   timezone: '+09:00',
     //   loadStrategy: LoadStrategy.JOINED,
     //   migrations: {

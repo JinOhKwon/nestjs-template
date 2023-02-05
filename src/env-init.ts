@@ -23,8 +23,8 @@ const ssmClient = new SSM({
 export const envInit = async (): Promise<void> => {
   const result = await ssmClient
     .getParameter({
-      // Name: `/momentor/${process.env['NODE_ENV']}`,
-      Name: '/momentor/local',
+      // Name: `/nestjs-template/${process.env['NODE_ENV']}`,
+      Name: '/nestjs-template/local',
       WithDecryption: true,
     })
     .promise();

@@ -1,3 +1,0 @@
-[submodule "src/@submodule"]
-	path = src/@submodule
-	url = https://gitlab.com/gcnyy/momentor/submodule.git

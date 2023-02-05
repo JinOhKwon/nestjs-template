@@ -1,4 +1,4 @@
-# momentor-server
+# nestjs-template
 
 # 관련 자료
 
