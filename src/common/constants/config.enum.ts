@@ -7,10 +7,6 @@ enum COMMON {
    * 포트
    */
   PORT = 'PORT',
-  /**
-   * 도커 환경 여부
-   */
-  IS_DOCKER_ENV = 'IS_DOCKER_ENV',
 }
 
 enum DATABASE {
@@ -34,6 +30,10 @@ enum DATABASE {
    * DB 주소
    */
   DB_HOST = 'DB_HOST',
+  /**
+   * DB 주소
+   */
+  DB_PORT = 'DB_PORT',
   /**
    * DB 도커 주소
    */
@@ -62,34 +62,6 @@ enum DATABASE {
 
 enum OAUTH {
   /**
-   * JWT 시크릿 키
-   */
-  JWT_SECRET_KEY = 'JWT_SECRET_KEY',
-  /**
-   * JWT 유효시간
-   */
-  JWT_EXPIRATION_TIME = 'JWT_EXPIRATION_TIME',
-  /**
-   * 카카오 키
-   */
-  KAKAO_KEY = 'KAKAO_KEY',
-  /**
-   * 카카오 리다이렉트 url
-   */
-  KAKAO_REDIRECT_URL = 'KAKAO_REDIRECT_URL',
-  /**
-   * 네이버 클라이언트 아이디
-   */
-  NAVER_CLIENT_ID = 'NAVER_CLIENT_ID',
-  /**
-   * 네이버 클라이언트 시크릿
-   */
-  NAVER_CLIENT_SECRET = 'NAVER_CLIENT_SECRET',
-  /**
-   * 네이버 콜백 url
-   */
-  NAVER_CALLBACK_URL = 'NAVER_CALLBACK_URL',
-  /**
    * 구글 클라리언트 아이디
    */
   GOOGLE_CLIENT_ID = 'GOOGLE_CLIENT_ID',
@@ -105,13 +77,13 @@ enum OAUTH {
 
 enum AWS {
   /**
-   * 유저 풀 아이디
+   * JWT 시크릿 키
    */
-  AWS_USER_POOL_ID = 'AWS_USER_POOL_ID',
+  JWT_SECRET_KEY = 'JWT_SECRET_KEY',
   /**
-   * 클라이언트 아이디
+   * JWT 유효시간
    */
-  AWS_CLIENT_ID = 'AWS_CLIENT_ID',
+  JWT_EXPIRATION_TIME = 'JWT_EXPIRATION_TIME',
 }
 
 export const CONFIG_KEY = {

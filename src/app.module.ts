@@ -2,24 +2,14 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalExceptionFilter } from 'filters';
 import { HttpLoggingInterceptor } from 'interceptors';
-import { AwsModule, ConfigModule, HealthModule, LoggerModule, RedisModule, RouteScanModule, WssModule } from 'modules';
-import { BizModule } from './biz/Biz.module';
-
+import { AwsModule, ConfigModule, HealthModule, LoggerModule, RedisModule, RouteScanModule, WssModule } from 'core';
+import { BizModule } from './modules/biz.module';
 
 /**
  * app 모듈
  */
 @Module({
-  imports: [
-    LoggerModule,
-    AwsModule,
-    ConfigModule,
-    HealthModule,
-    RedisModule,
-    RouteScanModule,
-    WssModule,
-    BizModule
-  ],
+  imports: [LoggerModule, AwsModule, ConfigModule, HealthModule, RedisModule, RouteScanModule, WssModule, BizModule],
   providers: [
     {
       provide: APP_FILTER,

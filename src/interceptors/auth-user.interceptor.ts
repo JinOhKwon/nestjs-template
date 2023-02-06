@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { User } from 'biz/user/entity/user.entity';
+import { User } from 'modules/user/entity/user.entity';
 import { Observable } from 'rxjs';
 
 /**
@@ -10,7 +10,7 @@ export class AuthUserInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
 
-    const user = request.user as User;
+    request.user as User;
     // AuthService.setAuthUser(user);
 
     return next.handle();

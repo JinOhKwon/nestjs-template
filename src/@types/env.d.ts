@@ -1,7 +1,6 @@
-
 declare namespace NodeJS {
   interface ProcessEnv {
-    readonly NODE_ENV: 'development' | 'production' | 'test';
+    readonly NODE_ENV: 'development' | 'production' | 'relaese' | 'local';
     readonly PORT: string;
     readonly JWT_SECRET_KEY: string;
     readonly JWT_EXPIRATION_TIME: string;

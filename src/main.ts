@@ -6,10 +6,9 @@ import { Throttle } from '@nestjs/throttler';
 import { CONFIG_KEY } from 'common';
 import compression from 'compression';
 import helmet from 'helmet';
-import { ConfigModule, ConfigService, winstonConfig } from 'modules';
+import { ConfigModule, ConfigService, winstonConfig } from 'core';
 import { AppModule } from './app.module';
 import { envInit } from './env-init';
-
 
 declare const module: any;
 const logger = new Logger(bootstrap.name);
@@ -35,22 +34,27 @@ async function bootstrap() {
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     // 운영환경일 경우...
-    if (configService.isProduction) {
+    if (configService.config.nodeEnv === process.env['NODE_ENV'] ?? 'local') {
       app.enable('trust proxy');
       app.use(compression());
       app.use(helmet()); // TODO: helment 설치
 
-      app.use(
-        Throttle(60, 10)
-      );
+      app.use(Throttle(60, 10));
     } else {
       // TODO: 익숙해지면 지우자localhost:3333/api
-      SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, new DocumentBuilder()
-        .setTitle('nestjs-template Server')
-        .setDescription('The nestjs-template API description')
-        .setVersion('1.0')
-        .addTag('nestjs-template')
-        .build()));
+      SwaggerModule.setup(
+        'api',
+        app,
+        SwaggerModule.createDocument(
+          app,
+          new DocumentBuilder()
+            .setTitle('nestjs-template Server')
+            .setDescription('The nestjs-template API description')
+            .setVersion('1.0')
+            .addTag('nestjs-template')
+            .build(),
+        ),
+      );
     }
 
     // 서버 실행

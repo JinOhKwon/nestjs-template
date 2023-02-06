@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { isNil } from 'lodash';
-import { LoggerService } from 'modules';
+import { LoggerService } from 'core';
 import moment from 'moment';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
@@ -15,18 +15,18 @@ export class HttpLoggingInterceptor implements NestInterceptor {
    *
    * @param loggerService 로거 서비스
    */
-  constructor(private readonly loggerService: LoggerService) { }
+  constructor(private readonly loggerService: LoggerService) {}
+
   /**
    * 인터셉트
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request: Request = context.switchToHttp().getRequest();
-    // this.mmmtLoggerService.log('json', { args: request.json() })
     this.loggerService.log(
       `Request - HTTP Method: [START - ${request.method}] Request URL: ${(request as any).originalUrl} Time: ${moment().format(
         'YYYY년 MM월 DD일  HH시mm분ss초',
       )}`,
-      { context: HttpLoggingInterceptor.name }
+      { context: HttpLoggingInterceptor.name },
     );
 
     return next.handle().pipe(
@@ -43,7 +43,7 @@ export class HttpLoggingInterceptor implements NestInterceptor {
                 context: HttpLoggingInterceptor.name,
                 trace: err.stack,
                 args: err.response.msgArgs,
-              }
+              },
             );
           } else {
             this.loggerService.error(err, {
@@ -60,7 +60,7 @@ export class HttpLoggingInterceptor implements NestInterceptor {
           `Response - HTTP Method: [END - ${request.method}] Request URL: ${(request as any).originalUrl} Time: ${moment().format(
             'YYYY년 MM월 DD일  HH시mm분ss초',
           )}`,
-          { context: HttpLoggingInterceptor.name }
+          { context: HttpLoggingInterceptor.name },
         );
       }),
     );
