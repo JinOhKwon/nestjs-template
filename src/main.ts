@@ -5,19 +5,15 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { CONFIG_KEY } from 'common';
 import compression from 'compression';
-import helmet from 'helmet';
 import { ConfigModule, ConfigService, winstonConfig } from 'core';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { envInit } from './env-init';
 
 declare const module: any;
 const logger = new Logger(bootstrap.name);
 
 async function bootstrap() {
   try {
-    // 환경변수 초기화
-    await envInit();
-
     // 익스프레스 서버 생성
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       cors: true,

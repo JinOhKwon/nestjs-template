@@ -1,7 +1,7 @@
 import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { map } from 'rxjs';
-import { UsersChangeService } from '../service/user-change.service';
+import { UserService } from '../service/user.service';
 
 /**
  * 사용자 컨트롤러이다.
@@ -13,10 +13,9 @@ export class UserController {
   /**
    * 생성자
    *
-   * @param userRetireveService 사용자 조회 서비스
-   * @param userChangeService 사용자 변경 서비스
+   * @param userService 사용자 서비스
    */
-  constructor(private userChangeService: UsersChangeService) {}
+  constructor(private userService: UserService) {}
 
   /**
    * 전제 사용자 목록을 조회한다.
@@ -28,7 +27,7 @@ export class UserController {
   @Get()
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   public async getList(@Query('userId') userId: string, @Query('userNm') userNm: string, @Res() res: Response) {
-    return this.userChangeService.findAll().pipe(map((user) => ({ event: 'findAll', data: user })));
+    return this.userService.findAll().pipe(map((user) => ({ event: 'findAll', data: user })));
   }
 
   // /**

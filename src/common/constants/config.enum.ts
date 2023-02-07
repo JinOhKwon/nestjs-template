@@ -23,41 +23,9 @@ enum DATABASE {
    */
   REDIS_TTL = 'REDIS_TTL',
   /**
-   * DB 속성
-   */
-  DB_TYPE = 'DB_TYPE',
-  /**
-   * DB 주소
-   */
-  DB_HOST = 'DB_HOST',
-  /**
-   * DB 주소
-   */
-  DB_PORT = 'DB_PORT',
-  /**
-   * DB 도커 주소
-   */
-  DB_HOST_DOCKER = 'DB_HOST_DOCKER',
-  /**
-   * DB port
-   */
-  DB_MASTER_PORT = 'DB_MASTER_PORT',
-  /**
-   * DB port
-   */
-  DB_SLAVE_PORT = 'DB_SLAVE_PORT',
-  /**
-   * DB 사용자
-   */
-  DB_USERNAME = 'DB_USERNAME',
-  /**
-   * DB 패스워드
-   */
-  DB_PASSWORD = 'DB_PASSWORD',
-  /**
    * DB 데이터베이스
    */
-  DB_DATABASE = 'DB_DATABASE',
+  DATABASE_URL = 'DATABASE_URL',
 }
 
 enum OAUTH {
@@ -73,9 +41,6 @@ enum OAUTH {
    * 구글 리다이렉트 url
    */
   GOOGLE_REDIRECT_URL = 'GOOGLE_REDIRECT_URL',
-}
-
-enum AWS {
   /**
    * JWT 시크릿 키
    */
@@ -84,6 +49,17 @@ enum AWS {
    * JWT 유효시간
    */
   JWT_EXPIRATION_TIME = 'JWT_EXPIRATION_TIME',
+}
+
+enum AWS {
+  /**
+   * aws 엑세스 키
+   */
+  AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID',
+  /**
+   * aws 시크릿 키
+   */
+  AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY',
 }
 
 export const CONFIG_KEY = {

@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from 'core';
 import { RoleController } from './api/role.controller';
 
 /**
  * 역할 모듈
  */
 @Module({
-  imports: [PrismaModule],
+  imports: [DatabaseModule],
   controllers: [RoleController],
-  exports: [],
-  providers: [],
 })
-export class RoleModule { }
+export class RoleModule {}

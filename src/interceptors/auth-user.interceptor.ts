@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { User } from 'modules/user/entity/user.entity';
+import { User } from '@prisma/client';
 import { Observable } from 'rxjs';
 
 /**

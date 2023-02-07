@@ -7,14 +7,6 @@ export enum LoginTypeEnum {
    */
   LOCAL = 'LOCAL',
   /**
-   * 카카오
-   */
-  KAKAO = 'KAKAO',
-  /**
-   * 네이버
-   */
-  NAVER = 'NAVER',
-  /**
    * 구글
    */
   GOOGLE = 'GOOGLE',

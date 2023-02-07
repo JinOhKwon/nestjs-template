@@ -1,94 +1,100 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'core';
+import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
 
-/**
- * 사용자 서비스
- */
 @Injectable()
 export class UserService {
-  // /**
-  //  * 생성자
-  //  *
-  //  * @param userRepository 사용자 레파지토리
-  //  */
-  // constructor(private readonly userRepository: UserRepository) {}
-
-  // /**
-  //  * 전체 사용자 목록을 조회한다.
-  //  *
-  //  * @param conditions 조건
-  //  */
-  // async getList(userId?: string, userNm?: string): Promise<Array<User>> {
-  //   return await this.userRepository.findAll({
-  //     populateWhere: {
-  //       userId,
-  //       userNm,
-  //     },
-  //     populate: ['roles'],
-  //   });
-  // }
-
-  // /**
-  //  * 전체 사용자 목록을 조회한다.
-  //  *
-  //  * @param conditions 조건
-  //  */
-  // async get(userId?: string): Promise<User> {
-  //   return await this.userRepository.findOneOrFail(
-  //     {
-  //       userId,
-  //     },
-  //     {
-  //       populate: ['roles'],
-  //     },
-  //   );
-  // }
-
-  // /**
-  //  * 사용자를 등록한다.
-  //  *
-  //  * @param user 사용자
-  //  */
-  // async create(user: User): Promise<void> {
-  //   const cUser = this.userRepository.create(user);
-  //   await this.userRepository.persistAndFlush(cUser);
-  // }
-
-  // /**
-  //  * 사용자를 삭제한다.
-  //  *
-  //  * @param user 사용자
-  //  */
-  // async delete(userId: string): Promise<void> {
-  //   await this.userRepository.remove({ userId });
-  // }
-
-  // /**
-  //  * 사용자 건수를 조회한다.
-  //  *
-  //  * @param conditions 조건
-  //  */
-  // async getCount(findData: User): Promise<number> {
-  //   return await this.userRepository.count(findData);
-  // }
-
-  // /**
-  //  * 사용자가 존재하는지 확인한다.
-  //  *
-  //  * @param userId 사용자식별자
-  //  */
-  // async isDup(userId: string): Promise<boolean> {
-  //   const user: User = await this.userRepository.findOne({
-  //     userId,
-  //   });
-  //   return !isNil(user);
-  // }
-
-  // /**
-  //  * 사용자 엔티티 트렌젝션을 save한다.
-  //  *
-  //  * @param user 사용자
-  //  */
-  // async save(user: User): Promise<void> {
-  //   this.userRepository.persistAndFlush(user);
-  // }
+  constructor(private prismaService: PrismaService) {}
+  findAll(): Observable<any> {
+    try {
+      return from(this.prismaService.user.findMany()).pipe(
+        mergeMap((users) => (users ? of({ users }) : EMPTY)),
+        throwIfEmpty(() => new Error('NOT FOUND')),
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+  save(data: any): Observable<any> {
+    return from(this.prismaService.user.create({ data: data.user })).pipe(
+      mergeMap((users) =>
+        users
+          ? of({
+              status: 200,
+              transactionDt: Date.now(),
+              errMessage: {},
+            })
+          : EMPTY,
+      ),
+      throwIfEmpty(() =>
+        of({
+          status: 500,
+          transactionDt: Date.now(),
+          errMessage: {
+            errCode: 500,
+            errMessage: new Error('create fial'),
+          },
+        }),
+      ),
+    );
+  }
+  modify(data: any): Observable<any> {
+    return from(
+      this.prismaService.user.update({
+        data: data.user,
+        where: {
+          userId: data.user.userId,
+        },
+      }),
+    ).pipe(
+      mergeMap((users) =>
+        users
+          ? of({
+              status: 200,
+              transactionDt: Date.now(),
+              errMessage: {},
+            })
+          : EMPTY,
+      ),
+      throwIfEmpty(() =>
+        of({
+          status: 500,
+          transactionDt: Date.now(),
+          errMessage: {
+            errCode: 500,
+            errMessage: new Error('modify fail'),
+          },
+        }),
+      ),
+    );
+  }
+  delete(data: any): Observable<any> {
+    return from(
+      this.prismaService.user.delete({
+        where: {
+          userId: data.user.userId,
+        },
+      }),
+    ).pipe(
+      mergeMap((users) =>
+        users
+          ? of({
+              status: 200,
+              transactionDt: Date.now(),
+              errMessage: {},
+            })
+          : EMPTY,
+      ),
+      throwIfEmpty(() =>
+        of({
+          status: 500,
+          transactionDt: Date.now(),
+          errMessage: {
+            errCode: 500,
+            errMessage: new Error('delete fial'),
+          },
+        }),
+      ),
+    );
+  }
 }

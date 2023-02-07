@@ -9,8 +9,7 @@ import { AuthController } from './api/auth.controller';
 import { AuthService } from './auth.service';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { KakaoStrategy } from './strategy/kakao.strategy';
-import { NaverStrategy } from './strategy/naver.strategy';
+
 /**
  * 인증 모듈
  */
@@ -28,7 +27,7 @@ import { NaverStrategy } from './strategy/naver.strategy';
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, GoogleStrategy, KakaoStrategy, NaverStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy],
   exports: [PassportModule, AuthService],
 })
 export class AuthModule {}

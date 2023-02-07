@@ -1,4 +1,4 @@
-import { User } from 'modules/user/entity/user.entity';
+import { User } from '@prisma/client';
 import { AuthTokenResponse } from './auth-token.response';
 
 /**

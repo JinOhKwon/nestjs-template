@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { CONFIG_KEY } from 'common';
+import { ConfigService } from 'core';
 import { isNil } from 'lodash';
 import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-// import { Equal } from 'typeorm';
-import { UserService } from '../../user/service/user.service';
 import { AuthException } from '../infrastructure/exception/auth.exception';
-import { CONFIG_KEY } from 'common';
-import { ConfigService } from 'core';
 
 /**
  * JWT 인증 전략
@@ -20,11 +18,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @param configService 환경 서비스
    * @param userService 사용자 서비스
    */
-  constructor(private readonly configService: ConfigService, private readonly userService: UserService) {
+  constructor(private readonly configService: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get(CONFIG_KEY.AWS.JWT_SECRET_KEY),
+      secretOrKey: configService.get(CONFIG_KEY.OAUTH.JWT_SECRET_KEY),
     });
   }
 

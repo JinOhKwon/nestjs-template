@@ -75,7 +75,7 @@ mongo
 
 node_modules
 package-lock.json
-# .vscode
+.vscode
 .DS_Store
 yarn.lock
 *.gpl

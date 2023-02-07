@@ -1,12 +1,10 @@
-/* eslint-disable camelcase */
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
-import { User } from 'modules/user/entity/user.entity';
+import { User } from '@prisma/client';
 import { CONFIG_KEY } from 'common';
-import { isNil } from 'lodash';
 import { ConfigService } from 'core';
-import { UserService } from '../user/service/user.service';
+import { isNil } from 'lodash';
+import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
 import { AuthTokenResponse } from './api/dto/auth-token.response';
 import { AuthRequest } from './api/dto/auth.request';
 import { AuthResponse } from './api/dto/auth.response';
@@ -25,7 +23,7 @@ export class AuthService {
    * @param configService 환경 서비스
    * @param userService 유저 서비스
    */
-  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService, private readonly userService: UserService) { }
+  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) {}
 
   // /**
   //  * 컨텍스트에 사용자 정보를 담는다.
@@ -44,7 +42,7 @@ export class AuthService {
   async auth(req: AuthRequest): Promise<AuthResponse> {
     let user: User;
 
-    const authUser = {} // await this.userService.get(req.userId);
+    const authUser = {}; // await this.userService.get(req.userId);
 
     // 사용자가 존재하지 않으면..
     if (isNil(authUser)) {
@@ -78,7 +76,7 @@ export class AuthService {
   async socialAuth(req: SocialRequest): Promise<AuthResponse> {
     let user: User;
 
-    const authUser = {}; //await this.userService.get(req.user.userEmail);
+    const authUser = {}; // await this.userService.get(req.user.userEmail);
 
     // 사용자가 존재하지 않으면..
     if (isNil(authUser)) {
