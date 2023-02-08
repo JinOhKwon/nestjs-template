@@ -1,4 +1,4 @@
-import { LoggerService as NestLoggerService, Logger as NestLogger, LogLevel } from '@nestjs/common';
+import { Logger as NestLogger, LoggerService as NestLoggerService, LogLevel } from '@nestjs/common';
 import { toJson } from 'helper';
 import { isUndefined } from 'lodash';
 

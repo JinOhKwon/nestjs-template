@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { Response } from 'express';
 import { MmtError } from 'common';
+import { LoggerService } from 'core';
+import { Response } from 'express';
 import { toJson } from 'helper';
 
 /**
@@ -9,7 +9,7 @@ import { toJson } from 'helper';
  */
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  constructor(public reflector: Reflector) {}
+  constructor(private readonly loggerService: LoggerService) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
@@ -31,6 +31,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         message = toJson(iError.message, iError.msgArgs);
       }
     }
+
+    this.loggerService.debug(`${exception}`, {});
 
     response.status(statusCode).json({
       error: {

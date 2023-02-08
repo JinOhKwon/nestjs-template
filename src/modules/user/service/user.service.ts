@@ -15,6 +15,22 @@ export class UserService {
       throw err;
     }
   }
+  find(userId: string): Observable<any> {
+    try {
+      return from(
+        this.prismaService.user.findMany({
+          where: {
+            userId,
+          },
+        }),
+      ).pipe(
+        mergeMap((users) => (users ? of({ users }) : EMPTY)),
+        throwIfEmpty(() => new Error('NOT FOUND')),
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
   save(data: any): Observable<any> {
     return from(this.prismaService.user.create({ data: data.user })).pipe(
       mergeMap((users) =>
@@ -38,7 +54,7 @@ export class UserService {
       ),
     );
   }
-  modify(data: any): Observable<any> {
+  modify(userId: string, data: any): Observable<any> {
     return from(
       this.prismaService.user.update({
         data: data.user,

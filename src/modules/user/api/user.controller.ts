@@ -1,5 +1,6 @@
-import { Controller, Get, Query, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { AuthRole } from 'common';
+import { Roles } from 'decorators';
 import { map } from 'rxjs';
 import { UserService } from '../service/user.service';
 
@@ -25,65 +26,60 @@ export class UserController {
    * @param res 응답 데이터
    */
   @Get()
+  // @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  public async getList(@Query('userId') userId: string, @Query('userNm') userNm: string, @Res() res: Response) {
+  getList() {
     return this.userService.findAll().pipe(map((user) => ({ event: 'findAll', data: user })));
   }
 
-  // /**
-  //  * 특정 사용자를 조회한다.
-  //  *
-  //  * @param userId 사용자식별자
-  //  * @param res 응답 데이터
-  //  */
-  // @Get(':userId')
-  // // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  // public async get(@Param('userId') userId: string, @Res() res: Response) {
-  //   const userResponse: User = await this.userRetireveService.get(userId);
-
-  //   res.status(HttpStatus.OK).send(userResponse);
-  // }
-
-  // /**
-  //  * 신규 사용자를 등록한다.
-  //  *
-  //  * @param userRequest 요청 데이터
-  //  * @param res 응답 데이터
-  //  */
-  // @Post()
-  // // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  // public async create(@Body() userRequest: UserRequest, @Res() res: Response) {
-  //   await this.userChangeService.createUser(userRequest);
-
-  //   res.status(HttpStatus.CREATED).send();
-  // }
-
-  // /**
-  //  * 특정 사용자를 변경한다.
-  //  *
-  //  * @param userId 사용자식별자
-  //  * @param userRequest 요청 데이터
-  //  * @param res 응답 데이터
-  //  */
-  // @Put(':userId')
+  /**
+   * 특정 사용자를 조회한다.
+   *
+   * @param userId 사용자식별자
+   * @param res 응답 데이터
+   */
+  @Get(':userId')
+  @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  // public async update(@Param('userId') userId: string, @Body() userRequest: UserRequest, @Res() res: Response) {
-  //   await this.userChangeService.updateUser(userId, userRequest);
+  get(@Param('userId') userId: string) {
+    return this.userService.find(userId).pipe(map((user) => ({ event: 'findAll', data: user })));
+  }
 
-  //   res.status(HttpStatus.CREATED).send();
-  // }
-
-  // /**
-  //  * 특정 사용자를 삭제한다.
-  //  *
-  //  * @param userId 사용자식별자
-  //  * @param res 응답 데이터
-  //  */
-  // @Delete(':userId')
+  /**
+   * 신규 사용자를 등록한다.
+   *
+   * @param userRequest 요청 데이터
+   * @param res 응답 데이터
+   */
+  @Post()
+  @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  // public async delete(@Param('userId') userId: string, @Res() res: Response) {
-  //   await this.userChangeService.deleteUser(userId);
+  create(@Body() userRequest: any) {
+    this.userService.save(userRequest).pipe();
+  }
 
-  //   res.status(HttpStatus.CREATED).send();
-  // }
+  /**
+   * 특정 사용자를 변경한다.
+   *
+   * @param userId 사용자식별자
+   * @param userRequest 요청 데이터
+   * @param res 응답 데이터
+   */
+  @Put(':userId')
+  @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
+  update(@Param('userId') userId: string, @Body() userRequest: any) {
+    return this.userService.modify(userId, userRequest);
+  }
+
+  /**
+   * 특정 사용자를 삭제한다.
+   *
+   * @param userId 사용자식별자
+   * @param res 응답 데이터
+   */
+  @Delete(':userId')
+  @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
+  delete(@Param('userId') userId: string) {
+    this.userService.delete(userId);
+  }
 }
