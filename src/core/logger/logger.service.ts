@@ -39,7 +39,7 @@ export class LoggerService implements NestLoggerService {
    *
    * @param context 컨텍스트
    */
-  public setContext(context: string) {
+  setContext(context: string) {
     this.context = context;
   }
 
@@ -50,7 +50,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  public log(message: string | any, logParam: LogParam): void {
+  log(message: string | any, logParam: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -59,7 +59,7 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      this.existLogger(message, 'warn', context);
+      return this.existLogger(message, 'log', context);
     }
 
     return this.logger.log(toJson(message, args), context, { ...args });
@@ -71,21 +71,22 @@ export class LoggerService implements NestLoggerService {
    * @param message 메시지
    * @param trace 에러 트레이스
    * @param context 컨텍스트
+   * @param args 아규먼트
    * @returns {stirng}
    */
-  public error(message: any, logParam: LogParam): void {
+  error(message: any, logParam: LogParam, ...args): void {
     // eslint-disable-next-line prefer-const
-    let { context, trace, args } = logParam;
+    let { context, trace } = logParam;
 
     if (isUndefined(context)) {
       context = this.context;
     }
 
     if (message instanceof Error || typeof message === 'object') {
-      this.existLogger(message, 'error', context, trace);
+      return this.existLogger(message, 'error', context, trace, args);
     }
 
-    return this.logger.error(toJson(message, args), { stack: [trace || message.stack] }, context);
+    return this.logger.error(message, message.stack, context);
   }
 
   /**
@@ -95,7 +96,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  public warn(message: any, logParam: LogParam): void {
+  warn(message: any, logParam: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -104,7 +105,7 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      this.existLogger(message, 'warn');
+      return this.existLogger(message, 'warn');
     }
 
     return this.logger.warn(toJson(message, args), context, { ...args });
@@ -117,7 +118,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  public debug?(message: any, logParam: LogParam): void {
+  debug?(message: any, logParam: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -126,7 +127,7 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      this.existLogger(message, 'debug', context);
+      return this.existLogger(message, 'debug', context);
     }
 
     return this.logger.debug(toJson(message, args), context, { ...args });
@@ -139,7 +140,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  public verbose?(message: any, logParam: LogParam): any {
+  verbose?(message: any, logParam: LogParam): any {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -148,7 +149,7 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      this.existLogger(message, 'verbose', context);
+      return this.existLogger(message, 'verbose', context);
     }
 
     return this.logger.verbose(toJson(message, args), context, { ...args });
@@ -161,23 +162,22 @@ export class LoggerService implements NestLoggerService {
    * @param logLevel 로그레벨
    * @param context 켄텍스트
    * @param trace 트레이스
+   * @param args 아규먼트
    * @returns {string}
    */
-  private existLogger(message: any, logLevel: LogLevel, context?: any, trace?: any) {
+  private existLogger(message: any, logLevel: LogLevel, context?: any, trace?: any, ...args: any) {
     const { message: msg, ...meta } = message;
 
     switch (logLevel) {
       case 'log':
         return this.logger.log(msg as string, { context, ...meta });
       case 'error':
+        // 기본 에러 객체 핸들링
         if (message instanceof Error) {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { message: msg, name, stack, ...meta } = message;
-
-          return this.logger.error(msg, { context, stack: [trace || message.stack], ...meta });
+          return this.logger.error(message, message?.stack, context, ...args);
         }
 
-        if (typeof message === 'object') {
+        if (typeof msg === 'object') {
           const { message: msg, ...meta } = message;
 
           return this.logger.error(msg as string, { context, stack: [trace], ...meta });

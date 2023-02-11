@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-import { MmtError } from 'common';
+import { IError } from 'common';
 import { LoggerService } from 'core';
 import { Response } from 'express';
 import { toJson } from 'helper';
@@ -11,7 +11,7 @@ import { toJson } from 'helper';
 export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(private readonly loggerService: LoggerService) {}
 
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: unknown & Error, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
     let message = '요청을 처리하던 중 예상하지 못한 오류가 발생했습니다. \n 관리자에게 문의해주세요.';
     let code = 'Unknown Code';
@@ -26,13 +26,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       // 오류코드를 사용한 에러(IError)라면...
       if (!(typeof errorData === 'string')) {
-        const iError = errorData as MmtError;
+        const iError = errorData as IError;
         code = iError.code;
         message = toJson(iError.message, iError.msgArgs);
       }
+    // 기본 에러 정의
+    } else {
+      this.loggerService.error(exception, {
+        context: GlobalExceptionFilter.name,
+        trace: exception?.stack
+      });
     }
-
-    this.loggerService.debug(`${exception}`, {});
 
     response.status(statusCode).json({
       error: {

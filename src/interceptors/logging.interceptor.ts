@@ -32,7 +32,7 @@ export class HttpLoggingInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((err: any) =>
         throwError(() => {
-          if (!isNil(err.response)) {
+          if (!isNil(err?.response)) {
             const msg = `Code: ${err.response.code} Message: ${err.response.message}`;
 
             this.loggerService.error(

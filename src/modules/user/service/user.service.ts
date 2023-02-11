@@ -1,116 +1,55 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'core';
-import { EMPTY, from, mergeMap, Observable, of, throwIfEmpty } from 'rxjs';
+import { EMPTY, from, mergeMap, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+
+  constructor(private prismaService: PrismaService) { }
+
   findAll(): Observable<any> {
-    try {
-      return from(this.prismaService.user.findMany()).pipe(
-        mergeMap((users) => (users ? of({ users }) : EMPTY)),
-        throwIfEmpty(() => new Error('NOT FOUND')),
-      );
-    } catch (err) {
-      throw err;
-    }
-  }
-  find(userId: string): Observable<any> {
-    try {
-      return from(
-        this.prismaService.user.findMany({
-          where: {
-            userId,
-          },
-        }),
-      ).pipe(
-        mergeMap((users) => (users ? of({ users }) : EMPTY)),
-        throwIfEmpty(() => new Error('NOT FOUND')),
-      );
-    } catch (err) {
-      throw err;
-    }
-  }
-  save(data: any): Observable<any> {
-    return from(this.prismaService.user.create({ data: data.user })).pipe(
-      mergeMap((users) =>
-        users
-          ? of({
-              status: 200,
-              transactionDt: Date.now(),
-              errMessage: {},
-            })
-          : EMPTY,
-      ),
-      throwIfEmpty(() =>
-        of({
-          status: 500,
-          transactionDt: Date.now(),
-          errMessage: {
-            errCode: 500,
-            errMessage: new Error('create fial'),
-          },
-        }),
-      ),
+    return from(this.prismaService.user.findMany()).pipe(
+      // TODO 여기서 resoponse 수정
+      mergeMap((users) => of({ users })),
     );
   }
-  modify(userId: string, data: any): Observable<any> {
+
+  find(userId: string): Observable<any> {
     return from(
-      this.prismaService.user.update({
-        data: data.user,
+      this.prismaService.user.findMany({
         where: {
-          userId: data.user.userId,
+          userId,
         },
       }),
     ).pipe(
-      mergeMap((users) =>
-        users
-          ? of({
-              status: 200,
-              transactionDt: Date.now(),
-              errMessage: {},
-            })
-          : EMPTY,
-      ),
-      throwIfEmpty(() =>
-        of({
-          status: 500,
-          transactionDt: Date.now(),
-          errMessage: {
-            errCode: 500,
-            errMessage: new Error('modify fail'),
-          },
-        }),
-      ),
+      // TODO 여기서 resoponse 수정
+      mergeMap((user) => of({ user })),
     );
   }
-  delete(data: any): Observable<any> {
+
+  save(userCreateInput: Prisma.UserCreateInput): Observable<any> {
+    return from(this.prismaService.user.create({ data: userCreateInput }))
+  }
+
+  modify(userId: string, userUpdateInput: Prisma.UserUpdateInput): Observable<any> {
+    return from(
+      this.prismaService.user.update({
+        data: userUpdateInput,
+        where: {
+          userId
+        },
+      }),
+    );
+  }
+
+  delete(userId: string): Observable<any> {
     return from(
       this.prismaService.user.delete({
         where: {
-          userId: data.user.userId,
+          userId,
         },
       }),
-    ).pipe(
-      mergeMap((users) =>
-        users
-          ? of({
-              status: 200,
-              transactionDt: Date.now(),
-              errMessage: {},
-            })
-          : EMPTY,
-      ),
-      throwIfEmpty(() =>
-        of({
-          status: 500,
-          transactionDt: Date.now(),
-          errMessage: {
-            errCode: 500,
-            errMessage: new Error('delete fial'),
-          },
-        }),
-      ),
-    );
+    )
   }
 }

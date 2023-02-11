@@ -2,7 +2,6 @@ import { ClassSerializerInterceptor, Logger } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { CONFIG_KEY } from 'common';
 import compression from 'compression';
 import { ConfigModule, ConfigService, winstonConfig } from 'core';
@@ -34,8 +33,6 @@ async function bootstrap() {
       app.enable('trust proxy');
       app.use(compression());
       app.use(helmet()); // TODO: helment 설치
-
-      app.use(Throttle(60, 10));
     } else {
       // TODO: 익숙해지면 지우자localhost:3333/api
       SwaggerModule.setup(

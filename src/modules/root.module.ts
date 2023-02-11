@@ -8,4 +8,4 @@ import { UserModule } from 'modules/user/user.module';
 @Module({
   imports: [UserModule, RoleModule],
 })
-export class BizModule {}
+export class RootModule {}

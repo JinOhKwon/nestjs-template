@@ -1,9 +1,9 @@
-import { AbstractEntity, YesOrNoEnum } from 'common';
+import { YesOrNoEnum } from 'common';
 
 /**
  * 역할 엔티티
  */
-export class Role extends AbstractEntity {
+export class Role {
   /**
    * 역할 일련번호
    */
@@ -32,7 +32,6 @@ export class Role extends AbstractEntity {
    * @param roleUseYn 사용여부
    */
   constructor(roleId: string, roleNm: string, roleUseYn: YesOrNoEnum) {
-    super();
     this.roleId = roleId;
     this.roleNm = roleNm;
     this.roleUseYn = roleUseYn;

@@ -3,13 +3,13 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { GlobalExceptionFilter } from 'filters';
 import { HttpLoggingInterceptor } from 'interceptors';
 import { AwsModule, ConfigModule, HealthModule, LoggerModule, RedisModule, RouteScanModule, WssModule } from 'core';
-import { BizModule } from './modules/biz.module';
+import { RootModule } from './modules/root.module';
 
 /**
  * app 모듈
  */
 @Module({
-  imports: [LoggerModule, AwsModule, ConfigModule, HealthModule, RedisModule, RouteScanModule, WssModule, BizModule],
+  imports: [LoggerModule, AwsModule, ConfigModule, HealthModule, RedisModule, RouteScanModule, WssModule, RootModule],
   providers: [
     {
       provide: APP_FILTER,

@@ -1,4 +1,4 @@
-import { MmtError } from 'common';
+import { IError } from 'common';
 
 export const AUTH_ERROR = 'AuthError';
 
@@ -17,7 +17,7 @@ export enum AuthErrorEnum {
 /**
  * 열거형 상수에 해당하는 오류 코드와 메시지이다.
  */
-export const AuthError: Readonly<{ [key in AuthErrorEnum]: MmtError }> = {
+export const AuthError: Readonly<{ [key in AuthErrorEnum]: IError }> = {
   [AuthErrorEnum.AUTH001]: {
     name: AUTH_ERROR,
     code: 'AUTH001',
