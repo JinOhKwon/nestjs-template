@@ -3,63 +3,85 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 /// 유저 모델
 model User {
   /// 사용자 시퀀스
-  userSeq        Int              @id @default(autoincrement()) @map("USER_SEQ")
+  userSeq        Int                 @id @default(autoincrement()) @map("user_seq")
   /// 사용자 식별자
-  userId         String           @unique @map("USER_ID") @db.VarChar(255)
+  userId         String              @unique @map("user_id") @db.VarChar(255)
   /// 사용자 명
-  userNm         String           @map("USER_NM") @db.VarChar(255)
+  userNm         String              @map("user_nm") @db.VarChar(255)
   /// 사용자 비밀번호
-  userPwd        String           @map("USER_PWD") @db.VarChar(255)
+  userPwd        String              @map("user_pwd") @db.VarChar(255)
   /// 사용자 폰 번호
-  userPhone      String           @map("USER_PHONE") @db.VarChar(255)
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
-
+  userPhone      String              @map("user_phone") @db.VarChar(255)
+  /// 등록자 아이디
+  regId          String              @map("reg_id") @db.VarChar(255)
+  /// 등록자 명
+  regNm          String              @map("reg_nm") @db.VarChar(255)
+  /// 등록 일시
+  regDt          DateTime            @map("reg_dt") @default(now())
+  /// 변경자 아이디
+  chgId          String              @map("chg_id") @db.VarChar(255)
+  /// 변경자 명
+  chgNm          String              @map("chg_nm") @db.VarChar(255)
+  /// 변경 일시
+  chgDt          DateTime            @map("chg_dt") @updatedAt
   /// 사용자 사용 여부
-  userUseYn      YesOrNo @map("USER_USE_YN")
+  userUseYn      YesOrNo @map("user_use_yn")
   /// 사용자 역할 맵핑
   user_role_mapp UserRoleMapp[]
 
-  @@map("USER")
+  @@map("tb_user")
 }
 
 /// 사용자 역할 맵핑
 model UserRoleMapp {
   /// 사용자 시퀀스
-  userSeq Int  @map("USER_SEQ")
+  userSeq Int  @map("user_seq")
   /// 역할 시퀀스
-  roleSeq Int  @map("ROLE_SEQ")
+  roleSeq Int  @map("role_seq")
   /// 역할 관계
   roles   Role @relation(fields: [roleSeq], references: [roleSeq], onDelete: NoAction, onUpdate: NoAction)
   /// 사용자 관계
   users   User @relation(fields: [userSeq], references: [userSeq], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([userSeq, roleSeq], map: "USER_SEQ_ROLE_SEQ_UNIQUE")
-  @@index([roleSeq], map: "USER_ROLE_MAPP_ROLE_SEQ_fkey")
-  @@map("USER_ROLE_MAPP")
+  @@unique([userSeq, roleSeq], map: "user_seq_role_seq_unique")
+  @@index([roleSeq], map: "user_role_mapp_role_seq_fkey")
+  @@map("tb_user_role_mapp")
 }
 
 /// 역할 모델
 model Role {
   /// 역할 시퀀스
-  roleSeq        Int            @id @default(autoincrement()) @map("ROLE_SEQ")
+  roleSeq        Int            @id @default(autoincrement()) @map("role_seq")
   /// 역할 식별자
-  roleId         String         @unique @map("ROLE_ID") @db.VarChar(255)
+  roleId         String         @unique @map("role_id") @db.VarChar(255)
   /// 역할 명
-  roleNm         String         @map("ROLE_NM") @db.VarChar(255)
+  roleNm         String         @map("role_nm") @db.VarChar(255)
   /// 역할 사용 여부
-  roleUseYn      YesOrNo        @map("ROLE_USE_YN")
+  roleUseYn      YesOrNo        @map("role_use_yn")
+  /// 등록자 아이디
+  regId          String              @map("reg_id") @db.VarChar(255)
+  /// 등록자 명
+  regNm          String              @map("reg_nm") @db.VarChar(255)
+  /// 등록 일시
+  regDt          DateTime            @map("reg_dt") @default(now())
+  /// 변경자 아이디
+  chgId          String              @map("chg_id") @db.VarChar(255)
+  /// 변경자 명
+  chgNm          String              @map("chg_nm") @db.VarChar(255)
+  /// 변경 일시
+  chgDt          DateTime            @map("chg_dt") @updatedAt
   /// 사용자 역할 맵핑
   user_role_mapp UserRoleMapp[]
 
-  @@map("ROLE")
+  @@map("tb_role")
 }
 
 /// Y형식, N 형식
