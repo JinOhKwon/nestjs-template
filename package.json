@@ -13,6 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "prisma:gen": "prisma generate",
     "studio": "npx prisma studio",
     "migrate:dev": "prisma migrate dev --name autoMigrate --preview-feature",
     "migrate:dev:create": "prisma migrate dev --create-only --preview-feature",
@@ -60,6 +61,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.3.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -78,6 +80,7 @@
     "jest": "28.1.3",
     "prettier": "^2.3.2",
     "prisma": "^4.9.0",
+    "prisma-erd-generator": "^1.2.5",
     "source-map-support": "^0.5.20",
     "supertest": "^6.1.3",
     "ts-jest": "28.0.8",

@@ -1,9 +1,9 @@
 import { YesOrNoEnum } from 'common';
 
 /**
- * 사용자 응답 데이터
+ * 사용자 응답
  */
-export class UserResponse {
+export interface UserResponse {
   /**
    * 사용자 아이디
    */
@@ -24,18 +24,4 @@ export class UserResponse {
    * 사용여부
    */
   readonly userUseYn: YesOrNoEnum;
-
-  /**
-   * 생성자
-   *
-   * @param user 사용자
-   */
-  constructor() {
-    // super(user);
-    // this.userId = user.userId;
-    // this.userNm = user.userNm;
-    // this.userPwd = user.userPwd;
-    // this.userPhone = user.userPhone;
-    // this.userUseYn = user.userUseYn;
-  }
 }

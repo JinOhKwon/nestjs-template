@@ -2,6 +2,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+  /// @see https://github.com/keonik/prisma-erd-generator
+  /// svg (default: ./prisma/ERD.svg), png, pdf, md
+  output = "../prisma/nestjs-erd.svg"
+}
+
 datasource db {
   provider          = "mysql"
   url               = env("DATABASE_URL")
