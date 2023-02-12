@@ -83,5 +83,11 @@ yarn.lock
 # micro json file
 /temp
 
-# Prisma
+# Prisma erd exclude
 /prisma/*.svg
+/prisma/*.png
+/prisma/*.pdf
+/prisma/*.md
+
+# Docs
+/docs

@@ -1,7 +1,9 @@
+/// prisma client 생성
 generator client {
   provider = "prisma-client-js"
 }
 
+/// erd 문서 생성
 generator erd {
   provider = "prisma-erd-generator"
   /// @see https://github.com/keonik/prisma-erd-generator
@@ -9,10 +11,29 @@ generator erd {
   output = "../prisma/nestjs-erd.svg"
 }
 
+/// 데이터베이스 연결
 datasource db {
   provider          = "mysql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+/// erd 문서 생성
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+  output   = "../docs"
+}
+
+/// prisma class 생성
+generator prismaClassGenerator {
+  provider = "prisma-class-generator"
+  output   = "../src/@generated"
+  dryRun   = false
+  useSwagger = true
+  swaggerOutput = "../src/@generated/swagger"
+  makeIndexFile = true
+  indexOutput = "../src/@generated/index.ts"
+  separateRelationFields = true
 }
 
 /// 유저 모델
