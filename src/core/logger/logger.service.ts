@@ -27,7 +27,7 @@ export class LoggerService implements NestLoggerService {
   /**
    * 로거
    */
-  private logger = new NestLogger();
+  private nestLogger = new NestLogger();
 
   /**
    * 컨텍스트
@@ -50,7 +50,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  log(message: string | any, logParam: LogParam): void {
+  log(message: string | any, logParam?: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -62,7 +62,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'log', context);
     }
 
-    return this.logger.log(toJson(message, args), context, { ...args });
+    return this.nestLogger.log(toJson(message, args), context, { ...args });
   }
 
   /**
@@ -74,7 +74,7 @@ export class LoggerService implements NestLoggerService {
    * @param args 아규먼트
    * @returns {stirng}
    */
-  error(message: any, logParam: LogParam, ...args): void {
+  error(message: any, logParam?: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, trace } = logParam;
 
@@ -83,10 +83,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (message instanceof Error || typeof message === 'object') {
-      return this.existLogger(message, 'error', context, trace, args);
+      return this.existLogger(message, 'error', context, trace);
     }
 
-    return this.logger.error(message, message.stack, context);
+    return this.nestLogger.error(message, message.stack, context);
   }
 
   /**
@@ -96,7 +96,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  warn(message: any, logParam: LogParam): void {
+  warn(message: any, logParam?: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -108,7 +108,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'warn');
     }
 
-    return this.logger.warn(toJson(message, args), context, { ...args });
+    return this.nestLogger.warn(toJson(message, args), context, { ...args });
   }
 
   /**
@@ -118,7 +118,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  debug?(message: any, logParam: LogParam): void {
+  debug?(message: any, logParam?: LogParam): void {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -130,7 +130,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'debug', context);
     }
 
-    return this.logger.debug(toJson(message, args), context, { ...args });
+    return this.nestLogger.debug(toJson(message, args), context, { ...args });
   }
 
   /**
@@ -140,7 +140,7 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    * @returns {string}
    */
-  verbose?(message: any, logParam: LogParam): any {
+  verbose?(message: any, logParam?: LogParam): any {
     // eslint-disable-next-line prefer-const
     let { context, args } = logParam;
 
@@ -152,7 +152,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'verbose', context);
     }
 
-    return this.logger.verbose(toJson(message, args), context, { ...args });
+    return this.nestLogger.verbose(toJson(message, args), context, { ...args });
   }
 
   /**
@@ -170,25 +170,25 @@ export class LoggerService implements NestLoggerService {
 
     switch (logLevel) {
       case 'log':
-        return this.logger.log(msg as string, { context, ...meta });
+        return this.nestLogger.log(msg as string, { context, ...meta });
       case 'error':
         // 기본 에러 객체 핸들링
         if (message instanceof Error) {
-          return this.logger.error(message, message?.stack, context, ...args);
+          return this.nestLogger.error(message, message?.stack, context, ...args);
         }
 
         if (typeof msg === 'object') {
           const { message: msg, ...meta } = message;
 
-          return this.logger.error(msg as string, { context, stack: [trace], ...meta });
+          return this.nestLogger.error(msg as string, { context, stack: [trace], ...meta });
         }
         break;
       case 'warn':
-        return this.logger.warn(msg as string, { context, ...meta });
+        return this.nestLogger.warn(msg as string, { context, ...meta });
       case 'debug':
-        return this.logger.debug(msg as string, { context, ...meta });
+        return this.nestLogger.debug(msg as string, { context, ...meta });
       case 'verbose':
-        return this.logger.verbose(msg as string, { context, ...meta });
+        return this.nestLogger.verbose(msg as string, { context, ...meta });
     }
   }
 }

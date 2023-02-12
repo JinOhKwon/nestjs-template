@@ -1,25 +1,34 @@
 import { Injectable, OnModuleInit, INestApplication } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { LoggerService } from 'core/logger';
-import { DatabaseLogger } from './database-logger.service';
+import { PrismaLogger } from './prisma-logger.service';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor(private loggerService: LoggerService, private databaseLogger: DatabaseLogger) {
+  constructor(private loggerService: LoggerService, private databaseLogger: PrismaLogger) {
     super({
       log: [
         { emit: 'event', level: 'query' },
-        { emit: 'stdout', level: 'info' },
-        { emit: 'stdout', level: 'warn' },
-        { emit: 'stdout', level: 'error' },
+        { emit: 'event', level: 'info' },
+        { emit: 'event', level: 'warn' },
+        { emit: 'event', level: 'error' },
       ],
       errorFormat: 'colorless',
     });
   }
 
   async onModuleInit() {
-    this.$on('query' as any, (event) => {
-      this.databaseLogger.log(event as Prisma.QueryEvent)
+    this.$on('query' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
+      this.databaseLogger.query(event as Prisma.QueryEvent)
+    });
+    this.$on('info' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
+      this.databaseLogger.info(event as Prisma.QueryEvent)
+    });
+    this.$on('warn' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
+      this.databaseLogger.warn(event as Prisma.QueryEvent)
+    });
+    this.$on('error' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
+      this.databaseLogger.error(event as Prisma.QueryEvent)
     });
     await this.$connect();
   }

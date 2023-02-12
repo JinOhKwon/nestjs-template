@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put } from '@nestjs/common';
 import { AuthRole } from 'common';
 import { Roles } from 'decorators';
 import { map } from 'rxjs';
@@ -52,7 +52,7 @@ export class UserController {
    * @param res 응답 데이터
    */
   @Post()
-  @HttpCode(HttpStatus.OK)
+  @HttpCode(HttpStatus.CREATED)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   create(@Body() userRequest: any) {
     return this.userService.save(userRequest);
@@ -66,8 +66,23 @@ export class UserController {
    * @param res 응답 데이터
    */
   @Put(':userId')
+  @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   update(@Param('userId') userId: string, @Body() userRequest: any) {
+    return this.userService.modify(userId, userRequest);
+  }
+
+  /**
+   * 특정 사용자를 변경한다.
+   *
+   * @param userId 사용자식별자
+   * @param userRequest 요청 데이터
+   * @param res 응답 데이터
+   */
+  @Patch(':userId')
+  @HttpCode(HttpStatus.OK)
+  // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
+  patch(@Param('userId') userId: string, @Body() userRequest: any) {
     return this.userService.modify(userId, userRequest);
   }
 
@@ -78,6 +93,7 @@ export class UserController {
    * @param res 응답 데이터
    */
   @Delete(':userId')
+  @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   delete(@Param('userId') userId: string) {
     return this.userService.delete(userId);
