@@ -3,7 +3,6 @@
 # 관련 자료
 
 [prisma reference](https://www.prisma.io/docs/reference)
-[]
 
 # 프로젝트 실행 순서
 
@@ -11,10 +10,10 @@
 $ yarn install
 $ npx prisma
 $ npx prisma db push
+
 ```
 
 # prisma studio
-
 ```
 // prisma용 웹 DB클라이언트 라고 생각하면 된다.
 $ npx prisma stuido
@@ -49,6 +48,10 @@ $ npx prisma db pull
 
 // DB를 수동으로 수정한뒤에 마이그레이션 파일에 저장하기
 $ npx prisma migrate dev --name 마이그레이션
-
-
 ```
+
+# TODO List
+  - [ ] @submodule git 분리시키기
+  - [ ] commitlint 적용 
+  - [ ] 기본 role crud 완료
+  - [ ] Test code 작성
