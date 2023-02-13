@@ -1,15 +1,15 @@
 import { Injectable, RequestMethod } from '@nestjs/common';
+import { CONTROLLER_WATERMARK, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { DiscoveryService, Reflector } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
-import { CONTROLLER_WATERMARK, PATH_METADATA, METHOD_METADATA } from '@nestjs/common/constants';
 
 @Injectable()
 export class RouteScanService {
   constructor(
     private readonly discoveryService: DiscoveryService,
     private readonly metadataScannerService: MetadataScanner,
-    private readonly reflector: Reflector
+    private readonly reflector: Reflector,
   ) {
     const controllers = this.discoveryService.getControllers().filter((wrapper: InstanceWrapper) => {
       if (!wrapper?.metatype) {
@@ -25,7 +25,7 @@ export class RouteScanService {
       const instance = controller.instance;
       const prototype = Object.getPrototypeOf(instance);
 
-      const controller_path: string = this.reflector.get(PATH_METADATA, controller.metatype);
+      const controllerPath: string = this.reflector.get(PATH_METADATA, controller.metatype);
 
       this.metadataScannerService.scanFromPrototype(instance, prototype, (name) => {
         const handler = prototype[name];
@@ -33,16 +33,16 @@ export class RouteScanService {
         const path: string = Reflect.getMetadata(PATH_METADATA, handler);
         const method: RequestMethod = Reflect.getMetadata(METHOD_METADATA, handler);
 
-        if (path != null && method != null) {
+        if (path !== null && method !== null) {
           if (path === '/') {
             routes.push({
               method: RequestMethod[method],
-              fullPath: `/${controller_path}`,
+              fullPath: `/${controllerPath}`,
             });
           } else {
             routes.push({
               method: RequestMethod[method],
-              fullPath: `/${controller_path}/${path}`,
+              fullPath: `/${controllerPath}/${path}`,
             });
           }
         }

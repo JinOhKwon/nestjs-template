@@ -19,16 +19,16 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   async onModuleInit() {
     this.$on('query' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.query(event as Prisma.QueryEvent)
+      this.databaseLogger.query(event as Prisma.QueryEvent);
     });
     this.$on('info' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.info(event as Prisma.QueryEvent)
+      this.databaseLogger.info(event as Prisma.QueryEvent);
     });
     this.$on('warn' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.warn(event as Prisma.QueryEvent)
+      this.databaseLogger.warn(event as Prisma.QueryEvent);
     });
     this.$on('error' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.error(event as Prisma.QueryEvent)
+      this.databaseLogger.error(event as Prisma.QueryEvent);
     });
     await this.$connect();
   }

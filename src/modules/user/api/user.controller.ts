@@ -1,7 +1,4 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put } from '@nestjs/common';
-import { AuthRole } from 'common';
-import { Roles } from 'decorators';
-import { map } from 'rxjs';
 import { UserService } from '../service/user.service';
 
 /**
@@ -29,7 +26,7 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   getList() {
-      return this.userService.findAll();
+    return this.userService.findAll();
   }
 
   /**

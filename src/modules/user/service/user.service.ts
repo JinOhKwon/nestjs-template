@@ -5,8 +5,7 @@ import { EMPTY, from, mergeMap, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
-
-  constructor(private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) {}
 
   findAll(): Observable<any> {
     return from(this.prismaService.user.findMany()).pipe(
@@ -29,7 +28,7 @@ export class UserService {
   }
 
   save(userCreateInput: Prisma.UserCreateInput): Observable<any> {
-    return from(this.prismaService.user.create({ data: userCreateInput }))
+    return from(this.prismaService.user.create({ data: userCreateInput }));
   }
 
   modify(userId: string, userUpdateInput: Prisma.UserUpdateInput): Observable<any> {
@@ -37,7 +36,7 @@ export class UserService {
       this.prismaService.user.update({
         data: userUpdateInput,
         where: {
-          userId
+          userId,
         },
       }),
     );
@@ -50,6 +49,6 @@ export class UserService {
           userId,
         },
       }),
-    )
+    );
   }
 }

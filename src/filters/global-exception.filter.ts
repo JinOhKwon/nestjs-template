@@ -30,11 +30,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         code = iError.code;
         message = toJson(iError.message, iError.msgArgs);
       }
-    // application 및 runtime(모든) 에러 정의
+      // application 및 runtime(모든) 에러 정의
     } else {
       this.loggerService.error(exception, {
         context: GlobalExceptionFilter.name,
-        trace: exception?.stack
+        trace: exception?.stack,
       });
     }
 

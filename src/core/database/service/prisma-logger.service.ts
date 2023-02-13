@@ -1,9 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
-import { ConfigService } from "core/config";
-import { LoggerService } from "core/logger";
-import moment from "moment";
-import { highlight } from "sql-highlight";
+import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+import { LoggerService } from 'core/logger';
+import moment from 'moment';
+import { highlight } from 'sql-highlight';
 
 /**
  * 데이터베이스 로거
@@ -13,11 +12,7 @@ export class PrismaLogger {
   /**
    * 디버그 모드
    */
-  private debugMode: boolean = false;
-  /**
-   *
-   */
-  highlighter: any;
+  private debugMode = false;
   // /**
   //  * 생성자
   //  *
@@ -31,7 +26,7 @@ export class PrismaLogger {
    *
    * @param option 옵션
    */
-  constructor(private loggerService?: LoggerService) { }
+  constructor(private loggerService?: LoggerService) {}
   /**
    * 로그
    *
@@ -59,48 +54,52 @@ export class PrismaLogger {
         context: PrismaLogger.name,
       });
     } else {
-      this.loggerService.log(`
+      this.loggerService.log(
+        `
         Query: ${highlight(query)}
         - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
         {
           context: PrismaLogger.name,
-        }
+        },
       );
     }
   }
 
   info(queryEvent: Prisma.QueryEvent) {
     const { timestamp, query, params, duration } = queryEvent;
-    this.loggerService.log(`
+    this.loggerService.log(
+      `
         Query: ${highlight(query)}
         - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
-      }
+      },
     );
   }
 
   warn(queryEvent: Prisma.QueryEvent) {
     const { timestamp, query, params, duration } = queryEvent;
 
-    this.loggerService.warn(`
+    this.loggerService.warn(
+      `
         Query: ${highlight(query)}
         - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
-      }
+      },
     );
   }
 
   error(queryEvent: Prisma.QueryEvent) {
     const { timestamp, query, params, duration } = queryEvent;
 
-    this.loggerService.error(`
+    this.loggerService.error(
+      `
         Query: ${highlight(query)}
         - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
-      }
+      },
     );
   }
 

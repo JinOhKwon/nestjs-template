@@ -4,9 +4,7 @@ import { WssGateway } from './wss.gateway';
 
 @Module({
   imports: [],
-  providers: [
-    WssGateway,
-  ],
+  providers: [WssGateway],
   exports: [WssGateway],
   controllers: [],
 })

@@ -1,6 +1,4 @@
-
 import { Injectable } from '@nestjs/common';
-
 
 @Injectable()
 export class RedisService {}
@@ -86,4 +84,3 @@ export class RedisService {}
 //     await this.pubClient.mset(data);
 //   }
 // }
-

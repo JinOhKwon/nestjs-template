@@ -15,7 +15,6 @@ export class RoleController {
   //  * @param roleChangeService 역할 변경 서비스
   //  */
   // constructor(private readonly roleRetireveService: RoleRetireveService, private readonly roleChangeService: RoleChangeService) {}
-
   // /**
   //  * 전제 역할 목록을 조회한다.
   //  *
@@ -27,10 +26,8 @@ export class RoleController {
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   // public async getList(@Res() res: Response) {
   //   const roleResponses: Array<Role> = await this.roleRetireveService.getList();
-
   //   res.status(HttpStatus.OK).send(roleResponses);
   // }
-
   // /**
   //  * 특정 역할을 조회한다.
   //  *
@@ -41,10 +38,8 @@ export class RoleController {
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   // public async get(@Param('roleId') roleId: string, @Res() res: Response) {
   //   const roleResponse: Role = await this.roleRetireveService.get(roleId);
-
   //   res.status(HttpStatus.OK).send(roleResponse);
   // }
-
   // /**
   //  * 신규 역할을 등록한다.
   //  *
@@ -55,10 +50,8 @@ export class RoleController {
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   // public async create(@Body() roleRequest: RoleRequest, @Res() res: Response) {
   //   await this.roleChangeService.createRole(roleRequest);
-
   //   res.status(HttpStatus.CREATED).send();
   // }
-
   // /**
   //  * 특정 역할을 변경한다.
   //  *
@@ -70,10 +63,8 @@ export class RoleController {
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   // public async update(@Param('roleId') roleId: string, @Body() roleRequest: RoleRequest, @Res() res: Response) {
   //   await this.roleChangeService.updateRole(roleId, roleRequest);
-
   //   res.status(HttpStatus.CREATED).send();
   // }
-
   // /**
   //  * 특정 역할을 삭제한다.
   //  *
@@ -84,7 +75,6 @@ export class RoleController {
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
   // public async delete(@Param('roleId') roleId: string, @Res() res: Response) {
   //   await this.roleChangeService.deleteRole(roleId);
-
   //   res.status(HttpStatus.CREATED).send();
   // }
 }
