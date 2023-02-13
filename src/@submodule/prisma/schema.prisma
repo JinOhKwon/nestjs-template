@@ -8,7 +8,7 @@ generator erd {
   provider = "prisma-erd-generator"
   /// @see https://github.com/keonik/prisma-erd-generator
   /// svg (default: ./prisma/ERD.svg), png, pdf, md
-  output = "../prisma/nestjs-erd.svg"
+  output   = "../prisma/nestjs-erd.svg"
 }
 
 /// erd 문서 생성
@@ -27,29 +27,29 @@ datasource db {
 /// 유저 모델
 model User {
   /// 사용자 시퀀스
-  userSeq        Int                 @id @default(autoincrement()) @map("user_seq")
+  userSeq        Int            @id @default(autoincrement()) @map("user_seq")
   /// 사용자 식별자
-  userId         String              @unique @map("user_id") @db.VarChar(255)
+  userId         String         @unique @map("user_id") @db.VarChar(255)
   /// 사용자 명
-  userNm         String              @map("user_nm") @db.VarChar(255)
+  userNm         String         @map("user_nm") @db.VarChar(255)
   /// 사용자 비밀번호
-  userPwd        String              @map("user_pwd") @db.VarChar(255)
+  userPwd        String         @map("user_pwd") @db.VarChar(255)
   /// 사용자 폰 번호
-  userPhone      String              @map("user_phone") @db.VarChar(255)
+  userPhone      String         @map("user_phone") @db.VarChar(255)
   /// 등록자 아이디
-  regId          String              @map("reg_id") @db.VarChar(255)
+  regId          String         @map("reg_id") @db.VarChar(255)
   /// 등록자 명
-  regNm          String              @map("reg_nm") @db.VarChar(255)
+  regNm          String         @map("reg_nm") @db.VarChar(255)
   /// 등록 일시
-  regDt          DateTime            @map("reg_dt") @default(now())
+  regDt          DateTime       @default(now()) @map("reg_dt")
   /// 변경자 아이디
-  chgId          String              @map("chg_id") @db.VarChar(255)
+  chgId          String         @map("chg_id") @db.VarChar(255)
   /// 변경자 명
-  chgNm          String              @map("chg_nm") @db.VarChar(255)
+  chgNm          String         @map("chg_nm") @db.VarChar(255)
   /// 변경 일시
-  chgDt          DateTime            @map("chg_dt") @updatedAt
+  chgDt          DateTime       @updatedAt @map("chg_dt")
   /// 사용자 사용 여부
-  userUseYn      YesOrNo @map("user_use_yn") @default(N)
+  userUseYn      YesOrNo        @default(N) @map("user_use_yn")
   /// 사용자 역할 맵핑
   user_role_mapp UserRoleMapp[]
 
@@ -59,15 +59,15 @@ model User {
 /// 사용자 역할 맵핑
 model UserRoleMapp {
   /// 사용자 시퀀스
-  userSeq Int  @map("user_seq")
+  userSeq Int     @map("user_seq")
   /// 역할 시퀀스
-  roleSeq Int  @map("role_seq")
+  roleSeq Int     @map("role_seq")
   /// App 역할 여부
-  appRole AppRole @map("app_role") @default(USER)
+  appRole AppRole @default(USER) @map("app_role")
   /// 역할 관계
-  roles   Role @relation(fields: [roleSeq], references: [roleSeq], onDelete: NoAction, onUpdate: NoAction)
+  roles   Role    @relation(fields: [roleSeq], references: [roleSeq], onDelete: NoAction, onUpdate: NoAction)
   /// 사용자 관계
-  users   User @relation(fields: [userSeq], references: [userSeq], onDelete: NoAction, onUpdate: NoAction)
+  users   User    @relation(fields: [userSeq], references: [userSeq], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([userSeq, roleSeq], map: "user_seq_role_seq_unique")
   @@index([roleSeq], map: "user_role_mapp_role_seq_fkey")
@@ -83,19 +83,19 @@ model Role {
   /// 역할 명
   roleNm         String         @map("role_nm") @db.VarChar(255)
   /// 역할 사용 여부
-  roleUseYn      YesOrNo        @map("role_use_yn") @default(N)
+  roleUseYn      YesOrNo        @default(N) @map("role_use_yn")
   /// 등록자 아이디
-  regId          String              @map("reg_id") @db.VarChar(255)
+  regId          String         @map("reg_id") @db.VarChar(255)
   /// 등록자 명
-  regNm          String              @map("reg_nm") @db.VarChar(255)
+  regNm          String         @map("reg_nm") @db.VarChar(255)
   /// 등록 일시
-  regDt          DateTime            @map("reg_dt") @default(now())
+  regDt          DateTime       @default(now()) @map("reg_dt")
   /// 변경자 아이디
-  chgId          String              @map("chg_id") @db.VarChar(255)
+  chgId          String         @map("chg_id") @db.VarChar(255)
   /// 변경자 명
-  chgNm          String              @map("chg_nm") @db.VarChar(255)
+  chgNm          String         @map("chg_nm") @db.VarChar(255)
   /// 변경 일시
-  chgDt          DateTime            @map("chg_dt") @updatedAt
+  chgDt          DateTime       @updatedAt @map("chg_dt")
   /// 사용자 역할 맵핑
   user_role_mapp UserRoleMapp[]
 
