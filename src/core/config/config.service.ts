@@ -1,5 +1,5 @@
 import { CacheModuleOptions } from '@nestjs/common';
-import { CONFIG_KEY } from 'common/constants/config.enum';
+import { CONFIG_KEY } from 'core/config/constants/config';
 /**
  * 환경 서비스
  */

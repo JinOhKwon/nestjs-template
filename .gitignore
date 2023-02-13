@@ -7,6 +7,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
 # Runtime data
 pids
 *.pid
@@ -61,8 +62,6 @@ typings/
 
 # next.js build output
 .next
-### Example user template template
-### Example user template
 
 # IntelliJ project files
 .idea
@@ -71,7 +70,6 @@ out
 gen
 dist
 mongo
-
 
 node_modules
 package-lock.json
@@ -83,11 +81,15 @@ yarn.lock
 # micro json file
 /temp
 
-# Prisma erd exclude
+# Prisma
+## Prisma erd exclude
 /prisma/*.svg
 /prisma/*.png
 /prisma/*.pdf
 /prisma/*.md
 
-# Docs
+## db
+/generated
+
+## Docs
 /docs

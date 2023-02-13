@@ -1,8 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-import { IError } from 'common';
+import { AppError, toJson } from '@submodule/common';
 import { LoggerService } from 'core';
 import { Response } from 'express';
-import { toJson } from 'helper';
 
 /**
  * 글로벌 에러 필터이다.
@@ -26,7 +25,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       // 오류코드를 사용한 에러(IError)라면...
       if (!(typeof errorData === 'string')) {
-        const iError = errorData as IError;
+        const iError = errorData as AppError;
         code = iError.code;
         message = toJson(iError.message, iError.msgArgs);
       }

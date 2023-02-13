@@ -11,29 +11,17 @@ generator erd {
   output = "../prisma/nestjs-erd.svg"
 }
 
+/// erd 문서 생성
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+  output   = "./docs"
+}
+
 /// 데이터베이스 연결
 datasource db {
   provider          = "mysql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-}
-
-/// erd 문서 생성
-generator docs {
-  provider = "node node_modules/prisma-docs-generator"
-  output   = "../docs"
-}
-
-/// prisma class 생성
-generator prismaClassGenerator {
-  provider = "prisma-class-generator"
-  output   = "../src/@generated"
-  dryRun   = false
-  useSwagger = true
-  swaggerOutput = "../src/@generated/swagger"
-  makeIndexFile = true
-  indexOutput = "../src/@generated/index.ts"
-  separateRelationFields = true
 }
 
 /// 유저 모델
@@ -61,7 +49,7 @@ model User {
   /// 변경 일시
   chgDt          DateTime            @map("chg_dt") @updatedAt
   /// 사용자 사용 여부
-  userUseYn      YesOrNo @map("user_use_yn")
+  userUseYn      YesOrNo @map("user_use_yn") @default(N)
   /// 사용자 역할 맵핑
   user_role_mapp UserRoleMapp[]
 
@@ -74,6 +62,8 @@ model UserRoleMapp {
   userSeq Int  @map("user_seq")
   /// 역할 시퀀스
   roleSeq Int  @map("role_seq")
+  /// App 역할 여부
+  appRole AppRole @map("app_role") @default(USER)
   /// 역할 관계
   roles   Role @relation(fields: [roleSeq], references: [roleSeq], onDelete: NoAction, onUpdate: NoAction)
   /// 사용자 관계
@@ -93,7 +83,7 @@ model Role {
   /// 역할 명
   roleNm         String         @map("role_nm") @db.VarChar(255)
   /// 역할 사용 여부
-  roleUseYn      YesOrNo        @map("role_use_yn")
+  roleUseYn      YesOrNo        @map("role_use_yn") @default(N)
   /// 등록자 아이디
   regId          String              @map("reg_id") @db.VarChar(255)
   /// 등록자 명
@@ -112,8 +102,20 @@ model Role {
   @@map("tb_role")
 }
 
-/// Y형식, N 형식
+/// Y or N
 enum YesOrNo {
+  /// 여
   Y
+  /// 부
   N
+}
+
+/// 역할
+enum AppRole {
+  /// 슈퍼관리자
+  SUPER
+  /// 관리자
+  MANAGER
+  /// 사용자
+  USER
 }

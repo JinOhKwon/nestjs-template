@@ -1,4 +1,4 @@
-import { IError } from 'common';
+import { AppError } from '@submodule/common';
 
 export const AUTH_ERROR = 'AuthError';
 
@@ -17,7 +17,7 @@ export enum AuthErrorEnum {
 /**
  * 열거형 상수에 해당하는 오류 코드와 메시지이다.
  */
-export const AuthError: Readonly<{ [key in AuthErrorEnum]: IError }> = {
+export const AuthError: Readonly<{ [key in AuthErrorEnum]: AppError }> = {
   [AuthErrorEnum.AUTH001]: {
     name: AUTH_ERROR,
     code: 'AUTH001',

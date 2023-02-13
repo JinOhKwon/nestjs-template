@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
-import { CONFIG_KEY } from 'common';
+import { AuthRequest, AuthResponse, SocialRequest } from '@submodule/api';
+import { CONFIG_KEY } from '@submodule/common';
 import { ConfigService } from 'core';
 import { isNil } from 'lodash';
 import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
-import { AuthTokenResponse } from './api/dto/auth-token.response';
-import { AuthRequest } from './api/dto/auth.request';
-import { AuthResponse } from './api/dto/auth.response';
-import { SocialRequest } from './api/dto/social.request';
+import { AuthTokenResponse } from '../../@submodule/api/auth/auth-token.response';
 import { AuthException } from './infrastructure/exception/auth.exception';
 
 /**

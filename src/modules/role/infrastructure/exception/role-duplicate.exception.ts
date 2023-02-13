@@ -1,17 +1,17 @@
 import { ConflictException } from '@nestjs/common';
-import { IError } from 'common';
+import { AppError } from '@submodule/common';
 
 /**
  * 역할 데이터 중복(`CONFLICT: 409`) 에러이다.
  */
 export class RoleDuplicateException extends ConflictException {
   // eslint-disable-next-line constructor-super
-  constructor(errData?: IError | string, ...msgArgs: Array<string> | Array<number>) {
+  constructor(errData?: AppError | string, ...msgArgs: Array<string> | Array<number>) {
     if (errData) {
       if (typeof errData === 'string') {
         super(errData);
       } else {
-        const iError = errData as IError;
+        const iError = errData as AppError;
         iError.msgArgs = msgArgs;
         super(iError);
       }

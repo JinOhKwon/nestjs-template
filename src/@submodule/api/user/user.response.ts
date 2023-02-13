@@ -1,9 +1,10 @@
-import { YesOrNoEnum } from 'common';
+import { YesOrNo } from '@prisma/client';
+import { BaseDto } from '@submodule/common';
 
 /**
- * 사용자 요청
+ * 사용자 응답
  */
-export interface UserRequest {
+export interface UserResponse extends BaseDto {
   /**
    * 사용자 아이디
    */
@@ -23,5 +24,5 @@ export interface UserRequest {
   /**
    * 사용여부
    */
-  readonly userUseYn: YesOrNoEnum;
+  readonly userUseYn: YesOrNo;
 }

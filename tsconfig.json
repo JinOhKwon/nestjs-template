@@ -14,7 +14,7 @@
     "outDir": "./dist",
     "baseUrl": "./src"
   },
-  "include": ["src/**/*", "prisma", "test"],
+  "include": ["src/**/*", "src/@submodule/prisma", "test"],
   "exclude": ["node_modules", "**/*.spec.ts"],
   "presets": [
     [

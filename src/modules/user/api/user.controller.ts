@@ -1,4 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Put } from '@nestjs/common';
+import { UserResponse } from '@submodule/api';
+import { Observable } from 'rxjs';
 import { UserService } from '../service/user.service';
 
 /**
@@ -25,7 +27,7 @@ export class UserController {
   @Get()
   @HttpCode(HttpStatus.OK)
   // @Roles(AuthRole.ROLE_SUPER, AuthRole.ROLE_MANAGER, AuthRole.ROLE_USER)
-  getList() {
+  getList(): Observable<Array<UserResponse>> {
     return this.userService.findAll();
   }
 

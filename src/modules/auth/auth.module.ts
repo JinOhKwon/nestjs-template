@@ -2,7 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { CONFIG_KEY } from 'common';
+import { CONFIG_KEY } from '@submodule/common';
 import { ConfigModule, ConfigService } from 'core';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './api/auth.controller';

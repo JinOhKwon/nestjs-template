@@ -1,4 +1,4 @@
-import { YesOrNoEnum } from 'common';
+import { YesOrNo } from '@prisma/client';
 
 /**
  * 역할 엔티티
@@ -22,7 +22,7 @@ export class Role {
   /**
    * 사용여부
    */
-  roleUseYn!: YesOrNoEnum;
+  roleUseYn!: YesOrNo;
 
   /**
    * 생성자
@@ -31,7 +31,7 @@ export class Role {
    * @param roleNm 역할명
    * @param roleUseYn 사용여부
    */
-  constructor(roleId: string, roleNm: string, roleUseYn: YesOrNoEnum) {
+  constructor(roleId: string, roleNm: string, roleUseYn: YesOrNo) {
     this.roleId = roleId;
     this.roleNm = roleNm;
     this.roleUseYn = roleUseYn;
@@ -44,7 +44,7 @@ export class Role {
    * @param roleNm 역할명
    * @param roleUseYn 사용여부
    */
-  modifyRole = (roleId: string, roleNm: string, roleUseYn: YesOrNoEnum): void => {
+  modifyRole = (roleId: string, roleNm: string, roleUseYn: YesOrNo): void => {
     this.roleId = roleId;
     this.roleNm = roleNm;
     this.roleUseYn = roleUseYn;

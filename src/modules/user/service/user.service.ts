@@ -1,16 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
+import { UserResponse } from '@submodule/api';
 import { PrismaService } from 'core';
-import { EMPTY, from, mergeMap, Observable, of } from 'rxjs';
+import { concatMap, from, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
-  findAll(): Observable<any> {
+  findAll(): Observable<Array<UserResponse>> {
     return from(this.prismaService.user.findMany()).pipe(
       // TODO 여기서 resoponse 수정
-      mergeMap((users) => of({ users })),
+      concatMap((users: Array<User>) => {
+        return of(
+          users.map((user: User) => {
+            return {
+              userId: user.userId,
+              userNm: user.userNm,
+              userPwd: user.userPwd,
+              userPhone: user.userPhone,
+              userUseYn: user.userUseYn,
+            };
+          }),
+        );
+      }),
     );
   }
 
@@ -23,7 +36,7 @@ export class UserService {
       }),
     ).pipe(
       // TODO 여기서 resoponse 수정
-      mergeMap((user) => of({ user })),
+      concatMap((user) => of({ user })),
     );
   }
 

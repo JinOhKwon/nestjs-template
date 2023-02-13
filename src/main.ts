@@ -2,7 +2,7 @@ import { ClassSerializerInterceptor, Logger } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { CONFIG_KEY } from 'common';
+import { CONFIG_KEY } from '@submodule/common';
 import compression from 'compression';
 import { ConfigModule, ConfigService, winstonConfig } from 'core';
 import helmet from 'helmet';

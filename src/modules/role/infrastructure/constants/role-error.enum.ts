@@ -1,4 +1,4 @@
-import { IError } from 'common';
+import { AppError } from '@submodule/common';
 
 export const ROLE_ERROR = 'RoleError';
 
@@ -13,7 +13,7 @@ export enum RoleErrorEnum {
 /**
  * 열거형 상수에 해당하는 오류 코드와 메시지이다.
  */
-export const RoleError: Readonly<{ [key in RoleErrorEnum]: IError }> = {
+export const RoleError: Readonly<{ [key in RoleErrorEnum]: AppError }> = {
   [RoleErrorEnum.ROLE001]: {
     name: ROLE_ERROR,
     code: 'ROLE001',

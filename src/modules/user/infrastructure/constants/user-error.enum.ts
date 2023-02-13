@@ -1,4 +1,8 @@
-import { IError } from 'common';
+import { AppError } from '@submodule/common';
+
+/**
+ * User Error Name
+ */
 export const USER_ERROR = 'UserError';
 
 /**
@@ -13,7 +17,7 @@ export enum UserErrorEnum {
 /**
  * 열거형 상수에 해당하는 오류 코드와 메시지이다.
  */
-export const UserError: Readonly<{ [key in UserErrorEnum]: IError }> = {
+export const UserError: Readonly<{ [key in UserErrorEnum]: AppError }> = {
   [UserErrorEnum.USER001]: {
     name: USER_ERROR,
     code: 'USER001',
