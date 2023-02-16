@@ -18,8 +18,8 @@ export class ConfigService {
    * @param key 키
    * @returns {string}
    */
-  public get(key: string): string {
-    return process.env[key];
+  get(key: string): string {
+    return process.env[key] ?? '';
   }
 
   /**
@@ -28,7 +28,7 @@ export class ConfigService {
    * @param key 키
    * @returns {number}
    */
-  public getNumber(key: string): number {
+  getNumber(key: string): number {
     return Number(this.get(key));
   }
 

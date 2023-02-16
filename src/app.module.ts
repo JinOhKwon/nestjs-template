@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { AwsModule, ConfigModule, HealthModule, LoggerModule, RedisModule, RouteScanModule, WssModule } from 'core';
 import { GlobalExceptionFilter } from 'filters';
 import { HttpLoggingInterceptor } from 'interceptors';
-import { AwsModule, ConfigModule, HealthModule, LoggerModule, RedisModule, RouteScanModule, WssModule } from 'core';
 import { RootModule } from './modules/root.module';
 
 /**

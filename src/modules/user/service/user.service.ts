@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { UserResponse } from '@submodule/api';
+import { instanceToPlain } from 'class-transformer';
 import { PrismaService } from 'core';
 import { concatMap, from, Observable, of } from 'rxjs';
 
@@ -12,6 +13,9 @@ export class UserService {
     return from(this.prismaService.user.findMany()).pipe(
       // TODO 여기서 resoponse 수정
       concatMap((users: Array<User>) => {
+        const x = instanceToPlain(users);
+        console.log(x);
+
         return of(
           users.map((user: User) => {
             return {

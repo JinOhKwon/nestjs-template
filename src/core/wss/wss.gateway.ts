@@ -18,18 +18,18 @@ export class WssGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   public async handleConnection(client: io.Socket) {
-    const { user_id } = this.getClientQuery(client);
+    const { userId } = this.getClientQuery(client);
 
     // this.logger.info('WssGateway: handleConnection', { user_id });
 
-    return this.server.emit('event', { connected: user_id });
+    return this.server.emit('event', { connected: userId });
   }
 
   public async handleDisconnect(client: io.Socket) {
-    const { user_id } = this.getClientQuery(client);
+    const { userId } = this.getClientQuery(client);
 
     // this.logger.info('WssGateway: handleDisconnect', { user_id });
 
-    return this.server.emit('event', { disconnected: user_id });
+    return this.server.emit('event', { disconnected: userId });
   }
 }

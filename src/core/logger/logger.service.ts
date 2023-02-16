@@ -1,5 +1,5 @@
 import { Logger as NestLogger, LoggerService as NestLoggerService, LogLevel } from '@nestjs/common';
-import { toJson } from '@submodule/common';
+import { toStringify } from '@submodule/common';
 import { isUndefined } from 'lodash';
 
 /**
@@ -62,7 +62,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'log', context);
     }
 
-    return this.nestLogger.log(toJson(message, args), context, { ...args });
+    return this.nestLogger.log(toStringify(message, args), context, { ...args });
   }
 
   /**
@@ -108,7 +108,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'warn');
     }
 
-    return this.nestLogger.warn(toJson(message, args), context, { ...args });
+    return this.nestLogger.warn(toStringify(message, args), context, { ...args });
   }
 
   /**
@@ -130,7 +130,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'debug', context);
     }
 
-    return this.nestLogger.debug(toJson(message, args), context, { ...args });
+    return this.nestLogger.debug(toStringify(message, args), context, { ...args });
   }
 
   /**
@@ -152,7 +152,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'verbose', context);
     }
 
-    return this.nestLogger.verbose(toJson(message, args), context, { ...args });
+    return this.nestLogger.verbose(toStringify(message, args), context, { ...args });
   }
 
   /**

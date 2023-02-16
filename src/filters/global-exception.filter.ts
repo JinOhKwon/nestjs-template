@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
-import { AppError, toJson } from '@submodule/common';
+import { AppError, toStringify } from '@submodule/common';
 import { LoggerService } from 'core';
 import { Response } from 'express';
 
@@ -27,7 +27,10 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       if (!(typeof errorData === 'string')) {
         const iError = errorData as AppError;
         code = iError.code;
-        message = toJson(iError.message, iError.msgArgs);
+        message = toStringify({
+          message: iError.message,
+          error: iError.msgArgs,
+        });
       }
       // application 및 runtime(모든) 에러 정의
     } else {

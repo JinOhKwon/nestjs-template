@@ -8,14 +8,19 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "ES2022",
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
     "baseUrl": "./src"
   },
-  "include": ["src/**/*", "src/@submodule/prisma", "test"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": [
+    "src/**/*",
+    "test",
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "presets": [
     [
       "next/babel",

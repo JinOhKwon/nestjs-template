@@ -14,7 +14,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'webpack-hmr.config.ts'],
+  ignorePatterns: ['.eslintrc.js', 'webpack-hmr.config.ts', 'jest.config.js'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
