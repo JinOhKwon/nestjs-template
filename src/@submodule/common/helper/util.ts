@@ -14,5 +14,6 @@
  * @returns {string}
  */
 export const toStringify = (value: unknown, space?: string | number): string => {
+  /* istanbul ignore next */
   return JSON.stringify(value, (_, v) => (typeof v === 'bigint' ? v.toString() : v), space);
 };

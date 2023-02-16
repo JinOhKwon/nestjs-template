@@ -1,8 +1,9 @@
-import { CacheModuleOptions } from '@nestjs/common';
+import { CacheModuleOptions, Injectable } from '@nestjs/common';
 import { CONFIG_KEY } from 'core/config/constants/config';
 /**
  * 환경 서비스
  */
+@Injectable()
 export class ConfigService {
   /**
    * 생성자
@@ -35,21 +36,21 @@ export class ConfigService {
   /**
    * config를 반환한다.
    */
-  get config() {
+  get config(): Record<keyof NodeJS.ProcessEnv, string | number> {
     return {
       nodeEnv: this.get(CONFIG_KEY.COMMON.NODE_ENV) ?? 'development',
       port: this.get(CONFIG_KEY.COMMON.PORT),
-      JWT_SECRET_KEY: this.get(CONFIG_KEY.OAUTH.JWT_SECRET_KEY),
-      JWT_EXPIRATION_TIME: this.get(CONFIG_KEY.OAUTH.JWT_EXPIRATION_TIME),
-      AWS_ACCESS_KEY_ID: this.get(CONFIG_KEY.AWS.AWS_ACCESS_KEY_ID),
-      AWS_SECRET_ACCESS_KEY: this.get(CONFIG_KEY.AWS.AWS_SECRET_ACCESS_KEY),
-      REDIS_HOST: this.get(CONFIG_KEY.DATABASE.REDIS_HOST),
-      REDIS_PORT: this.get(CONFIG_KEY.DATABASE.REDIS_PORT),
-      REDIS_TTL: this.get(CONFIG_KEY.DATABASE.REDIS_TTL),
-      DATABASE_URL: this.get(CONFIG_KEY.DATABASE.DATABASE_URL),
-      GOOGLE_CLIENT_ID: this.get(CONFIG_KEY.OAUTH.GOOGLE_CLIENT_ID),
-      GOOGLE_SECERT_KEY: this.get(CONFIG_KEY.OAUTH.GOOGLE_SECERT_KEY),
-      GOOGLE_REDIRECT_URL: this.get(CONFIG_KEY.OAUTH.GOOGLE_REDIRECT_URL),
+      jwtSecretKey: this.get(CONFIG_KEY.OAUTH.JWT_SECRET_KEY),
+      jwtExpirationTime: this.get(CONFIG_KEY.OAUTH.JWT_EXPIRATION_TIME),
+      awsAccessKeyId: this.get(CONFIG_KEY.AWS.AWS_ACCESS_KEY_ID),
+      awsSecretAccessKey: this.get(CONFIG_KEY.AWS.AWS_SECRET_ACCESS_KEY),
+      redisHost: this.get(CONFIG_KEY.DATABASE.REDIS_HOST),
+      redisPort: this.get(CONFIG_KEY.DATABASE.REDIS_PORT),
+      redisTtl: this.get(CONFIG_KEY.DATABASE.REDIS_TTL),
+      databaseUrl: this.get(CONFIG_KEY.DATABASE.DATABASE_URL),
+      googleClientId: this.get(CONFIG_KEY.OAUTH.GOOGLE_CLIENT_ID),
+      googleSecertKey: this.get(CONFIG_KEY.OAUTH.GOOGLE_SECERT_KEY),
+      googleRedirectUrl: this.get(CONFIG_KEY.OAUTH.GOOGLE_REDIRECT_URL),
     };
   }
 

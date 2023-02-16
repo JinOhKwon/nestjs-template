@@ -1,6 +1,7 @@
-declare namespace NodeJS {
-  interface ProcessEnv {
-    readonly NODE_ENV: 'development' | 'production' | 'relaese' | 'local';
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      readonly NODE_ENV: 'development' | 'production' | 'relaese' | 'local';
     readonly PORT: string;
     readonly JWT_SECRET_KEY: string;
     readonly JWT_EXPIRATION_TIME: string;
@@ -13,5 +14,10 @@ declare namespace NodeJS {
     readonly AWS_ACCESS_KEY_ID: string;
     readonly AWS_SECRET_ACCESS_KEY: string;
     readonly GOOGLE_REDIRECT_URL: string;
+    }
   }
 }
+
+// If this file has no import/export statements (i.e. is a script)
+// convert it into a module by adding an empty export statement.
+export {}
