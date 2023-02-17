@@ -45,24 +45,20 @@ export class PrismaLogger {
       return;
     }
 
-    if (query === 'BEGIN') {
-      this.loggerService.log(`----------------- ${highlight(query)} ----------------- `, {
+    this.loggerService.log('----------------- QUERY START ----------------- ', {
+      context: PrismaLogger.name,
+    });
+
+    this.loggerService.log(
+      `Query: ${highlight(query)} - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
+      {
         context: PrismaLogger.name,
-      });
-    } else if (query === 'COMMIT') {
-      this.loggerService.log(`-----------------  ${highlight(query)} ----------------- `, {
-        context: PrismaLogger.name,
-      });
-    } else {
-      this.loggerService.log(
-        `
-        Query: ${highlight(query)}
-        - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
-        {
-          context: PrismaLogger.name,
-        },
-      );
-    }
+      },
+    );
+
+    this.loggerService.log('----------------- QUERY END  ----------------- ', {
+      context: PrismaLogger.name,
+    });
   }
 
   info(queryEvent: Prisma.QueryEvent) {
@@ -70,7 +66,7 @@ export class PrismaLogger {
     this.loggerService.log(
       `
         Query: ${highlight(query)}
-        - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
+        - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
       },
@@ -83,7 +79,7 @@ export class PrismaLogger {
     this.loggerService.warn(
       `
         Query: ${highlight(query)}
-        - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
+        - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
       },
@@ -96,7 +92,7 @@ export class PrismaLogger {
     this.loggerService.error(
       `
         Query: ${highlight(query)}
-        - Duration ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
+        - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
       {
         context: PrismaLogger.name,
       },

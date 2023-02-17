@@ -12,11 +12,12 @@
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
   },
   "include": [
     "src/**/*",
-    "test",
+    "e2e/**/*",
+    "jest/**/*",
   ],
   "exclude": [
     "node_modules"

@@ -55,3 +55,38 @@ $ npx prisma migrate dev --name 마이그레이션
   - [ ] commitlint 적용 
   - [ ] 기본 role crud 완료
   - [ ] Test code 작성
+
+# Jest 
+
+``` json
+{
+  // https://stackoverflow.com/questions/50863312/jest-gives-cannot-find-module-when-importing-components-with-absolute-paths
+  // moudle index.ts 해결
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testMatch": [
+    "<rootDir>/src/**/*spec.ts"
+  ],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  // jest env file test 
+  "setupFiles": [
+    "<rootDir>/jest/envSetup.ts"
+  ],
+  "collectCoverage": true,
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "<rootDir>/tsconfig.json"
+    }
+  }
+}
+```

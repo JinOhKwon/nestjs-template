@@ -1,0 +1,40 @@
+{
+  "collectCoverage": true,
+  "coverageDirectory": "<rootDir>/coverage/",
+  "coverageReporters": [
+    "json",
+    "lcov"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    }
+  },
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
+  "rootDir": "..",
+  "testMatch": [
+    "<rootDir>/e2e/**/*.e2e-spec.ts"
+  ],
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "<rootDir>/tsconfig.json"
+    }
+  },
+  "moduleNameMapper": {
+    "src/(.*)": "<rootDir>/src/$1"
+  }
+}

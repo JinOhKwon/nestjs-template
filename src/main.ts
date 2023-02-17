@@ -19,8 +19,6 @@ async function bootstrap() {
       logger: winstonConfig(process.env['NODE_ENV']),
     });
 
-    // app.useLogger(app.get(new MmtLoggerService()));
-
     // 환경변수 서비스
     const configService = app.select(ConfigModule).get(ConfigService);
 
@@ -29,7 +27,7 @@ async function bootstrap() {
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
     // 운영환경일 경우...
-    if (configService.config.nodeEnv === process.env['NODE_ENV'] ?? 'local') {
+    if (configService.getConfig().nodeEnv === process.env['NODE_ENV'] ?? 'local') {
       app.enable('trust proxy');
       app.use(compression());
       app.use(helmet()); // TODO: helment 설치

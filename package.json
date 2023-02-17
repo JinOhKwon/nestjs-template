@@ -23,30 +23,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --no-cache"
+    "test:e2e": "jest --config ./e2e/jest-e2e.json --no-cache"
   },
   "prisma": {
     "schema": "./src/@submodule/prisma/schema.prisma"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": ".",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    }
   },
   "dependencies": {
     "@nestjs/axios": "^1.0.0",
@@ -81,7 +61,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.7",
     "socket.io": "^4.5.4",
-    "sql-highlight": "^4.3.0",
+    "sql-highlight": "^4.3.1",
     "winston": "^3.8.2"
   },
   "devDependencies": {

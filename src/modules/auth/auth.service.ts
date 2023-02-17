@@ -53,7 +53,7 @@ export class AuthService {
     //   throw new AuthException(AuthError.AUTH002);
     // }
 
-    const token: AuthTokenResponse = new AuthTokenResponse({
+    const token: AuthTokenResponse = {
       expiresIn: this.configService.getNumber(CONFIG_KEY.OAUTH.JWT_EXPIRATION_TIME),
       accessToken: await this.jwtService.signAsync(
         {
@@ -63,9 +63,12 @@ export class AuthService {
         },
         { expiresIn: '1d' },
       ),
-    });
+    };
 
-    return new AuthResponse(user, token);
+    return {
+      user,
+      token,
+    };
   }
 
   /**
@@ -81,18 +84,21 @@ export class AuthService {
       // TODO 사용자를 등록한다.
     }
 
-    const token: AuthTokenResponse = new AuthTokenResponse({
+    const token: AuthTokenResponse = {
       expiresIn: this.configService.getNumber(CONFIG_KEY.OAUTH.JWT_EXPIRATION_TIME),
       accessToken: await this.jwtService.signAsync(
         {
-          userId: req.user.userEmail,
-          userNm: req.user.userNick,
+          userId: req.userEmail,
+          userNm: req.userNick,
           expiresIn: this.configService.getNumber(CONFIG_KEY.OAUTH.JWT_EXPIRATION_TIME),
         },
         { expiresIn: '1d' },
       ),
-    });
+    };
 
-    return new AuthResponse(user, token);
+    return {
+      user,
+      token,
+    };
   }
 }
