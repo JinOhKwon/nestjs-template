@@ -19,6 +19,10 @@ enum DATABASE {
    */
   REDIS_PORT = 'REDIS_PORT',
   /**
+   * redis password
+   */
+  REDIS_PASSWORD = "REDIS_PASSWORD",
+  /**
    * 레디스 시간
    */
   REDIS_TTL = 'REDIS_TTL',

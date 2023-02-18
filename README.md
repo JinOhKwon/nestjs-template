@@ -51,6 +51,7 @@ $ npx prisma migrate dev --name 마이그레이션
 ```
 
 # TODO List
+  - [ ] README.md 작성
   - [ ] @submodule git 분리시키기
   - [ ] commitlint 적용 
   - [ ] 기본 role crud 완료
@@ -58,6 +59,36 @@ $ npx prisma migrate dev --name 마이그레이션
 
 # Jest 
 
+## Jest 작성시 unit test기준 (전체 파일을 하고 싶다고 하면)
+
+- collectCoverageFrom 키에서 "src/**/*.{js,jsx,tsx,ts}" 를 주면 전체 file 커버리지 테스트를 진행하게됨
+
+``` json
+{
+  "rootDir": ".",
+  "testRegex": ".*\\.spec\\.ts$",
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "src/**/*.{js,jsx,tsx,ts}",
+    "!src/**/*index.{js,jsx,tsx,ts}",
+    "!**/node_modules/**",
+    "!**/vendor/**",
+    "!**/dist/**",
+    "!**/webpack-hmr.config.ts",
+    "!**/coverage/**"
+  ],
+  "coverageReporters": [
+    "json",
+    "lcov"
+  ],
+  // etc...
+}
+```
+
+## Jest 작성시 unit test기준 (spec 기준으로 작성을 하고 싶다면)
+
+-  collectCoverageFrom을 주지 않으면 된다.
 ``` json
 {
   // https://stackoverflow.com/questions/50863312/jest-gives-cannot-find-module-when-importing-components-with-absolute-paths
@@ -90,3 +121,9 @@ $ npx prisma migrate dev --name 마이그레이션
   }
 }
 ```
+
+# Jest 정리
+
+- @submodule에서는 unit test만 진행하면 됨으로 별도 package.json으로 만들어야함
+- nestjs에서는 service, moudle -> unit test controller -> e2e 테스트
+- 각 모듈마다 spec은 필수 및 controller, socket 경우는 test

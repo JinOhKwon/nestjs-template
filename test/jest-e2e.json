@@ -1,4 +1,10 @@
 {
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
   "collectCoverage": true,
   "coverageDirectory": "<rootDir>/coverage/",
   "coverageReporters": [
@@ -22,13 +28,6 @@
     "node_modules",
     "src"
   ],
-  "rootDir": "..",
-  "testMatch": [
-    "<rootDir>/e2e/**/*.e2e-spec.ts"
-  ],
-  "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  },
   "globals": {
     "ts-jest": {
       "tsconfig": "<rootDir>/tsconfig.json"

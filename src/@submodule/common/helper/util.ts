@@ -1,4 +1,4 @@
-import { isNil } from 'lodash';
+import { isNil, isString } from 'lodash';
 
 /**
  * Json 문자열로 반환한다.
@@ -18,12 +18,12 @@ import { isNil } from 'lodash';
  */
 export const toStringify = (value: unknown, space?: string | number, ...args: any): string => {
   /* istanbul ignore next */
-  if (!isNil(value)) {
+  if (!isNil(value) && isString(value)) {
     return (value as string).replace(
       /%s/g,
-      JSON.stringify(args, (_, v) => (typeof v === 'bigint' ? v.toString() : v)),
+      JSON.stringify(args, (_, v) => (typeof v === 'bigint' ? v.toString() : v), space),
     );
   }
   /* istanbul ignore next */
-  return JSON.stringify(args, (_, v) => (typeof v === 'bigint' ? v.toString() : v));
+  return JSON.stringify(value, (_, v) => (typeof v === 'bigint' ? v.toString() : v), space);
 };

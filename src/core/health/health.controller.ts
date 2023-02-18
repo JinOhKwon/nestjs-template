@@ -1,11 +1,10 @@
-import { Controller, Get, Logger, OnApplicationShutdown } from '@nestjs/common';
+import { Controller, Get, OnApplicationShutdown } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, MemoryHealthIndicator } from '@nestjs/terminus';
+import { LoggerService } from 'core/logger';
 
 @Controller('health')
 export class HealthController implements OnApplicationShutdown {
-  private readonly logger = new Logger(HealthController.name);
-
-  constructor(private healthCheckService: HealthCheckService, private memoryHealthIndicator: MemoryHealthIndicator) {}
+  constructor(private healthCheckService: HealthCheckService, private memoryHealthIndicator: MemoryHealthIndicator, private readonly loggerService: LoggerService) { }
 
   /**
    * 앱이 종료 되었을때 호출되는 훅이다.
@@ -13,7 +12,7 @@ export class HealthController implements OnApplicationShutdown {
    */
   onApplicationShutdown(signal?: string) {
     // TODO 비정상 종료를 잡아서 슬랙알람을 주자
-    this.logger.log(`momentor server down... ${signal}`);
+    this.loggerService.log(`momentor server down... ${signal}`);
   }
 
   @Get()

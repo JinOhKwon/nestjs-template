@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 import { AuthRequest, AuthResponse, SocialRequest } from '@submodule/api';
-import { CONFIG_KEY } from '@submodule/common';
-import { ConfigService } from 'core';
+import { ConfigService, CONFIG_KEY } from 'core';
 import { isNil } from 'lodash';
 import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
 import { AuthTokenResponse } from '../../@submodule/api/auth/auth-token.response';
@@ -21,7 +20,7 @@ export class AuthService {
    * @param configService 환경 서비스
    * @param userService 유저 서비스
    */
-  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) {}
+  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) { }
 
   // /**
   //  * 컨텍스트에 사용자 정보를 담는다.

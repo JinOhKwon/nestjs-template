@@ -20,7 +20,7 @@ describe('common - util 테스트', () => {
   });
 
   it(`${LABEL} string 테스트`, (): void => {
-    expect(toStringify('')).toEqual('""');
+    expect(toStringify('')).toEqual('');
   });
 
   it(`${LABEL} number 테스트`, (): void => {

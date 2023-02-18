@@ -17,7 +17,7 @@
   "include": [
     "src/**/*",
     "e2e/**/*",
-    "jest/**/*",
+    "test/init/**/*",
   ],
   "exclude": [
     "node_modules"

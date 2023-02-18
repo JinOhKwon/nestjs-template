@@ -19,4 +19,5 @@ export const jestEnvSetup = (): void => {
   env.GOOGLE_CLIENT_ID = 'xxx';
   env.GOOGLE_SECERT_KEY = 'xxx';
   env.GOOGLE_REDIRECT_URL = 'xxx';
+  env.REDIS_PASSWORD = 'xxx';
 };

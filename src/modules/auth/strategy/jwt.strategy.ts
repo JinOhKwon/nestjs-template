@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { CONFIG_KEY } from '@submodule/common';
-import { ConfigService } from 'core';
+import { ConfigService, CONFIG_KEY } from 'core';
 import { isNil } from 'lodash';
 import { AuthError } from 'modules/auth/infrastructure/constants/auth-error.enum';
 import { ExtractJwt, Strategy } from 'passport-jwt';

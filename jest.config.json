@@ -1,8 +1,4 @@
 {
-  "moduleDirectories": [
-    "node_modules",
-    "src"
-  ],
   "moduleFileExtensions": [
     "js",
     "json",
@@ -10,26 +6,19 @@
   ],
   "rootDir": ".",
   "testMatch": [
-    "<rootDir>/src/.*\\.(test|spec).(ts|tsx|js)$"
+    "<rootDir>/src/**/*spec.ts"
   ],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "setupFiles": [
-    "<rootDir>/jest/envSetup.ts"
-  ],
   "collectCoverage": true,
-  "collectCoverageFrom": [
-    "src/**/*.{js,jsx,tsx,ts}",
-    "!**/node_modules/**",
-    "!**/vendor/**"
-  ],
-  "coverageReporters": [
-    "json",
-    "lcov"
-  ],
   "globals": {
     "ts-jest": {
+      "diagnostics": {
+        "ignoreCodes": [
+          "TS151001"
+        ]
+      },
       "tsconfig": "<rootDir>/tsconfig.json"
     }
   }

@@ -1,6 +1,6 @@
-import { CacheModuleOptions, Injectable } from '@nestjs/common';
-import { CONFIG_KEY } from 'core/config/constants/config';
+import { Injectable } from '@nestjs/common';
 import { env } from 'process';
+import { CONFIG_KEY } from '.';
 
 export interface IProcessEnv {
   nodeEnv: string;
@@ -16,6 +16,7 @@ export interface IProcessEnv {
   redisTtl: number;
   redisHost: string;
   redisPort: number;
+  redisPassword: string;
 }
 
 /**
@@ -54,7 +55,7 @@ export class ConfigService {
   /**
    * config를 반환한다.
    */
-  getConfig(): Omit<IProcessEnv, 'redisTtl' | 'redisHost' | 'redisPort'> {
+  getConfig(): Omit<IProcessEnv, 'redisTtl' | 'redisHost' | 'redisPort' | 'redisPassword'> {
     return {
       nodeEnv: this.get(CONFIG_KEY.COMMON.NODE_ENV),
       port: this.getNumber(CONFIG_KEY.COMMON.PORT),
@@ -72,11 +73,12 @@ export class ConfigService {
   /**
    * redis config를 설정하여 반환한다.
    */
-  getRedisConfig(): CacheModuleOptions {
+  getRedisConfig(): Pick<IProcessEnv, 'redisTtl' | 'redisHost' | 'redisPort' | 'redisPassword'> {
     return {
       redisTtl: this.getNumber(CONFIG_KEY.DATABASE.REDIS_TTL),
       redisHost: this.get(CONFIG_KEY.DATABASE.REDIS_HOST),
       redisPort: this.getNumber(CONFIG_KEY.DATABASE.REDIS_PORT),
+      redisPassword: this.get(CONFIG_KEY.DATABASE.REDIS_PASSWORD),
     };
   }
 }

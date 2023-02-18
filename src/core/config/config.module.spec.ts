@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { jestEnvSetup } from '../../../jest';
+import { CONFIG_KEY } from '.';
+import { jestEnvSetup } from '../../../test/init';
 import { ConfigService } from './config.service';
-import { CONFIG_KEY } from './constants/config';
 
 describe('ConfigModule', () => {
   jestEnvSetup();
@@ -51,6 +51,7 @@ describe('ConfigModule', () => {
         redisHost: 'xxxx',
         redisPort: 5566,
         redisTtl: 55,
+        redisPassword: 'xxx',
       });
     });
   });

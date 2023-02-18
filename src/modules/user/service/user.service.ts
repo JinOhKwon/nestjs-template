@@ -7,7 +7,7 @@ import { concatMap, from, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   findAll(): Observable<Array<UserResponse>> {
     return from(this.prismaService.user.findMany()).pipe(
