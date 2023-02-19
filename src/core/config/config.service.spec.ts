@@ -3,7 +3,7 @@ import { CONFIG_KEY } from '.';
 import { jestEnvSetup } from '../../../test/init';
 import { ConfigService } from './config.service';
 
-describe('ConfigModule', () => {
+describe('configService', () => {
   jestEnvSetup();
   const env = process.env;
   let configService: ConfigService;
@@ -20,6 +20,10 @@ describe('ConfigModule', () => {
 
   afterAll(() => {
     process.env = env;
+  });
+
+  it('should be defined', () => {
+    expect(configService).toBeDefined();
   });
 
   describe('ConfigService', () => {

@@ -1,3 +1,3 @@
 export * from './database.module';
-export * from './service/prisma.service';
+export * from './prisma.service';
 // eslint-disable-next-line prettier/prettier

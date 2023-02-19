@@ -4,7 +4,7 @@ import { PrismaLogger } from './prisma-logger.service';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor(private databaseLogger: PrismaLogger) {
+  constructor(private readonly prismaLogger: PrismaLogger) {
     super({
       log: [
         { emit: 'event', level: 'query' },
@@ -18,16 +18,16 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
   async onModuleInit() {
     this.$on('query' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.query(event as Prisma.QueryEvent);
+      this.prismaLogger.query(event as Prisma.QueryEvent);
     });
     this.$on('info' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.info(event as Prisma.QueryEvent);
+      this.prismaLogger.info(event as Prisma.QueryEvent);
     });
     this.$on('warn' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.warn(event as Prisma.QueryEvent);
+      this.prismaLogger.warn(event as Prisma.QueryEvent);
     });
     this.$on('error' as any, (event: Prisma.QueryEvent | Prisma.LogEvent | (() => Promise<void>)) => {
-      this.databaseLogger.error(event as Prisma.QueryEvent);
+      this.prismaLogger.error(event as Prisma.QueryEvent);
     });
     await this.$connect();
   }

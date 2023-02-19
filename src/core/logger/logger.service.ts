@@ -30,9 +30,13 @@ export class LoggerService implements NestLoggerService {
   private nestLogger = new NestLogger();
 
   /**
-   * 컨텍스트
+   * 로그 파라미터
    */
-  private context?: string;
+  private logParam: LogParam = {
+    args: {} as any,
+    context: '',
+    trace: '',
+  };
 
   /**
    * 컨텍스트를 저장한다.
@@ -40,119 +44,122 @@ export class LoggerService implements NestLoggerService {
    * @param context 컨텍스트
    */
   setContext(context: string) {
-    this.context = context;
+    this.logParam.context = context;
   }
 
   /**
    * 로그를 반환한다.
    *
    * @param message 메시지
-   * @param context 컨텍스트
+   * @param logParam {
+   *   context?: string;
+   *   trace?: string;
+   *   args?: any;
+   * }
    * @returns {string}
    */
   log(message: string | any, logParam?: LogParam): void {
-    // eslint-disable-next-line prefer-const
-    let { context, args } = logParam;
-
-    if (isUndefined(context)) {
-      context = this.context;
+    if (isUndefined(logParam?.context)) {
+      this.logParam.context = logParam?.context;
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'log', context);
+      return this.existLogger(message, 'log', logParam?.context);
     }
 
-    return this.nestLogger.log(toStringify(message, args), context, { ...args });
+    return this.nestLogger.log(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
    * 에러를 반환한다.
    *
    * @param message 메시지
-   * @param trace 에러 트레이스
-   * @param context 컨텍스트
-   * @param args 아규먼트
+   * @param logParam {
+   *   context?: string;
+   *   trace?: string;
+   *   args?: any;
+   * }
    * @returns {stirng}
    */
   error(message: any, logParam?: LogParam): void {
-    // eslint-disable-next-line prefer-const
-    let { context, trace } = logParam;
-
-    if (isUndefined(context)) {
-      context = this.context;
+    if (isUndefined(logParam?.context)) {
+      this.logParam.context = logParam?.context;
     }
 
     if (message instanceof Error || typeof message === 'object') {
-      return this.existLogger(message, 'error', context, trace);
+      return this.existLogger(message, 'error', logParam?.context, logParam?.trace);
     }
 
-    return this.nestLogger.error(message, message.stack, context);
+    return this.nestLogger.error(message, message?.stack, logParam?.context);
   }
 
   /**
    * 경고를 반환한다.
    *
    * @param message 메시지
-   * @param context 컨텍스트
+   * @param logParam {
+   *   context?: string;
+   *   trace?: string;
+   *   args?: any;
+   * }
    * @returns {string}
    */
   warn(message: any, logParam?: LogParam): void {
-    // eslint-disable-next-line prefer-const
-    let { context, args } = logParam;
-
-    if (isUndefined(context)) {
-      context = this.context;
+    if (isUndefined(logParam?.context)) {
+      this.logParam.context = logParam?.context;
     }
 
     if (typeof message === 'object') {
       return this.existLogger(message, 'warn');
     }
 
-    return this.nestLogger.warn(toStringify(message, args), context, { ...args });
+    return this.nestLogger.warn(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
    * 디버그를 반환한다.
    *
    * @param message 메시지
-   * @param context 컨텍스트
+   * @param logParam {
+   *   context?: string;
+   *   trace?: string;
+   *   args?: any;
+   * }
    * @returns {string}
    */
-  debug?(message: any, logParam?: LogParam): void {
-    // eslint-disable-next-line prefer-const
-    let { context, args } = logParam;
-
-    if (isUndefined(context)) {
-      context = this.context;
+  debug(message: any, logParam?: LogParam): void {
+    if (isUndefined(logParam?.context)) {
+      this.logParam.context = logParam?.context;
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'debug', context);
+      return this.existLogger(message, 'debug', logParam?.context);
     }
 
-    return this.nestLogger.debug(toStringify(message, args), context, { ...args });
+    return this.nestLogger.debug(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
    * 상세목록을 반환한다.(운영 모드 메시지 추출?)
    *
    * @param message 메시지
-   * @param context 컨텍스트
+   * @param logParam {
+   *   context?: string;
+   *   trace?: string;
+   *   args?: any;
+   * }
    * @returns {string}
    */
-  verbose?(message: any, logParam?: LogParam): any {
-    // eslint-disable-next-line prefer-const
-    let { context, args } = logParam;
-
-    if (isUndefined(context)) {
-      context = this.context;
+  verbose(message: any, logParam?: LogParam): any {
+    if (isUndefined(logParam?.context)) {
+      this.logParam.context = logParam?.context;
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'verbose', context);
+      return this.existLogger(message, 'verbose', logParam?.context);
     }
 
-    return this.nestLogger.verbose(toStringify(message, args), context, { ...args });
+    return this.nestLogger.verbose(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**

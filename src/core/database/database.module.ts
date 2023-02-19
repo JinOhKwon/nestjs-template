@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { PrismaLogger } from './service/prisma-logger.service';
-import { PrismaService } from './service/prisma.service';
+import { PrismaLogger } from './prisma-logger.service';
+import { PrismaService } from './prisma.service';
 
 /**
  * 공유 모듈
@@ -10,4 +10,4 @@ import { PrismaService } from './service/prisma.service';
   providers: [PrismaService, PrismaLogger],
   exports: [PrismaService],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }
