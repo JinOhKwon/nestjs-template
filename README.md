@@ -54,10 +54,12 @@ $ npx prisma migrate dev --name 마이그레이션
   - [ ] README.md 작성
   - [ ] @submodule git 분리시키기
   - [ ] commitlint 적용 
-  - [ ] 기본 role crud 완료
+  - [ ] user, role crud 완료
   - [ ] Test code 작성
-  - [ ] jest 사용시 로거 주입을 해도 winston 초기화 안되는 부분 수정(main.ts에서 실행하고 있기때문임)
-  - [ ] test pass는 되지만... loggerService 에서 Error만 찍힘 위 내용과 같이 확인해보기
+  - [x] jest 사용시 로거 주입을 해도 winston 초기화 안되는 부분 수정(main.ts에서 실행하고 있기때문임)
+  - [x] test pass는 되지만... loggerService 에서 Error만 찍힘 위 내용과 같이 확인해보기
+  - [ ] redis error jest exit 안됨
+    (A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.)
 
 # Jest 
 
