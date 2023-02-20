@@ -52,10 +52,9 @@ describe('configService 테스트', () => {
 
     it('getRedisConfig() -> ', () => {
       expect(configService.getRedisConfig()).toStrictEqual({
-        redisHost: 'xxxx',
-        redisPort: 5566,
-        redisTtl: 55,
-        redisPassword: 'xxx',
+        host: 'localhost',
+        password: '0000',
+        port: 6379,
       });
     });
   });

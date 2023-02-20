@@ -11,13 +11,13 @@ export const jestEnvSetup = (): void => {
   env.JWT_SECRET_KEY = 'xxxx';
   env.JWT_EXPIRATION_TIME = 'xxxx';
   env.AWS_REGION = 'ap-northeast-2';
-  env.REDIS_HOST = 'xxxx';
-  env.REDIS_PORT = '5566';
+  env.REDIS_HOST = 'localhost';
+  env.REDIS_PORT = '6379';
+  env.REDIS_PASSWORD = '0000';
   env.REDIS_TTL = '55';
   env.DATABASE_URL = 'mysql://nestjs:0000@localhost:3306/nestjs';
   env.SHADOW_DATABASE_URL = 'mysql://nestjs:0000@localhost:3307/nestjs';
   env.GOOGLE_CLIENT_ID = 'xxx';
   env.GOOGLE_SECERT_KEY = 'xxx';
   env.GOOGLE_REDIRECT_URL = 'xxx';
-  env.REDIS_PASSWORD = 'xxx';
 };

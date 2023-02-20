@@ -42,3 +42,23 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ./docker/shadow/mysql:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
+  redis:
+    image: redis:latest
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    container_name: redis
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
+    volumes:
+      - ./docker/redis:/var/lib/redis
+    env_file:
+      - .env
+#     networks:
+#       - default
+# networks:
+#   default:
+#     driver: bridge
+

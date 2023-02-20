@@ -1,3 +1,4 @@
+import { RedisClientOptions } from '@liaoliaots/nestjs-redis';
 import { Injectable } from '@nestjs/common';
 import { env } from 'process';
 import { CONFIG_KEY } from '.';
@@ -73,12 +74,11 @@ export class ConfigService {
   /**
    * redis config를 설정하여 반환한다.
    */
-  getRedisConfig(): Pick<IProcessEnv, 'redisTtl' | 'redisHost' | 'redisPort' | 'redisPassword'> {
+  getRedisConfig(): RedisClientOptions {
     return {
-      redisTtl: this.getNumber(CONFIG_KEY.DATABASE.REDIS_TTL),
-      redisHost: this.get(CONFIG_KEY.DATABASE.REDIS_HOST),
-      redisPort: this.getNumber(CONFIG_KEY.DATABASE.REDIS_PORT),
-      redisPassword: this.get(CONFIG_KEY.DATABASE.REDIS_PASSWORD),
+      host: this.get(CONFIG_KEY.DATABASE.REDIS_HOST),
+      port: this.getNumber(CONFIG_KEY.DATABASE.REDIS_PORT),
+      password: this.get(CONFIG_KEY.DATABASE.REDIS_PASSWORD),
     };
   }
 }

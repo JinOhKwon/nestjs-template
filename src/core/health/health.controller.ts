@@ -26,7 +26,7 @@ export class HealthController implements OnApplicationShutdown {
       // the process should not use more than 300MB memory
       () => this.memoryHealthIndicator.checkHeap('memory heap', 300 * 1024 * 1024),
       // The process should not have more than 300MB RSS memory allocated
-      () => this.memoryHealthIndicator.checkRSS('memory RSS', 300 * 1024 * 1024),
+      () => this.memoryHealthIndicator.checkRSS('memory RSS', 500 * 1024 * 1024),
     ]);
   }
 }

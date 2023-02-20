@@ -9,9 +9,7 @@ export class RedisService implements RedisOptionsFactory {
   async createRedisOptions(): Promise<RedisModuleOptions> {
     return {
       config: {
-        host: this.configService.getRedisConfig().redisHost,
-        port: this.configService.getRedisConfig().redisPort,
-        password: this.configService.getRedisConfig().redisPassword,
+        ...this.configService.getRedisConfig(),
       },
     };
   }

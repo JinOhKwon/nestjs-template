@@ -1,6 +1,6 @@
+import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { Global, Module } from '@nestjs/common';
 import { CacheService } from './cache.service';
-import { RedisService } from './redis.service';
 
 /**
  * 공유 모듈
@@ -8,7 +8,7 @@ import { RedisService } from './redis.service';
 @Global()
 @Module({
   imports: [RedisModule],
-  providers: [RedisService, CacheService],
+  providers: [CacheService],
   exports: [CacheService],
 })
-export class RedisModule {}
+export class CacheModule {}

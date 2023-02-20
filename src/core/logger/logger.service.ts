@@ -15,6 +15,10 @@ interface LogParam {
    */
   trace?: string;
   /**
+   * 스택
+   */
+  stack?: any;
+  /**
    * 아규먼트
    */
   args?: any;
@@ -27,7 +31,7 @@ export class LoggerService implements NestLoggerService {
   /**
    * 로거
    */
-  private nestLogger = new NestLogger();
+  private readonly nestLogger = new NestLogger();
 
   /**
    * 로그 파라미터
@@ -43,7 +47,7 @@ export class LoggerService implements NestLoggerService {
    *
    * @param context 컨텍스트
    */
-  setContext(context: string) {
+  setContext(context: string): void {
     this.logParam.context = context;
   }
 
@@ -64,10 +68,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'log', logParam?.context);
+      this.existLogger(message, 'log', logParam?.context);
     }
 
-    return this.nestLogger.log(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
+    this.nestLogger.log(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
@@ -87,10 +91,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (message instanceof Error || typeof message === 'object') {
-      return this.existLogger(message, 'error', logParam?.context, logParam?.trace);
+      this.existLogger(message, 'error', logParam?.stack, logParam?.context, logParam?.trace);
     }
 
-    return this.nestLogger.error(message, logParam?.context);
+    this.nestLogger.error(toStringify(message, logParam?.args), logParam?.stack, logParam?.context, { ...logParam?.args });
   }
 
   /**
@@ -110,10 +114,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'warn');
+      this.existLogger(message, 'warn');
     }
 
-    return this.nestLogger.warn(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
+    this.nestLogger.warn(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
@@ -133,10 +137,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'debug', logParam?.context);
+      this.existLogger(message, 'debug', logParam?.context);
     }
 
-    return this.nestLogger.debug(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
+    this.nestLogger.debug(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
@@ -156,10 +160,10 @@ export class LoggerService implements NestLoggerService {
     }
 
     if (typeof message === 'object') {
-      return this.existLogger(message, 'verbose', logParam?.context);
+      this.existLogger(message, 'verbose', logParam?.context);
     }
 
-    return this.nestLogger.verbose(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
+    this.nestLogger.verbose(toStringify(message, logParam?.args), logParam?.context, { ...logParam?.args });
   }
 
   /**
@@ -172,30 +176,26 @@ export class LoggerService implements NestLoggerService {
    * @param args 아규먼트
    * @returns {string}
    */
-  private existLogger(message: any, logLevel: LogLevel, context?: any, trace?: any, ...args: any) {
-    const { message: msg, ...meta } = message;
-
+  private existLogger(message: any, logLevel: LogLevel, stack?: any, context?: any, trace?: any, ...args: any): void {
     switch (logLevel) {
       case 'log':
-        return this.nestLogger.log(msg as string, { context, ...meta });
+        this.nestLogger.log(message, { context, ...args });
       case 'error':
         // 기본 에러 객체 핸들링
         if (message instanceof Error) {
-          return this.nestLogger.error(message, message?.stack, context, ...args);
+          this.nestLogger.error(message, stack, context, ...args);
         }
 
-        if (typeof msg === 'object') {
-          const { message: msg, ...meta } = message;
-
-          return this.nestLogger.error(msg as string, { context, stack: [trace], ...meta });
+        if (typeof message === 'object') {
+          this.nestLogger.error(message, { context, stack, trace, ...args });
         }
         break;
       case 'warn':
-        return this.nestLogger.warn(msg as string, { context, ...meta });
+        this.nestLogger.warn(message, { context, ...args });
       case 'debug':
-        return this.nestLogger.debug(msg as string, { context, ...meta });
+        this.nestLogger.debug(message, { context, ...args });
       case 'verbose':
-        return this.nestLogger.verbose(msg as string, { context, ...meta });
+        this.nestLogger.verbose(message, { context, ...args });
     }
   }
 }
