@@ -20,7 +20,7 @@ export class AuthService {
    * @param configService 환경 서비스
    * @param userService 유저 서비스
    */
-  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) { }
+  constructor(private readonly jwtService: JwtService, private readonly configService: ConfigService) {}
 
   // /**
   //  * 컨텍스트에 사용자 정보를 담는다.

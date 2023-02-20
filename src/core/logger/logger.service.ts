@@ -90,7 +90,7 @@ export class LoggerService implements NestLoggerService {
       return this.existLogger(message, 'error', logParam?.context, logParam?.trace);
     }
 
-    return this.nestLogger.error(message, message?.stack, logParam?.context);
+    return this.nestLogger.error(message, logParam?.context);
   }
 
   /**

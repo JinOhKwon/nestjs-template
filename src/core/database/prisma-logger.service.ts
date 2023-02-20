@@ -18,13 +18,11 @@ export class PrismaLogger {
    *
    * @param option 옵션
    */
-  constructor(private loggerService?: LoggerService) { }
+  constructor(private loggerService?: LoggerService) {}
   /**
    * 로그
    *
-   * @param level 레벨
-   * @param message 메시지
-   * @returns 로그 메시지
+   * @param queryEvent 쿼리 이벤트
    */
   query(queryEvent: Prisma.QueryEvent): void {
     const { timestamp, query, params, duration } = queryEvent;

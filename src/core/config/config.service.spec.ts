@@ -3,7 +3,7 @@ import { CONFIG_KEY } from '.';
 import { jestEnvSetup } from '../../../test/init';
 import { ConfigService } from './config.service';
 
-describe('configService', () => {
+describe('configService 테스트', () => {
   jestEnvSetup();
   const env = process.env;
   let configService: ConfigService;
@@ -22,11 +22,11 @@ describe('configService', () => {
     process.env = env;
   });
 
-  it('should be defined', () => {
+  it('configService 서비스 호출 ', () => {
     expect(configService).toBeDefined();
   });
 
-  describe('ConfigService', () => {
+  describe('configService 함수 호출', () => {
     it('get() -> ', () => {
       expect(configService.get(CONFIG_KEY.COMMON.NODE_ENV)).toEqual('local');
     });
@@ -35,7 +35,7 @@ describe('configService', () => {
       expect(configService.getNumber(CONFIG_KEY.COMMON.PORT)).toEqual(3030);
     });
 
-    it('getConfig -> ', () => {
+    it('getConfig() -> ', () => {
       expect(configService.getConfig()).toStrictEqual({
         nodeEnv: 'local',
         port: 3030,
@@ -50,7 +50,7 @@ describe('configService', () => {
       });
     });
 
-    it('getRedis -> ', () => {
+    it('getRedisConfig() -> ', () => {
       expect(configService.getRedisConfig()).toStrictEqual({
         redisHost: 'xxxx',
         redisPort: 5566,

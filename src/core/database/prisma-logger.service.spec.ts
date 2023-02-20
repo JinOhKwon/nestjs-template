@@ -1,38 +1,34 @@
 import { Test } from '@nestjs/testing';
-import { LoggerModule } from 'core/logger';
+import { LoggerModule, winstonConfig } from 'core/logger';
 import { PrismaLogger } from './prisma-logger.service';
 
-describe('prismaLoggerService', () => {
+describe('prismaLoggerService 테스트', () => {
   let prismaLogger: PrismaLogger;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [
-        LoggerModule
-      ],
-      providers: [
-        PrismaLogger,
-      ],
+      imports: [LoggerModule],
+      providers: [PrismaLogger],
     }).compile();
 
+    moduleRef.useLogger(winstonConfig(process.env['NODE_ENV']));
     prismaLogger = moduleRef.get<PrismaLogger>(PrismaLogger);
   });
 
-  it('서비스 호출 prismaLoggerService', () => {
+  it('prismaLoggerService 서비스 호출 ', () => {
     expect(prismaLogger).toBeDefined();
   });
 
-  describe('prismaLoggerService', () => {
+  describe('prismaLoggerService 함수 호출', () => {
     it('query -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'query');
-
       prismaLogger.query({
         timestamp: new Date(),
         query: 'test',
         params: 'test',
         duration: 1,
         target: 'test',
-      })
+      });
 
       expect(loggerSpy).toHaveBeenCalled();
       expect(loggerSpy).toBeCalledTimes(1);
@@ -47,7 +43,7 @@ describe('prismaLoggerService', () => {
         params: 'test',
         duration: 1,
         target: 'test',
-      })
+      });
 
       expect(loggerSpy).toHaveBeenCalled();
       expect(loggerSpy).toBeCalledTimes(1);
@@ -62,7 +58,7 @@ describe('prismaLoggerService', () => {
         params: 'test',
         duration: 1,
         target: 'test',
-      })
+      });
 
       expect(loggerSpy).toHaveBeenCalled();
       expect(loggerSpy).toBeCalledTimes(1);
@@ -77,7 +73,7 @@ describe('prismaLoggerService', () => {
         params: 'test',
         duration: 1,
         target: 'test',
-      })
+      });
 
       expect(loggerSpy).toHaveBeenCalled();
       expect(loggerSpy).toBeCalledTimes(1);

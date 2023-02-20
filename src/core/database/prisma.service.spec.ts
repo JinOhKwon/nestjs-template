@@ -3,7 +3,7 @@ import { LoggerService } from 'core';
 import { PrismaLogger } from './prisma-logger.service';
 import { PrismaService } from './prisma.service';
 
-describe('prismaService', () => {
+describe('prismaService 테스트', () => {
   let prismaService: PrismaService;
 
   beforeEach(async () => {
@@ -12,12 +12,12 @@ describe('prismaService', () => {
         PrismaService,
         {
           provide: PrismaLogger,
-          useValue: { query: jest.fn() }
+          useValue: { query: jest.fn() },
         },
         {
           provide: LoggerService,
-          useValue: { log: jest.fn() }
-        }
+          useValue: { log: jest.fn() },
+        },
       ],
     }).compile();
 
@@ -28,16 +28,16 @@ describe('prismaService', () => {
     prismaService.$disconnect();
   });
 
-  it('서비스 호출 prismaService', () => {
+  it('prismaService 서비스 호출 ', () => {
     expect(prismaService).toBeDefined();
   });
 
-  describe('PrimsaService', () => {
-    it('connect -> ', async () => {
+  describe('PrimsaService 함수 호출', () => {
+    it('$connect() -> ', async () => {
       expect(await prismaService.$connect()).toBeUndefined();
     });
 
-    it('prismaService disconnect -> ', async () => {
+    it('$disconnect() -> ', async () => {
       expect(await prismaService.$disconnect()).toBeUndefined();
     });
   });

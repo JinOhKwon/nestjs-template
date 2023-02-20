@@ -21,7 +21,7 @@ enum DATABASE {
   /**
    * redis password
    */
-  REDIS_PASSWORD = "REDIS_PASSWORD",
+  REDIS_PASSWORD = 'REDIS_PASSWORD',
   /**
    * 레디스 시간
    */
