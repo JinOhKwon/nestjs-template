@@ -1,23 +1,12 @@
-/// prisma client 생성
 generator client {
   provider = "prisma-client-js"
 }
 
-/// erd 문서 생성
-generator erd {
-  provider = "prisma-erd-generator"
-  /// @see https://github.com/keonik/prisma-erd-generator
-  /// svg (default: ./prisma/ERD.svg), png, pdf, md
-  output   = "../prisma/nestjs-erd.svg"
-}
-
-/// erd 문서 생성
 generator docs {
   provider = "node node_modules/prisma-docs-generator"
   output   = "./docs"
 }
 
-/// 데이터베이스 연결
 datasource db {
   provider          = "mysql"
   url               = env("DATABASE_URL")
@@ -40,17 +29,16 @@ model User {
   regId          String         @map("reg_id") @db.VarChar(255)
   /// 등록자 명
   regNm          String         @map("reg_nm") @db.VarChar(255)
-  /// 등록 일시
-  regDt          DateTime       @default(now()) @map("reg_dt")
   /// 변경자 아이디
   chgId          String         @map("chg_id") @db.VarChar(255)
   /// 변경자 명
   chgNm          String         @map("chg_nm") @db.VarChar(255)
-  /// 변경 일시
-  chgDt          DateTime       @updatedAt @map("chg_dt")
   /// 사용자 사용 여부
   userUseYn      YesOrNo        @default(N) @map("user_use_yn")
-  /// 사용자 역할 맵핑
+  /// 변경 일시
+  chgDt          DateTime       @updatedAt @map("chg_dt")
+  /// 등록 일시
+  regDt          DateTime       @default(now()) @map("reg_dt")
   user_role_mapp UserRoleMapp[]
 
   @@map("tb_user")
@@ -64,9 +52,7 @@ model UserRoleMapp {
   roleSeq Int     @map("role_seq")
   /// App 역할 여부
   appRole AppRole @default(USER) @map("app_role")
-  /// 역할 관계
   roles   Role    @relation(fields: [roleSeq], references: [roleSeq], onDelete: NoAction, onUpdate: NoAction)
-  /// 사용자 관계
   users   User    @relation(fields: [userSeq], references: [userSeq], onDelete: NoAction, onUpdate: NoAction)
 
   @@unique([userSeq, roleSeq], map: "user_seq_role_seq_unique")
@@ -84,19 +70,18 @@ model Role {
   roleNm         String         @map("role_nm") @db.VarChar(255)
   /// 역할 사용 여부
   roleUseYn      YesOrNo        @default(N) @map("role_use_yn")
-  /// 등록자 아이디
-  regId          String         @map("reg_id") @db.VarChar(255)
-  /// 등록자 명
-  regNm          String         @map("reg_nm") @db.VarChar(255)
-  /// 등록 일시
-  regDt          DateTime       @default(now()) @map("reg_dt")
+  /// 변경 일시
+  chgDt          DateTime       @updatedAt @map("chg_dt")
   /// 변경자 아이디
   chgId          String         @map("chg_id") @db.VarChar(255)
   /// 변경자 명
   chgNm          String         @map("chg_nm") @db.VarChar(255)
-  /// 변경 일시
-  chgDt          DateTime       @updatedAt @map("chg_dt")
-  /// 사용자 역할 맵핑
+  /// 등록 일시
+  regDt          DateTime       @default(now()) @map("reg_dt")
+  /// 등록자 아이디
+  regId          String         @map("reg_id") @db.VarChar(255)
+  /// 등록자 명
+  regNm          String         @map("reg_nm") @db.VarChar(255)
   user_role_mapp UserRoleMapp[]
 
   @@map("tb_role")

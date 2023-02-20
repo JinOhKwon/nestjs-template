@@ -1,9 +1,11 @@
+import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { LoggerService } from 'core';
 import { PrismaLogger } from './prisma-logger.service';
 import { PrismaService } from './prisma.service';
 
 describe('prismaService 테스트', () => {
+  let app: INestApplication;
   let prismaService: PrismaService;
 
   beforeEach(async () => {
@@ -21,15 +23,19 @@ describe('prismaService 테스트', () => {
       ],
     }).compile();
 
+    app = moduleRef.createNestApplication();
     prismaService = moduleRef.get<PrismaService>(PrismaService);
+
+    app.init();
   });
 
-  afterAll(() => {
-    prismaService.$disconnect();
+  afterAll(async () => {
+    await prismaService.$disconnect();
+    await app.close();
   });
 
-  it('prismaService 서비스 호출 ', () => {
-    expect(prismaService).toBeDefined();
+  it('prismaService 서비스 호출 ', async () => {
+    expect(await prismaService).toBeDefined();
   });
 
   describe('PrimsaService 함수 호출', () => {

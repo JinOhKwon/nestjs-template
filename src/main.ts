@@ -49,7 +49,7 @@ async function bootstrap() {
 
     // 서버 실행
     const port = configService.getNumber(CONFIG_KEY.COMMON.PORT);
-
+    app.enableShutdownHooks();
     await app.listen(port);
     logger.log(`🚀  Server is listening on port ${port.toString()}`);
 
