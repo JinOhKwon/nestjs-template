@@ -1,28 +1,46 @@
 import { Test } from '@nestjs/testing';
-import { LoggerModule, winstonConfig } from 'core/logger';
+import { LoggerModule, LoggerService, winstonConfig } from 'core/logger';
 import { PrismaLogger } from './prisma-logger.service';
 
+const trueLoggerProvider = {
+  provide: PrismaLogger,
+  useFactory: () => new PrismaLogger(new LoggerService(), true),
+};
+const falseLoggerProvider = {
+  provide: PrismaLogger,
+  useFactory: () => new PrismaLogger(new LoggerService(), false),
+};
+
 describe('prismaLoggerService 테스트', () => {
-  let prismaLogger: PrismaLogger;
+  let prismaLoggerAndTrue: PrismaLogger;
+  let prismaLoggerAndFalse: PrismaLogger;
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const moduleTrueRef = await Test.createTestingModule({
       imports: [LoggerModule],
-      providers: [PrismaLogger],
+      providers: [trueLoggerProvider],
     }).compile();
 
-    moduleRef.useLogger(winstonConfig(process.env['NODE_ENV']));
-    prismaLogger = moduleRef.get<PrismaLogger>(PrismaLogger);
+    moduleTrueRef.useLogger(winstonConfig(process.env['NODE_ENV']));
+    prismaLoggerAndTrue = moduleTrueRef.get<PrismaLogger>(PrismaLogger);
+
+    const moduleFalseRef = await Test.createTestingModule({
+      imports: [LoggerModule],
+      providers: [falseLoggerProvider],
+    }).compile();
+
+    moduleFalseRef.useLogger(winstonConfig(process.env['NODE_ENV']));
+    prismaLoggerAndFalse = moduleFalseRef.get<PrismaLogger>(PrismaLogger);
   });
 
   it('prismaLoggerService 서비스 호출 ', () => {
-    expect(prismaLogger).toBeDefined();
+    expect(prismaLoggerAndTrue).toBeDefined();
   });
 
-  describe('prismaLoggerService 함수 호출', () => {
+  describe('prismaLoggerService 디버그 모드 함수 호출 - true', () => {
     it('query -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'query');
-      prismaLogger.query({
+      prismaLoggerAndTrue.query({
         timestamp: new Date(),
         query: 'test',
         params: 'test',
@@ -37,7 +55,7 @@ describe('prismaLoggerService 테스트', () => {
     it('info -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'info');
 
-      prismaLogger.info({
+      prismaLoggerAndTrue.info({
         timestamp: new Date(),
         query: 'test',
         params: 'test',
@@ -52,7 +70,7 @@ describe('prismaLoggerService 테스트', () => {
     it('warn -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'warn');
 
-      prismaLogger.warn({
+      prismaLoggerAndTrue.warn({
         timestamp: new Date(),
         query: 'test',
         params: 'test',
@@ -67,7 +85,7 @@ describe('prismaLoggerService 테스트', () => {
     it('error -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'error');
 
-      prismaLogger.error({
+      prismaLoggerAndTrue.error({
         timestamp: new Date(),
         query: 'test',
         params: 'test',
@@ -81,9 +99,77 @@ describe('prismaLoggerService 테스트', () => {
 
     it('setDebugMode -> ', () => {
       const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'setDebugMode');
-      prismaLogger.setDebugMode(false);
+      prismaLoggerAndTrue.setDebugMode(true);
       expect(loggerSpy).toHaveBeenCalled();
       expect(loggerSpy).toBeCalledTimes(1);
+    });
+  });
+
+  describe('prismaLoggerService 디버그 모드 함수 호출 - false', () => {
+    it('query -> ', () => {
+      const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'query');
+      prismaLoggerAndFalse.query({
+        timestamp: new Date(),
+        query: 'test',
+        params: 'test',
+        duration: 1,
+        target: 'test',
+      });
+
+      expect(loggerSpy).toHaveBeenCalled();
+      expect(loggerSpy).toBeCalledTimes(2);
+    });
+
+    it('info -> ', () => {
+      const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'info');
+
+      prismaLoggerAndFalse.info({
+        timestamp: new Date(),
+        query: 'test',
+        params: 'test',
+        duration: 1,
+        target: 'test',
+      });
+
+      expect(loggerSpy).toHaveBeenCalled();
+      expect(loggerSpy).toBeCalledTimes(2);
+    });
+
+    it('warn -> ', () => {
+      const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'warn');
+
+      prismaLoggerAndFalse.warn({
+        timestamp: new Date(),
+        query: 'test',
+        params: 'test',
+        duration: 1,
+        target: 'test',
+      });
+
+      expect(loggerSpy).toHaveBeenCalled();
+      expect(loggerSpy).toBeCalledTimes(2);
+    });
+
+    it('error -> ', () => {
+      const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'error');
+
+      prismaLoggerAndFalse.error({
+        timestamp: new Date(),
+        query: 'test',
+        params: 'test',
+        duration: 1,
+        target: 'test',
+      });
+
+      expect(loggerSpy).toHaveBeenCalled();
+      expect(loggerSpy).toBeCalledTimes(2);
+    });
+
+    it('setDebugMode -> ', () => {
+      const loggerSpy = jest.spyOn(PrismaLogger.prototype, 'setDebugMode');
+      prismaLoggerAndFalse.setDebugMode(false);
+      expect(loggerSpy).toHaveBeenCalled();
+      expect(loggerSpy).toBeCalledTimes(2);
     });
   });
 });

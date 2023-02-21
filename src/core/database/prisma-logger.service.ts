@@ -10,15 +10,13 @@ import { highlight } from 'sql-highlight';
 @Injectable()
 export class PrismaLogger {
   /**
-   * 디버그 모드
-   */
-  private debugMode = false;
-  /**
    * 생성자
    *
    * @param option 옵션
    */
-  constructor(private loggerService?: LoggerService) {}
+  constructor(private loggerService: LoggerService, private debugMode: boolean) {
+    this.debugMode = debugMode;
+  }
   /**
    * 로그
    *
@@ -85,9 +83,7 @@ export class PrismaLogger {
    * @param debugMode 디버그 모드
    */
   setDebugMode(debugMode: boolean): void {
-    if (debugMode) {
-      this.debugMode = debugMode;
-      this.loggerService.log('디버그 모드 실행');
-    }
+    this.debugMode = !debugMode;
+    this.loggerService.log('디버그 모드 실행');
   }
 }
