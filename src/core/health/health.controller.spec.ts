@@ -30,13 +30,31 @@ describe('healthController 테스트', () => {
   describe('healthController 함수 호출', () => {
     it('check -> ', async () => {
       const result = {
-        details: { 'memory RSS': { status: 'up' }, 'memory heap': { status: 'up' } },
+        status: 'ok',
+      };
+      expect(await healthController.check()).toStrictEqual(result);
+    });
+
+    it('checkHeap() -> ', async () => {
+      const result = {
+        details: { 'memory heap': { status: 'up' } },
         error: {},
-        info: { 'memory RSS': { status: 'up' }, 'memory heap': { status: 'up' } },
+        info: { 'memory heap': { status: 'up' } },
         status: 'ok',
       };
       // object 비교는 toStrictEqual 사용
-      expect(await healthController.check()).toStrictEqual(result);
+      expect(await healthController.checkHeap()).toStrictEqual(result);
+    });
+
+    it('checkRss() -> ', async () => {
+      const result = {
+        details: { 'memory RSS': { status: 'up' } },
+        error: {},
+        info: { 'memory RSS': { status: 'up' } },
+        status: 'ok',
+      };
+      // object 비교는 toStrictEqual 사용
+      expect(await healthController.checkRss()).toStrictEqual(result);
     });
   });
 });
