@@ -50,6 +50,11 @@ $ npx prisma db pull
 $ npx prisma migrate dev --name 마이그레이션
 ```
 
+# Prisma connection test 안하는 이유
+- 현재 jest에서 memory 이슈 관련으로 많은 문제가 제기되고 있음
+- jest, nest 인지 판단은 안되지만 해당 이슈 링크를 보고 계속 참조 [Prisma issue](https://github.com/prisma/prisma/issues/12339)
+
+
 # TODO List
   - [ ] README.md 작성
   - [ ] @submodule git 분리시키기

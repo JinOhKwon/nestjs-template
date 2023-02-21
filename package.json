@@ -19,7 +19,7 @@
     "pra.mg:dev": "prisma migrate dev --name autoMigrate --preview-feature",
     "pra.mg:dev:create": "prisma migrate dev --create-only --preview-feature",
     "pra.mg:reset": "prisma migrate reset --preview-feature",
-    "test": "jest --config ./jest.config.json --no-cache --silent --detectOpenHandles ",
+    "test": "jest --config ./jest.config.json --no-compilation-cache --silent --verbose --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
