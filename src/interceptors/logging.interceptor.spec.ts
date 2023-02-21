@@ -1,9 +1,9 @@
 import { createMock } from '@golevelup/ts-jest';
-import { CallHandler, ExecutionContext, INestApplication } from '@nestjs/common';
+import { CallHandler, ExecutionContext, HttpException, INestApplication } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
 import { LoggerModule, LoggerService, winstonConfig } from 'core';
-import { lastValueFrom, of } from 'rxjs';
+import { lastValueFrom, map, of } from 'rxjs';
 import { HttpLoggingInterceptor } from './logging.interceptor';
 
 describe('loggingInterceptor 테스트', () => {
@@ -54,6 +54,44 @@ describe('loggingInterceptor 테스트', () => {
           something: 'else',
         },
       });
+    });
+
+    it('intercept() error ->', async () => {
+      const nextSpy: CallHandler<any> = {
+        handle: () =>
+          of({
+            what: 'ever',
+            value: {
+              name: 'Mario',
+              something: 'else',
+            },
+          }).pipe(
+            map(() => {
+              throw new HttpException('error', 500);
+            }),
+          ),
+      };
+
+      await expect(lastValueFrom(interceptor.intercept(mockExecutionContext, nextSpy))).rejects.toThrowError();
+    });
+
+    it('intercept() error ->', async () => {
+      const nextSpy: CallHandler<any> = {
+        handle: () =>
+          of({
+            what: 'ever',
+            value: {
+              name: 'Mario',
+              something: 'else',
+            },
+          }).pipe(
+            map(() => {
+              throw new Error('error');
+            }),
+          ),
+      };
+
+      await expect(lastValueFrom(interceptor.intercept(mockExecutionContext, nextSpy))).rejects.toThrowError();
     });
   });
 });

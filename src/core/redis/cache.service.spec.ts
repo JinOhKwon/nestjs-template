@@ -36,6 +36,11 @@ describe('cacheService 테스트', () => {
       expect(result).toBe('OK');
     });
 
+    it('set() ->', async () => {
+      const result = await cacheService.set('test', 'test', undefined);
+      expect(result).toBe('OK');
+    });
+
     it('get() ->', async () => {
       await cacheService.set('test', 'test', 100);
       const result = await cacheService.get('test');

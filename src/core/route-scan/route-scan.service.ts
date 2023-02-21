@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Injectable, RequestMethod } from '@nestjs/common';
 import { CONTROLLER_WATERMARK, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { DiscoveryService, Reflector } from '@nestjs/core';

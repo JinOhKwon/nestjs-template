@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+// @see https://github.com/prisma/prisma/issues/12339
 import { INestApplication, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { PrismaLogger } from './prisma-logger.service';
