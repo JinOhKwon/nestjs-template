@@ -87,6 +87,7 @@ yarn.lock
 /prisma/*.png
 /prisma/*.pdf
 /prisma/*.md
+/src/@submodule/prisma/docs
 
 ## db
 /generated
