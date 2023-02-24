@@ -1,5 +1,18 @@
 # nestjs-template
 
+# Runing 
+```
+yarn install
+
+docker-compose up -d 
+
+npx prisma gen
+
+yarn pra:gen
+
+yarn start
+```
+
 # 관련 자료
 
 [prisma reference](https://www.prisma.io/docs/reference)
