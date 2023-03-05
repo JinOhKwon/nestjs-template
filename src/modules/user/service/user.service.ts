@@ -1,21 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
-import { UserResponse } from '@submodule/api';
-import { instanceToPlain } from 'class-transformer';
+import { ExludeEntity, ExludeOmit } from '@types';
 import { PrismaService } from 'core';
 import { concatMap, from, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
-  findAll(): Observable<Array<UserResponse>> {
+  findAll(): Observable<Array<ExludeOmit<User, ExludeEntity | 'userSeq'>>> {
     return from(this.prismaService.user.findMany()).pipe(
-      // TODO 여기서 resoponse 수정
       concatMap((users: Array<User>) => {
-        const x = instanceToPlain(users);
-        // console.log(x);
-
         return of(
           users.map((user: User) => {
             return {
@@ -31,7 +26,7 @@ export class UserService {
     );
   }
 
-  find(userId: string): Observable<any> {
+  find(userId: string): Observable<Array<ExludeOmit<User, ExludeEntity | 'userSeq'>>> {
     return from(
       this.prismaService.user.findMany({
         where: {
@@ -39,8 +34,7 @@ export class UserService {
         },
       }),
     ).pipe(
-      // TODO 여기서 resoponse 수정
-      concatMap((user) => of({ user })),
+      concatMap((user) => of(user)),
     );
   }
 

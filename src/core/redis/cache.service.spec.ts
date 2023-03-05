@@ -1,21 +1,31 @@
-import { RedisModule } from '@liaoliaots/nestjs-redis';
+import { RedisModule, RedisModuleOptions } from '@liaoliaots/nestjs-redis';
 import { Test } from '@nestjs/testing';
 import { ConfigModule, ConfigService } from 'core/config';
+import { jestEnvSetup } from '../../../test/init';
 import { CacheService } from './cache.service';
-import { RedisService } from './redis.service';
 
 describe('cacheService 테스트', () => {
+  jestEnvSetup();
+  const env = process.env;
   let cacheService: CacheService;
 
   beforeEach(async () => {
+    process.env = { ...env };
     const moduleRef = await Test.createTestingModule({
-      imports: [
-        RedisModule.forRootAsync({
+      imports: [RedisModule.forRootAsync(
+        {
           imports: [ConfigModule],
-          useClass: RedisService,
           inject: [ConfigService],
-        }),
-      ],
+          useFactory: async (configService: ConfigService): Promise<RedisModuleOptions> => {
+            console.log(configService.getRedisConfig());
+            return {
+              config: {
+                ...configService.getRedisConfig()
+              },
+            };
+          }
+        }
+      )],
       providers: [CacheService],
     }).compile();
 
@@ -23,6 +33,7 @@ describe('cacheService 테스트', () => {
   });
 
   afterAll(async () => {
+    process.env = env;
     await cacheService.delete('test');
   });
 

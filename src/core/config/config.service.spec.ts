@@ -9,7 +9,6 @@ describe('configService 테스트', () => {
   let configService: ConfigService;
 
   beforeEach(async () => {
-    jest.resetModules();
     process.env = { ...env };
     const moduleRef = await Test.createTestingModule({
       providers: [ConfigService],

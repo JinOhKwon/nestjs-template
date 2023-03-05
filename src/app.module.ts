@@ -1,7 +1,6 @@
-import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { AwsModule, CacheModule, ConfigModule, ConfigService, HealthModule, LoggerModule, RedisService, RouteScanModule, WssModule } from 'core';
+import { AwsModule, CacheModule, ConfigModule, HealthModule, LoggerModule, RouteScanModule, WssModule } from 'core';
 import { GlobalExceptionFilter } from 'filters';
 import { HttpLoggingInterceptor } from 'interceptors';
 import { RootModule } from './modules/root.module';
@@ -19,11 +18,7 @@ import { RootModule } from './modules/root.module';
     RouteScanModule,
     WssModule,
     RootModule,
-    RedisModule.forRootAsync({
-      imports: [ConfigModule],
-      useClass: RedisService,
-      inject: [ConfigService],
-    }),
+    CacheModule
   ],
   providers: [
     {
