@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { LoggerService } from 'core';
+import { isUndefined } from 'lodash';
 import moment from 'moment';
 import { highlight } from 'sql-highlight';
 
@@ -14,7 +15,7 @@ export class PrismaLogger {
    *
    * @param option 옵션
    */
-  constructor(private loggerService: LoggerService, private debugMode: boolean) {
+  constructor(@Inject('LoggerService') private loggerService: LoggerService, @Inject('DebugMode') private debugMode: boolean) {
     this.debugMode = debugMode;
   }
   /**
@@ -66,15 +67,21 @@ export class PrismaLogger {
     );
   }
 
-  error(queryEvent: Prisma.QueryEvent): void {
-    const { timestamp, query, params, duration } = queryEvent;
+  error(queryEvent: Prisma.QueryEvent & Prisma.LogEvent): void {
+    const { timestamp, query, params, duration, target, message } = queryEvent;
 
-    this.loggerService.error(
-      `error: ${highlight(query)} - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
-      {
+    if (!isUndefined(query)) {
+      this.loggerService.error(
+        `error: ${highlight(query)} - Took ${duration}ms -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')} - Params: ${params}`,
+        {
+          context: PrismaLogger.name,
+        },
+      );
+    } else {
+      this.loggerService.error(`error: ${message} - target: ${target} -Time: ${moment(timestamp).format('YYYY년 MM월 DD일  HH시mm분ss초')}`, {
         context: PrismaLogger.name,
-      },
-    );
+      });
+    }
   }
 
   /**

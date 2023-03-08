@@ -15,7 +15,12 @@ import { PrismaService } from './prisma.service';
       provide: 'LoggerService',
       useClass: LoggerService,
     },
+    {
+      provide: 'DebugMode',
+      // TODO node env
+      useValue: false,
+    },
   ],
   exports: [PrismaService],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}

@@ -184,9 +184,7 @@ export class LoggerService implements NestLoggerService {
         // 기본 에러 객체 핸들링
         if (message instanceof Error) {
           this.nestLogger.error(message, stack, context, ...args);
-        }
-
-        if (typeof message === 'object') {
+        } else if (typeof message === 'object') {
           this.nestLogger.error(message, { context, stack, trace, ...args });
         }
         break;

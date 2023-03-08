@@ -10,7 +10,7 @@ import { Response } from 'express';
 export class GlobalExceptionFilter implements ExceptionFilter {
   constructor(private readonly loggerService: LoggerService) {}
 
-  catch(exception: unknown & Error, host: ArgumentsHost) {
+  catch(exception: { isWrite: boolean; err: Error }, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
     let message = '요청을 처리하던 중 예상하지 못한 오류가 발생했습니다. \n 관리자에게 문의해주세요.';
     let code = 'Unknown Code';
@@ -18,25 +18,25 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let statusMessage = HttpStatus[HttpStatus.INTERNAL_SERVER_ERROR];
 
     // 미리 정의된 예외라면..
-    if (exception instanceof HttpException) {
-      statusCode = exception.getStatus();
+    if (exception.err instanceof HttpException) {
+      statusCode = exception.err.getStatus();
       statusMessage = HttpStatus[statusCode];
-      const errorData = exception.getResponse();
+      const errorData = exception.err.getResponse();
 
-      // 오류코드를 사용한 에러(IError)라면...
-      if (!(typeof errorData === 'string')) {
-        const iError = errorData as AppError;
-        code = iError.code;
-        message = toStringify({
-          message: iError.message,
-          error: iError.msgArgs,
-        });
+      if (exception.isWrite) {
+        if (!(typeof errorData === 'string')) {
+          const iError = errorData as AppError;
+          code = iError.code;
+          message = toStringify({
+            message: iError.message,
+            error: iError.msgArgs,
+          });
+        }
       }
-      // application 및 runtime(모든) 에러 정의
     } else {
-      this.loggerService.error(exception, {
+      this.loggerService.error(exception.err, {
         context: GlobalExceptionFilter.name,
-        trace: exception?.stack,
+        trace: exception.err?.stack,
       });
     }
 

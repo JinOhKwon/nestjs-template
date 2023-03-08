@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
-import { isNil } from 'lodash';
 import { LoggerService } from 'core';
+import { isNil } from 'lodash';
 import moment from 'moment';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
@@ -45,14 +45,12 @@ export class HttpLoggingInterceptor implements NestInterceptor {
                 args: err.response.msgArgs,
               },
             );
-          } else {
-            this.loggerService.error(err, {
-              context: HttpLoggingInterceptor.name,
-              trace: err.stack,
-            });
           }
 
-          return err;
+          return {
+            isWrite: true,
+            err,
+          };
         }),
       ),
       finalize(() => {
