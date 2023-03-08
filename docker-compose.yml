@@ -1,12 +1,12 @@
-version: "3.7" # 파일 규격 버전
-services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴포즈에서 컨테이너 : 서비스 )
-  db: # 서비스 명
+version: "3.7"
+services:
+  db:
     image: mysql:8.0.23
     platform: linux/amd64
     restart: always
-    container_name: nestjs-template # 컨테이너 이름 설정
+    container_name: nestjs-template
     ports:
-      - 3306:3306 # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)  <- 컨테이너 내부는 무조건 3306
+      - 3306:3306
     environment:
       - TZ=Asia/Seoul
       - MYSQL_DATABASE=nestjs
@@ -20,14 +20,14 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./docker/db/mysql:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
-  shadow_db: # 서비스 명
+      - ./docker/db/mysql:/var/lib/mysql
+  shadow_db:
     image: mysql:8.0.23
     platform: linux/amd64
     restart: always
-    container_name: shadow-nestjs-template # 컨테이너 이름 설정
+    container_name: shadow-nestjs-template
     ports:
-      - 3307:3307 # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)  <- 컨테이너 내부는 무조건 3306
+      - 3307:3307
     environment:
       - TZ=Asia/Seoul
       - MYSQL_DATABASE=nestjs
@@ -41,7 +41,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     volumes:
-      - ./docker/shadow/mysql:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
+      - ./docker/shadow/mysql:/var/lib/mysql
   redis:
     image: redis:latest
     restart: always
@@ -56,9 +56,4 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - ./docker/redis:/var/lib/redis
     env_file:
       - .env
-#     networks:
-#       - default
-# networks:
-#   default:
-#     driver: bridge
 
