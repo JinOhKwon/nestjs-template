@@ -6,7 +6,7 @@ import { concatMap, from, Observable, of } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) { }
+  constructor(private prismaService: PrismaService) {}
 
   findAll(): Observable<Array<ExludeOmit<User, ExludeEntity | 'userSeq'>>> {
     return from(this.prismaService.user.findMany()).pipe(
@@ -33,9 +33,7 @@ export class UserService {
           userId,
         },
       }),
-    ).pipe(
-      concatMap((user) => of(user)),
-    );
+    ).pipe(concatMap((user) => of(user)));
   }
 
   save(userCreateInput: Prisma.UserCreateInput): Observable<any> {

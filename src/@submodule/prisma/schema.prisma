@@ -25,16 +25,16 @@ model User {
   userPwd        String         @map("user_pwd") @db.VarChar(255)
   /// 사용자 폰 번호
   userPhone      String         @map("user_phone") @db.VarChar(255)
-  /// 등록자 아이디
-  regId          String         @map("reg_id") @db.VarChar(255)
-  /// 등록자 명
-  regNm          String         @map("reg_nm") @db.VarChar(255)
-  /// 변경자 아이디
-  chgId          String         @map("chg_id") @db.VarChar(255)
-  /// 변경자 명
-  chgNm          String         @map("chg_nm") @db.VarChar(255)
   /// 사용자 사용 여부
   userUseYn      YesOrNo        @default(N) @map("user_use_yn")
+  /// 등록자 아이디
+  regId          String?        @map("reg_id") @db.VarChar(255)
+  /// 등록자 명
+  regNm          String?        @map("reg_nm") @db.VarChar(255)
+  /// 변경자 아이디
+  chgId          String?        @map("chg_id") @db.VarChar(255)
+  /// 변경자 명
+  chgNm          String?        @map("chg_nm") @db.VarChar(255)
   /// 변경 일시
   chgDt          DateTime       @updatedAt @map("chg_dt")
   /// 등록 일시
