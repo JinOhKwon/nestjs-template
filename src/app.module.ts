@@ -1,6 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { AwsModule, CacheModule, ConfigModule, HealthModule, LoggerModule, RouteScanModule, WssModule } from 'core';
+import { AwsModule, CacheModule, ConfigModule, HealthModule, RouteScanModule, WssModule } from 'core';
 import { GlobalExceptionFilter } from 'filters';
 import { HttpLoggingInterceptor } from 'interceptors';
 import { RootModule } from './modules/root.module';
@@ -10,7 +10,6 @@ import { RootModule } from './modules/root.module';
  */
 @Module({
   imports: [
-    LoggerModule,
     AwsModule,
     ConfigModule,
     HealthModule,

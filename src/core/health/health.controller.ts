@@ -4,11 +4,11 @@ import { LoggerService } from 'core/logger';
 
 @Controller('health')
 export class HealthController implements OnApplicationShutdown {
+  private readonly loggerService = new LoggerService(HealthController.name);
   constructor(
     private healthCheckService: HealthCheckService,
     private memoryHealthIndicator: MemoryHealthIndicator,
-    private readonly loggerService: LoggerService,
-  ) {}
+  ) { }
 
   /**
    * 앱이 종료 되었을때 호출되는 훅이다.

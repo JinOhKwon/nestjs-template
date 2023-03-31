@@ -2,7 +2,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { CallHandler, ExecutionContext, HttpException, INestApplication } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
-import { LoggerModule, LoggerService, winstonConfig } from 'core';
+import { winstonConfig } from 'core';
 import { lastValueFrom, map, of } from 'rxjs';
 import { HttpLoggingInterceptor } from './logging.interceptor';
 
@@ -13,7 +13,6 @@ describe('loggingInterceptor 테스트', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [LoggerModule],
       providers: [
         {
           provide: APP_INTERCEPTOR,
@@ -21,7 +20,7 @@ describe('loggingInterceptor 테스트', () => {
         },
       ],
     }).compile();
-    interceptor = new HttpLoggingInterceptor(new LoggerService());
+    interceptor = new HttpLoggingInterceptor();
     app = moduleRef.createNestApplication();
     app.useLogger(winstonConfig(process.env['NODE_ENV']));
   });

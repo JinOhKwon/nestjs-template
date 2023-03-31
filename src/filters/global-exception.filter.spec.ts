@@ -2,7 +2,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { ArgumentsHost, HttpException, HttpStatus, INestApplication } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
-import { LoggerModule, LoggerService, winstonConfig } from 'core';
+import { winstonConfig } from 'core';
 import { GlobalExceptionFilter } from './global-exception.filter';
 
 describe('globalExceptionFilter 테스트', () => {
@@ -12,7 +12,6 @@ describe('globalExceptionFilter 테스트', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [LoggerModule],
       providers: [
         {
           provide: APP_FILTER,
@@ -20,7 +19,7 @@ describe('globalExceptionFilter 테스트', () => {
         },
       ],
     }).compile();
-    interceptor = new GlobalExceptionFilter(new LoggerService());
+    interceptor = new GlobalExceptionFilter();
     app = moduleRef.createNestApplication();
     app.useLogger(winstonConfig(process.env['NODE_ENV']));
   });

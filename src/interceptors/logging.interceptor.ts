@@ -10,12 +10,7 @@ import { catchError, finalize } from 'rxjs/operators';
  */
 @Injectable()
 export class HttpLoggingInterceptor implements NestInterceptor {
-  /**
-   * 생성자
-   *
-   * @param loggerService 로거 서비스
-   */
-  constructor(private readonly loggerService: LoggerService) {}
+  private readonly loggerService: LoggerService = new LoggerService(HttpLoggingInterceptor.name);
 
   /**
    * 인터셉트
@@ -26,7 +21,6 @@ export class HttpLoggingInterceptor implements NestInterceptor {
       `Request - HTTP Method: [START - ${request.method}] Request URL: ${(request as any).originalUrl} Time: ${moment().format(
         'YYYY년 MM월 DD일  HH시mm분ss초',
       )}`,
-      { context: HttpLoggingInterceptor.name },
     );
 
     return next.handle().pipe(
@@ -40,11 +34,14 @@ export class HttpLoggingInterceptor implements NestInterceptor {
                 'YYYY년 MM월 DD일  HH시mm분ss초',
               )} ${msg}`,
               {
-                context: HttpLoggingInterceptor.name,
                 trace: err.stack,
                 args: err.response.msgArgs,
               },
             );
+          } else {
+            this.loggerService.error(err, {
+              trace: err.stack,
+            });
           }
 
           return {
@@ -58,7 +55,6 @@ export class HttpLoggingInterceptor implements NestInterceptor {
           `Response - HTTP Method: [END - ${request.method}] Request URL: ${(request as any).originalUrl} Time: ${moment().format(
             'YYYY년 MM월 DD일  HH시mm분ss초',
           )}`,
-          { context: HttpLoggingInterceptor.name },
         );
       }),
     );

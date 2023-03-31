@@ -42,6 +42,10 @@ export class LoggerService implements NestLoggerService {
     trace: '',
   };
 
+  constructor(context: string) {
+    this.logParam.context = context;
+  };
+
   /**
    * 컨텍스트를 저장한다.
    *

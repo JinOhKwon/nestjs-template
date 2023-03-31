@@ -1,14 +1,14 @@
 import { Test } from '@nestjs/testing';
-import { LoggerModule, LoggerService, winstonConfig } from 'core/logger';
+import { LoggerService, winstonConfig } from 'core/logger';
 import { PrismaLogger } from './prisma-logger.service';
 
 const trueLoggerProvider = {
   provide: PrismaLogger,
-  useFactory: () => new PrismaLogger(new LoggerService(), true),
+  useFactory: () => new PrismaLogger(new LoggerService('true Logger'), true),
 };
 const falseLoggerProvider = {
   provide: PrismaLogger,
-  useFactory: () => new PrismaLogger(new LoggerService(), false),
+  useFactory: () => new PrismaLogger(new LoggerService('false Logger'), false),
 };
 
 describe('prismaLoggerService 테스트', () => {
@@ -17,7 +17,6 @@ describe('prismaLoggerService 테스트', () => {
 
   beforeEach(async () => {
     const moduleTrueRef = await Test.createTestingModule({
-      imports: [LoggerModule],
       providers: [trueLoggerProvider],
     }).compile();
 
@@ -25,7 +24,6 @@ describe('prismaLoggerService 테스트', () => {
     prismaLoggerAndTrue = moduleTrueRef.get<PrismaLogger>(PrismaLogger);
 
     const moduleFalseRef = await Test.createTestingModule({
-      imports: [LoggerModule],
       providers: [falseLoggerProvider],
     }).compile();
 

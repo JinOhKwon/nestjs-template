@@ -8,7 +8,7 @@ import { Response } from 'express';
  */
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  constructor(private readonly loggerService: LoggerService) {}
+  private readonly loggerService: LoggerService = new LoggerService(GlobalExceptionFilter.name);
 
   catch(exception: { isWrite: boolean; err: Error }, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
