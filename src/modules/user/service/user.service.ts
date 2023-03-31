@@ -1,63 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
-import { ExludeEntity, ExludeOmit } from '@types';
 import { PrismaService } from 'core';
-import { concatMap, from, Observable, of } from 'rxjs';
+import { from, lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
-  findAll(): Observable<Array<ExludeOmit<User, ExludeEntity | 'userSeq'>>> {
-    return from(this.prismaService.user.findMany()).pipe(
-      concatMap((users: Array<User>) => {
-        return of(
-          users.map((user: User) => {
-            return {
-              userId: user.userId,
-              userNm: user.userNm,
-              userPwd: user.userPwd,
-              userPhone: user.userPhone,
-              userUseYn: user.userUseYn,
-            };
-          }),
-        );
-      }),
-    );
+  async findAll(): Promise<Array<User>> {
+    return await lastValueFrom(from(this.prismaService.user.findMany()));
   }
 
-  find(userId: string): Observable<Array<ExludeOmit<User, ExludeEntity | 'userSeq'>>> {
-    return from(
-      this.prismaService.user.findMany({
+  async find(userId: string): Promise<User> {
+    return await lastValueFrom(from(
+      this.prismaService.user.findUnique({
         where: {
           userId,
         },
       }),
-    ).pipe(concatMap((user) => of(user)));
+    ));
   }
 
-  save(userCreateInput: Prisma.UserCreateInput): Observable<any> {
-    return from(this.prismaService.user.create({ data: userCreateInput }));
+  async save(userCreateInput: Prisma.UserCreateInput): Promise<any> {
+    await lastValueFrom(from(this.prismaService.user.create({ data: userCreateInput })));
   }
 
-  modify(userId: string, userUpdateInput: Prisma.UserUpdateInput): Observable<any> {
-    return from(
+  async modify(userId: string, userUpdateInput: Prisma.UserUpdateInput): Promise<any> {
+    await lastValueFrom(from(
       this.prismaService.user.update({
         data: userUpdateInput,
         where: {
           userId,
         },
       }),
-    );
+    ));
   }
 
-  delete(userId: string): Observable<any> {
-    return from(
+  async delete(userId: string): Promise<any> {
+    await lastValueFrom(from(
       this.prismaService.user.delete({
         where: {
           userId,
         },
       }),
-    );
+    ));
   }
 }
